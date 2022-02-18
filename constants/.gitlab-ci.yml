@@ -1,0 +1,24 @@
+stages:
+  - build
+
+variables:
+  LC_ALL: 'en_US.UTF-8'
+  LANG: 'en_US.UTF-8'
+
+before_script:
+  - gem install bundler --user-install
+  - bundle install
+  - bundle update fastlane
+
+build-app:
+  dependencies: []
+  stage: build
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+    - eval $(ssh-agent -s)
+    - which ruby
+    - ruby -v
+  script:
+    - bundle exec fastlane test
+  tags:
+    - xcode

@@ -1,0 +1,8 @@
+// ignore_for_file: unnecessary_this
+
+//Wrappper for Json rpc instances used in Http Transport.
+class JsonRpc {
+  String jsonrpc = '2.0';
+  int? id;
+  JsonRpc([this.id]);
+}

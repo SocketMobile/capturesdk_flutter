@@ -1,0 +1,1553 @@
+{
+  "Types":{
+    "kNone":{
+      "value":0,
+      "help": ["for capture properties that don't have any value"]
+    },
+    "kNotApplicable":{
+      "value":1,
+      "help": ["for capture properties that don't have a value for", "either a get operation or a set operation or neither of", "them."]
+    },
+    "kByte":{
+      "value": 2,
+      "help": ["the property has a byte value"]
+    },
+    "kUlong":{
+      "value":3,
+      "help": ["the property has a unsigned long value"]
+    },
+    "kArray":{
+      "value":4,
+      "help": ["the property has a byte array value"]
+    },
+    "kString":{
+      "value": 5,
+      "help": ["the property has a string value"]
+    },
+    "kVersion":{
+      "value":6,
+      "help": ["the property has a version structure as value (read only)"]
+    },
+    "kDataSource":{
+      "value":7,
+      "help": ["the property has a data source structure as value"]
+    },
+    "kEnum":{
+      "value": 8,
+      "help": ["the property has an enum value"]
+    },
+    "kObject":{
+      "value": 9,
+      "help": ["the property has an object as value"]
+    },
+    "kLastType":{
+      "value": 10,
+      "help": ["the property type should not be equal or higher that kLast otherwise", "it means the SDK is not in sync with the actual version of Socket", "Mobile Companion running on the host"]
+    }
+  },
+  "GroupIds":{
+    "kSktCaptureGroupGeneral":{
+      "value":0,
+      "help": ["properties that are common to any devices"]
+    },
+    "kSktCaptureGroupLocalFunctions":{
+      "value": 1,
+      "help": ["properties that are local to a device"]
+    },
+    "kSktCaptureGroupManagerFunctions":{
+      "value": 2,
+      "help": ["properties that are used by Device Manager (BLE)"]
+    }
+  },
+  "Groups":{
+    "CaptureGroup":{
+      "kSktCaptureIdAbort":0,
+    	"kSktCaptureIdVersion":1,
+    	"kSktCaptureIdInterfaceVersion":2,
+    	"kSktCaptureIdConfiguration":3,
+    	"kSktCaptureIdDataConfirmationMode":4,
+    	"kSktCaptureIdDataConfirmationAction":5,
+    	"kSktCaptureIdMonitorMode":6,
+    	"kSktCaptureIdSoftScanStatus":7,
+    	"kSktCaptureIdDataSourceInfo":8,
+    	"kSktCaptureIdDataEditingProfile":9,
+    	"kSktCaptureIdDataEditingCurrentProfile":10,
+    	"kSktCaptureIdDataEditingTriggerSymbologies":11,
+    	"kSktCaptureIdDataEditingTriggerMinLength":12,
+    	"kSktCaptureIdDataEditingTriggerMaxLength":13,
+    	"kSktCaptureIdDataEditingTriggerStartsBy":14,
+    	"kSktCaptureIdDataEditingTriggerEndsWith":15,
+    	"kSktCaptureIdDataEditingTriggerContains":16,
+    	"kSktCaptureIdDataEditingOperation":17,
+    	"kSktCaptureIdDataEditingImportExport":18,
+    	"kSktCaptureLastGeneralGroup":19
+    },
+    "DeviceGeneralGroup":{
+      "kSktCaptureIdDeviceVersion":0,
+      "kSktCaptureIdDeviceInterfaceVersion":1,
+      "kSktCaptureIdDeviceType":2,
+      "kSktCaptureIdDeviceSpecific":3,
+      "kSktCaptureIdDeviceDataSource":4,
+      "kSktCaptureIdDeviceTrigger":5,
+      "kSktCaptureIdDeviceApplyConfig":6,
+      "kSktCaptureIdDevicePreamble":7,
+      "kSktCaptureIdDevicePostamble":8,
+      "kSktCaptureIdDeviceCapabilities":9,
+      "kSktCaptureIdDeviceChangeId":10,
+      "kSktCaptureIdDeviceDataFormat":11,
+      "kSktCaptureLastDeviceGeneralGroup":12
+  },
+  "DeviceLocalFunctionsGroup":{
+      "kSktCaptureIdDeviceFriendlyName":0,
+    	"kSktCaptureIdDeviceSecurityMode":1,
+    	"kSktCaptureIdDevicePinCode":2,
+    	"kSktCaptureIdDeviceDeletePairingBonding":3,
+    	"kSktCaptureIdDeviceRestoreFactoryDefaults":4,
+    	"kSktCaptureIdDeviceSetPowerOff":5,
+    	"kSktCaptureIdDeviceButtonsStatus":6,
+    	"kSktCaptureIdDeviceSoundConfig":7,
+    	"kSktCaptureIdDeviceTimers":8,
+    	"kSktCaptureIdDeviceLocalAcknowledgement":9,
+    	"kSktCaptureIdDeviceDataConfirmation":10,
+    	"kSktCaptureIdDeviceBatteryLevel":11,
+    	"kSktCaptureIdDeviceLocalDecodeAction":12,
+    	"kSktCaptureIdDeviceBluetoothAddress":13,
+    	"kSktCaptureIdDeviceStatisticCounters":14,
+    	"kSktCaptureIdDeviceRumbleConfig":15,
+    	"kSktCaptureIdDeviceProfileConfig":16,
+    	"kSktCaptureIdDeviceDisconnect":17,
+    	"kSktCaptureIdDeviceDataStore":18,
+    	"kSktCaptureIdDeviceNotifications":19,
+    	"kSktCaptureIdDeviceConnectReason":20,
+    	"kSktCaptureIdDevicePowerState":21,
+    	"kSktCaptureIdDeviceStartUpRoleSPP":22,
+    	"kSktCaptureIdDeviceConnectionBeepConfig":23,
+    	"kSktCaptureIdDeviceFlash":24,
+    	"kSktCaptureIdDeviceOverlayView":25,
+    	"kSktCaptureIdDeviceStandConfig":26,
+        "kSktCaptureIdDevicePcScTagTransmit": 27,
+        "kSktCaptureIdDevicePcScCouplerControl": 28,
+    	"kSktCaptureLastDeviceLocalFunctions":29
+    },
+    "DeviceManagerFunctionsGroup":{
+      "kSktCaptureIdDeviceManagerStartDiscovery":0,
+      "kSktCaptureIdDeviceManagerFavorite":1,
+      "kSktCaptureIdDeviceManagerUniqueDeviceIdentifier":2,
+      "kSktCaptureLastDeviceManagerFunctions":3
+    }
+  },
+  "properties" :[
+  {
+        "Name": "kAbort",
+        "Capture": true,
+        "GetType": "kNotApplicable",
+        "SetType": "kNone",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdAbort",
+        "int32": "-2146435072",
+        "help": [
+          "Set to notify Capture that the client is shutting down gracefully.",
+          "Capture will send device removal events followed by a terminate",
+          "event. Once you receive the terminate event, it is safe to shut",
+          "down Capture."
+        ]
+    },
+    {
+        "Name": "kVersion",
+        "Capture": true,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdVersion",
+        "int32": "-2147418111",
+        "help": ["Gets the Capture service version."]
+    },
+    {
+        "Name": "kInterfaceVersion",
+        "Capture": true,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId":" kSktCaptureIdInterfaceVersion",
+        "int32": "-2147418110",
+        "help": [
+          "Gets the version of the firmware interface that Capture service",
+          "supports. This can be useful for determining if the Capture service",
+          "supports a particular hardware feature."
+        ]
+    },
+    {
+        "Name": "kConfiguration",
+        "Capture": true,
+        "GetType": "kString",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdConfiguration",
+        "int32": "-2141913085",
+        "help": ["property to set or get the Capture configuration"]
+    },
+    {
+        "Name": "kDataConfirmationMode",
+        "Capture": true,
+        "GetType": "kNone",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataConfirmationMode",
+        "int32": "-2147352572",
+        "help": [
+          "Gets or sets the data confirmation mode. The data confirmation mode",
+          "determines who acknowledges whether the data received was good or",
+          "bad."
+        ]
+    },
+    {
+        "Name": "kDataConfirmationAction",
+        "Capture": true,
+        "GetType": "kNone",
+        "SetType": "kUlong",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataConfirmationAction",
+        "int32": "-2147287035",
+        "help": [
+          "Gets or sets the data confirmation action. Data confirmation action",
+          "determines how good or bad data is acknowledged."
+        ]
+    },
+    {
+        "Name": "kMonitorMode",
+        "Capture": true,
+        "GetType": "kByte",
+        "SetType": "kArray",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdMonitorMode",
+        "int32": "-2145124346",
+        "help": [
+          "Gets or sets the log level of various Capture service components",
+          "(Only works on debug builds of the service)."
+        ]
+    },
+    {
+        "Name": "kSoftScanStatus",
+        "Capture": true,
+        "GetType": "kNone",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdSoftScanStatus",
+        "int32": "-2145255417",
+        "help": ["property to get or set the SoftScan status", "(iOS only)"]
+    },
+    {
+        "Name": "kDataEditingProfile",
+        "Deprecated": true,
+        "Capture": true,
+        "GetType": "kNone",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataEditingProfile",
+        "help": ["property to get and set the Data Editing Profile"]
+    },
+    {
+        "Name": "kDataEditingCurrentProfile",
+        "Deprecated": true,
+        "Capture": true,
+        "GetType": "kNone",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataEditingCurrentProfile",
+        "help": ["property to get or set the Data Editing Current Profile"]
+    },
+    {
+        "Name": "kDataEditingTriggerSymbologies",
+        "Deprecated": true,
+        "Capture": true,
+        "GetType": "kString",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataEditingTriggerSymbologies",
+        "help": [
+          "property to set or get the Data Editing Trigger on Symbologies"
+        ]
+    },
+    {
+        "Name": "kDataEditingTriggerMinLength",
+        "Deprecated": true,
+        "Capture": true,
+        "GetType": "kString",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataEditingTriggerMinLength",
+        "help": [
+          "property to set or get the Data Editing Trigger on Decoded Data",
+          "Minimum Length"
+        ]
+    },
+    {
+        "Name": "kDataEditingTriggerMaxLength",
+        "Deprecated": true,
+        "Capture": true,
+        "GetType": "kString",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataEditingTriggerMaxLength",
+        "help": [
+          "property to set or get the Data Editing Trigger on Decoded Data",
+          "Maximum Length"
+        ]
+    },
+    {
+        "Name": "kDataEditingTriggerStartsBy",
+        "Deprecated": true,
+        "Capture": true,
+        "GetType": "kString",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataEditingTriggerStartsBy",
+        "help": [
+          "property to set or get the Data Editing Trigger on Decoded Data",
+          "starting by a specific string"
+        ]
+    },
+    {
+        "Name": "kDataEditingTriggerEndsWith",
+        "Deprecated": true,
+        "Capture": true,
+        "GetType": "kString",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataEditingTriggerEndsWith",
+        "help": [
+          "property to set or get the Data Editing Trigger on Decoded Data",
+          "ending by a specific string"
+        ]
+    },
+    {
+        "Name": "kDataEditingTriggerContains",
+        "Deprecated": true,
+        "Capture": true,
+        "GetType": "kString",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataEditingTriggerContains",
+        "help": [
+          "property to set or get the Data Editing Trigger on Decoded Data",
+          "containing a specific string"
+        ]
+    },
+    {
+        "Name": "kDataEditingOperation",
+        "Deprecated": true,
+        "Capture": true,
+        "GetType": "kString",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataEditingOperation",
+        "help": ["property to set or get the Data Editing Operation"]
+    },
+    {
+        "Name": "kDataEditingImportExport",
+        "Deprecated": true,
+        "Capture": true,
+        "GetType": "kString",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDataEditingImportExport",
+        "help": [
+          "property to set (Import) or get (Export) Data Editing profiles"
+        ]
+    },
+    {
+        "Name": "kVersionDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDeviceVersion",
+        "int32": "65536",
+        "help": ["Gets the firmware version of the device"]
+    },
+    {
+        "Name": "kDeviceType",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDeviceType",
+        "int32": "65538",
+        "help": ["Gets the model of the device"]
+    },
+    {
+        "Name": "kDeviceSpecific",
+        "Capture": false,
+        "GetType": "kArray",
+        "SetType": "kArray",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDeviceSpecific",
+        "int32": "4456451",
+        "help": ["Sends an arbitrary get or set command to the device"]
+    },
+		{
+      	"Name":"kDataSourceDevice",
+        "Capture": false,
+        "GetType":"kDataSource",
+        "SetType":"kDataSource",
+        "GroupId":"kSktCaptureGroupGeneral",
+        "PropId":"kSktCaptureIdDeviceDataSource",
+        "help": ["property to get or set the data source status / information"]
+    },
+    {
+        "Name": "kTriggerDevice",
+        "Capture": false,
+        "GetType": "kNotApplicable",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDeviceTrigger",
+        "int32": "1179653",
+        "help": [
+          "Sets the trigger of the device - can start or stop a read and",
+          "enable or disable the physical trigger button on the device."
+        ]
+    },
+    {
+        "Name": "kApplyConfigDevice",
+        "Capture": false,
+        "GetType": "kNotApplicable",
+        "SetType": "kNone",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDeviceApplyConfig",
+        "int32": "1048582",
+        "help": [
+          "property to apply a config to a Capture Device (not yet enabled)"
+        ]
+    },
+    {
+        "Name": "kPreambleDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDevicePreamble",
+        "int32": "327687",
+        "help": [
+          "Gets or sets a preamble for data decoded by the device. When set,",
+          "the preamble is added in front of the decoded data."
+        ]
+    },
+    {
+        "Name": "kPostambleDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDevicePostamble",
+        "int32": "327688",
+        "help": [
+          "Gets or sets a postamble for data decoded by the device. When set,",
+          "the postamble is added to the end of the decoded data."
+        ]
+    },
+    {
+        "Name": "kCapabilitiesDevice",
+        "Capture": false,
+        "GetType": "kByte",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDeviceCapabilities",
+        "int32": "2162697",
+        "help": ["property to get the Capture Device capabilities"]
+    },
+    {
+        "Name": "kChangeIdDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDeviceChangeId",
+        "int32": "65546",
+        "help": [
+          "Gets the change id of the device. The change id is a checksum of",
+          "all the engine settings - e.g. symbology settings, preamble,",
+          "postamble, etc - and can be used to determine if the device",
+          "configuration has been altered by another application or using a",
+          "command barcode."
+        ]
+    },
+    {
+        "Name": "kDataFormatDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupGeneral",
+        "PropId": "kSktCaptureIdDeviceDataFormat",
+        "int32": "131083",
+        "help": [
+          "property to get or set the Decoded Data Format of a Capture Device"
+        ]
+    },
+    {
+        "Name": "kFriendlyNameDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceFriendlyName",
+        "int32": "327936",
+        "help": [
+          "Gets or sets the friendly name of the device. The friendly name is",
+          "the name that appears in Bluetooth settings."
+        ]
+    },
+    {
+        "Name": "kSecurityModeDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceSecurityMode",
+        "int32": "131329",
+        "help": ["property to get or set the Capture Device Security Mode"]
+    },
+    {
+        "Name": "kPinCodeDevice",
+        "Capture": false,
+        "GetType": "kNotApplicable",
+        "SetType": "kString",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDevicePinCode",
+        "int32": "1376514",
+        "help": ["property to get or set the Capture Device PIN code"]
+    },
+    {
+        "Name": "kDeletePairingBondingDevice",
+        "Capture": false,
+        "GetType": "kNotApplicable",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceDeletePairingBonding",
+        "int32": "1179907",
+        "help": [
+          "Set deletes pairing and bonding information off the device. Useful",
+          "when preparing to pair the Capture device to a different host."
+        ]
+    },
+    {
+        "Name": "kRestoreFactoryDefaultsDevice",
+        "Capture": false,
+        "GetType": "kNotApplicable",
+        "SetType": "kNone",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceRestoreFactoryDefaults",
+        "int32": "1048836",
+        "help": [
+          "Set resets all the settings on the device to their default values."
+        ]
+    },
+    {
+        "Name": "kSetPowerOffDevice",
+        "Capture": false,
+        "GetType": "kNotApplicable",
+        "SetType": "kNone",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceSetPowerOff",
+        "int32": "1048837",
+        "help": ["Set turns the device off"]
+    },
+    {
+        "Name": "kButtonsStatusDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceButtonsStatus",
+        "int32": "65798",
+        "help": [
+          "Gets the current state of each button on the device. Consider using",
+          "kNotificationsDevice to subscribe to button events instead."
+        ]
+    },
+    {
+        "Name": "kSoundConfigDevice",
+        "Capture": false,
+        "GetType": "kByte",
+        "SetType": "kArray",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceSoundConfig",
+        "int32": "2359559",
+        "help": [
+          "Gets or sets the sound configuration of the device. There are",
+          "separate sound configurations for when a good scan is acknowledged",
+          "locally (by the Capture device) and when it is acknowledged by the",
+          "host. The same applies to the bad scan sound configuration."
+        ]
+    },
+    {
+        "Name": "kTimersDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kArray",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceTimers",
+        "int32": "262408",
+        "help": [
+          "Gets or sets the trigger lock and auto-off timers. The trigger lock",
+          "determines how long the trigger remains locked after decoding data",
+          "without receiving confirmation. There are two auto-off timers, one",
+          "for when the device is connected to a host and one for when it is",
+          "not."
+        ]
+    },
+    {
+        "Name": "kLocalAcknowledgmentDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceLocalAcknowledgement",
+        "int32": "131337",
+        "help": [
+          "Gets or sets local device acknowledgement. When enabled, the device",
+          "acknowledges decoded data as soon as it is decoded. When disabled,",
+          "the device waits for the host to acknowledge decoded data and the",
+          "trigger will be locked until acknowledgement is received or the",
+          "trigger lock timeout has elapsed."
+        ]
+    },
+    {
+        "Name": "kDataConfirmationDevice",
+        "Capture": false,
+        "GetType": "kNotApplicable",
+        "SetType": "kUlong",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceDataConfirmation",
+        "int32": "1245450",
+        "help": [
+          "Sends an acknowledgement to the device. Acknowledgement can either",
+          "be positive or negative - a.k.a. good scan or bad scan."
+        ]
+    },
+    {
+        "Name": "kBatteryLevelDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceBatteryLevel",
+        "int32": "65803",
+        "help": [
+          "Gets the current battery level of the device. Consider using ",
+          "kNotificationsDevice to subscribe to battery level change events",
+          "instead."
+        ]
+    },
+    {
+        "Name": "kLocalDecodeActionDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceLocalDecodeAction",
+        "int32": "131340",
+        "help": [
+          "Gets or sets the local decode action of the device. Determines how",
+          "decoded data is acknowledged - i.e. with a beep, rumble, flash or",
+          "some combination of all three."
+        ]
+    },
+    {
+        "Name": "kBluetoothAddressDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceBluetoothAddress",
+        "int32": "65805",
+        "help": ["Gets the Bluetooth address of the device"]
+    },
+    {
+        "Name": "kStatisticCountersDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceStatisticCounters",
+        "int32": "65806",
+        "help": [
+          "Gets the statistics counters of the device. Counters record the",
+          "absolute number of times a particular event has occurred."
+        ]
+    },
+    {
+        "Name": "kRumbleConfigDevice",
+        "Capture": false,
+        "GetType": "kByte",
+        "SetType": "kArray",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceRumbleConfig",
+        "int32": "2359567",
+        "help": [
+          "Gets or sets the rumble configuration of the device. There are",
+          "separate rumble configurations for when a good scan is acknowledged",
+          "locally (by the Capture device) and when it is acknowledged by the",
+          "host. The same applies to the bad scan rumble configuration."
+        ]
+    },
+    {
+        "Name": "kProfileConfigDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kArray",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceProfileConfig",
+        "int32": "262416",
+        "help": [
+          "property to get or set the Capture Device Profile Configuration"
+        ]
+    },
+    {
+        "Name": "kDisconnectDevice",
+        "Capture": false,
+        "GetType": "kNotApplicable",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceDisconnect",
+        "int32": "1179921",
+        "help": [
+          "Instructs the device to drop its connection. Note: After sending",
+          "this command, the host will be unable to send any subsequent",
+          "commands to this device."
+        ]
+    },
+    {
+        "Name": "kDataStoreDevice",
+        "Capture": false,
+        "GetType": "kArray",
+        "SetType": "kArray",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceDataStore",
+        "int32": "4456722",
+        "help": [
+          "Gets or sets arbitrary bytes to store on the device. The device has",
+          "16 storage locations which can hold up to 64 bytes each."
+        ]
+    },
+    {
+        "Name": "kNotificationsDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kUlong",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceNotifications",
+        "int32": "196883",
+        "help": [
+          "Gets or sets subscriptions to various events from the device.",
+          "Events that can be subscribed to include, trigger press/release,",
+          "power button press/release, power state and battery level change."
+        ]
+    },
+    {
+        "Name": "kConnectReasonDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceConnectReason",
+        "int32": "65812",
+        "help": ["property to get the Capture Device Connect reason"]
+    },
+    {
+        "Name": "kPowerStateDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kNotApplicable",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDevicePowerState",
+        "int32": "65813",
+        "help": [
+          "Gets the current power state of the device. Consider using",
+          "kNotificationsDevice to subscribe to power state events instead."
+        ]
+    },
+    {
+        "Name": "kStartUpRoleSPPDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceStartUpRoleSPP",
+        "int32": "131350",
+        "help": [
+          "Gets or sets the reconnect behavior of the device when it is",
+          "powered on in application mode. By default, the device will attempt",
+          "to reconnect to the last host, but this feature can be turned off",
+          "using this property."
+        ]
+    },
+    {
+        "Name": "kConnectionBeepConfigDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceConnectionBeepConfig",
+        "int32": "131351",
+        "help": [
+          "property to get or set the Capture Device Connection Beep",
+          "Configuration."
+        ]
+    },
+    {
+        "Name": "kFlashDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kByte",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceFlash",
+        "int32": "131352",
+        "help": ["Gets or sets the status of the flash on the SoftScan device."]
+    },
+    {
+        "Name": "kOverlayViewDevice",
+        "Capture": false,
+        "GetType": "kNone",
+        "SetType": "kObject",
+        "GroupId": "kSktCaptureGroupLocalFunctions",
+        "PropId": "kSktCaptureIdDeviceOverlayView",
+        "int32": "590105",
+        "help": [
+          "property to get or set the Capture Device Overlay View (SoftScan",
+          "only)"
+        ]
+    },
+    {
+        "Name": "kStandConfigDevice",
+        "Capture": false,
+        "GetType":"kNone",
+        "SetType":"kUlong",
+        "GroupId":"kSktCaptureGroupLocalFunctions",
+        "PropId":"kSktCaptureIdDeviceStandConfig",
+        "int32": "196890",
+        "help": ["property to get or set the Capture Device Stand Configuration"]
+    },
+    {
+      	"Name":"kStartDiscovery",
+        "Capture": false,
+        "GetType":"kNotApplicable",
+        "SetType":"kUlong",
+        "GroupId":"kSktCaptureGroupManagerFunctions",
+        "PropId":"kSktCaptureIdDeviceManagerStartDiscovery",
+        "int32": "1245696",
+        "branch":"ble",
+        "help": ["property to start a BLE discovery from a Device Manager"]
+    },
+    {
+      	"Name":"kFavorite",
+        "Capture": false,
+        "GetType":"kNone",
+        "SetType":"kString",
+        "GroupId":"kSktCaptureGroupManagerFunctions",
+        "PropId":"kSktCaptureIdDeviceManagerFavorite",
+        "int32": "328193",
+        "branch":"ble",
+        "help": ["property to set or get the BLE favorites for a Device Manager"]
+    },
+    {
+      	"Name":"kUniqueDeviceIdentifier",
+        "Capture": false,
+        "GetType":"kString",
+        "SetType":"kNotApplicable",
+        "GroupId":"kSktCaptureGroupManagerFunctions",
+        "PropId":"kSktCaptureIdDeviceManagerUniqueDeviceIdentifier",
+        "int32": "5308930",
+        "branch":"ble",
+        "help": ["property to get the BLE Unique Device Identifier that can be used to set favorite with"]
+    },
+    {
+      "Name":"kPcScTagTransmit",
+      "Capture": false,
+      "GetType":"kArray",
+      "SetType":"kArray",
+      "GroupId":"kSktCaptureGroupLocalFunctions",
+      "PropId":"kSktCaptureIdDevicePcScTagTransmit",
+      "int32": "4456731",
+      "branch":"ble",
+      "help": ["property to transmit through PC/SC an array of bytes often called APDU"]
+   },
+   {
+      "Name":"kPcScCouplerControl",
+      "Capture": false,
+      "GetType":"kArray",
+      "SetType":"kArray",
+      "GroupId":"kSktCaptureGroupLocalFunctions",
+      "PropId":"kSktCaptureIdDevicePcScCouplerControl",
+      "int32": "4456732",
+      "branch":"ble",
+      "help": ["property to control the PC/SC coupler device by passing an array of bytes often called APDU"]
+   }
+  ],
+  "Values":[{
+    "Name": "DataConfirmationMode",
+    "help":["Data Confirmation Mode indicates what is ",
+       "expected to the send the Data ACK back to the scanner"],
+    "Value": [{
+      "Name": "ModeOff",
+      "Value": 0,
+      "help":["use the device configuration (Local Confirmation or App)"]
+    },{
+      "Name": "ModeDevice",
+      "Value": 1,
+      "help":["the device confirms the decoded data locally"]
+    },{
+      "Name": "ModeCapture",
+      "Value": 2,
+      "help":["Capture confirms the decoded data as it receives them and there is one app"]
+    },{
+      "Name": "ModeApp",
+      "Value": 3,
+      "help":["the Application confirms the decoded data as it receives them"]
+    }]
+  },{
+    "Name": "DeviceDataAcknowledgment",
+    "help": ["Device Data Acknowledgment mode"],
+    "Value":[{
+      "Name": "Off",
+      "help": ["the device won't locally acknowledge decoded data"],
+      "Value": 0
+    },{
+      "Name": "On",
+      "help":["the device will locally acknowledge decoded data"],
+      "Value": 1
+    }]
+  },{
+    "Name": "SecurityMode",
+    "help": ["Security Mode"],
+    "Value": [{
+      "Name": "None",
+      "help": ["No security"],
+      "Value": 0
+    },{
+      "Name": "Authentication",
+      "help": ["communication protected by authentication"],
+      "Value": 1
+    },{
+      "Name": "AuthenticationEncryption",
+      "help": ["communication protected by authentication and encrytion"],
+      "Value": 2
+    }]
+  },{
+    "Name": "Trigger",
+    "help": ["trigger parameter"],
+    "Value":[{
+      "Name": "Start",
+      "help": ["start a read"],
+      "Value": 1
+    },{
+      "Name": "Stop",
+      "help": ["stop a read"],
+      "Value": 2
+    },{
+      "Name": "Enable",
+      "help": ["enable the trigger"],
+      "Value": 3
+    },{
+      "Name": "Disable",
+      "help":["disable the trigger"],
+      "Value": 4
+    },{
+      "Name": "ContinuousScan",
+      "help": ["start a read in continuous"],
+      "Value": 5
+    }]
+  },{
+    "Name": "DeletePairing",
+    "help": ["Delete the pairing of the device"],
+    "Value": [{
+      "Name": "Current",
+      "help": ["delete the current pairing"],
+      "Value": 0
+    },{
+      "Name": "All",
+      "help": ["delete all the pairing of the device"],
+      "Value": 1
+    }]
+  },{
+    "Name": "SoundActionType",
+    "help":["sound configuration for the a type of action"],
+    "Value": [{
+      "Name": "GoodRead",
+      "help": ["sound configuration for a good read action"],
+      "Value": 0
+    },{
+      "Name": "GoodReadLocal",
+      "help": ["sound configuration for a good read local action"],
+      "Value": 1
+    },{
+      "Name": "BadRead",
+      "help": ["sound configuration for a bad read action"],
+      "Value": 2
+    },{
+      "Name": "BadReadLocal",
+      "help": ["sound configuration for a bad read local action"],
+      "Value": 3
+    }]
+  },{
+    "Name": "SoundFrequency",
+    "help":["Sound frequency configuration"],
+    "Value": [{
+      "Name": "None",
+      "help": ["no frequency"],
+      "Value": 0
+    },{
+      "Name": "Low",
+      "help": ["Low pitch frequency"],
+      "Value": 1
+    },{
+      "Name": "Medium",
+      "help": ["Medium pitch frequency"],
+      "Value": 2
+    },{
+      "Name": "High",
+      "help": ["High pitch frequency"],
+      "Value": 3
+    }]
+  },{
+    "Name": "RumbleActionType",
+    "help":["Rumble configuration for the a type of action"],
+    "Value": [{
+      "Name": "GoodRead",
+      "help": ["Rumble configuration for a good read action"],
+      "Value": 0
+    },{
+      "Name": "GoodReadLocal",
+      "help": ["Rumble configuration for a good read local action"],
+      "Value": 1
+    },{
+      "Name": "BadRead",
+      "help": ["Rumble configuration for a bad read action"],
+      "Value": 2
+    },{
+      "Name": "BadReadLocal",
+      "help": ["Rumble configuration for a bad read local action"],
+      "Value": 3
+    }]
+  },{
+    "Name": "LocalDecodeAction",
+    "help":["Define the action for a local decode"],
+    "Value": [{
+      "Name": "None",
+      "help": ["no action"],
+      "Value": 0
+    },{
+      "Name": "Beep",
+      "help": ["Beep when a local decode occurs"],
+      "Value": 1
+    },{
+      "Name": "Flash",
+      "help": ["Flash the LED when a local decode occurs"],
+      "Value": 2
+    },{
+      "Name": "Rumble",
+      "help": ["Rumble when a local decode occurs"],
+      "Value": 4
+    }]
+  },{
+    "Name": "DataConfirmationLed",
+    "help":["Define the LED for data confirmation"],
+    "Value": [{
+      "Name": "None",
+      "help": ["no LED"],
+      "Value": 0
+    },{
+      "Name": "Green",
+      "help": ["make the LED flash in green"],
+      "Value": 1
+    },{
+      "Name": "Red",
+      "help": ["make the LED flash in red"],
+      "Value": 2
+    }]
+  },{
+    "Name": "DataConfirmationBeep",
+    "help":["Define the sound for data confirmation"],
+    "Value": [{
+      "Name": "None",
+      "help": ["no sound"],
+      "Value": 0
+    },{
+      "Name": "Good",
+      "help": ["short beep for success"],
+      "Value": 1
+    },{
+      "Name": "Bad",
+      "help": ["long beep for failure"],
+      "Value": 2
+    }]
+  },{
+    "Name": "DataConfirmationRumble",
+    "help":["Define the rumble for data confirmation"],
+    "Value": [{
+      "Name": "None",
+      "help": ["no sound"],
+      "Value": 0
+    },{
+      "Name": "Good",
+      "help": ["short rumble for success"],
+      "Value": 1
+    },{
+      "Name": "Bad",
+      "help": ["long rumble for failure"],
+      "Value": 2
+    }]
+  },{
+    "Name": "Flash",
+    "help":["Define the flash setting"],
+    "Value": [{
+      "Name": "Off",
+      "help": ["turn off the flash"],
+      "Value": 0
+    },{
+      "Name": "On",
+      "help": ["turn on the flash"],
+      "Value": 1
+    }]
+  },{
+    "Name": "SoftScan",
+    "help":["Define the Softscan experience (iOS-iPadOs only)"],
+    "Value": [{
+      "Name": "Enable",
+      "help": ["Enable SoftScan"],
+      "Value": 0
+    },{
+      "Name": "Disable",
+      "help": ["Disable SoftScan"],
+      "Value": 1
+    },{
+      "Name": "NotSupported",
+      "help": ["SoftScan is not supported, and cannot be enabled"],
+      "Value": 2
+    },{
+      "Name": "Supported",
+      "help": ["SoftScan is supported and can be enabled"],
+      "Value": 2
+    }]
+  },{
+    "Name": "PowerState",
+    "help":["Define the possible power states"],
+    "Value": [{
+      "Name": "Unknown",
+      "help": ["The power state is unknown"],
+      "Value": 0
+    },{
+      "Name": "OnBattery",
+      "help": ["The power state is on battery"],
+      "Value": 1
+    },{
+      "Name": "OnCradle",
+      "help": ["The power state is on cradle"],
+      "Value": 2
+    },{
+      "Name": "OnAc",
+      "help": ["The power state in on AC"],
+      "Value": 4
+    }]
+  },{
+    "Name": "MonitorDbg",
+    "help":["Define the monitor feature (DEBUG build only)"],
+    "Value": [{
+      "Name": "Level",
+      "help": ["define the level for the debug traces"],
+      "Value": 1
+    },{
+      "Name": "Channel",
+      "help": ["define the output channel for the debug traces"],
+      "Value": 2
+    },{
+      "Name": "FileLineLevel",
+      "help": ["define the number of lines in the file"],
+      "Value": 3
+    }]
+  },{
+    "Name": "Counter",
+    "help":["identifiers for the statistic counters"],
+    "Value": [{
+      "Name": "Skip",
+      "help": ["use for convenience only to skip a counter"],
+      "Value": -1
+    },{
+      "Name": "Unknown",
+      "help": ["unknow counter"],
+      "Value": 0
+    },{
+      "Name": "Connect",
+      "help": ["number of connections"],
+      "Value": 1
+    },{
+      "Name": "Disconnect",
+      "help": ["number of disconnections"],
+      "Value": 2
+    },{
+      "Name": "Unbound",
+      "help": ["number of unbound operation"],
+      "Value": 3
+    },{
+      "Name": "FactoryReset",
+      "help": ["number of reset to factory default"],
+      "Value": 4
+    },{
+      "Name": "Reads",
+      "help": ["number of reads (scans)"],
+      "Value": 5
+    },{
+      "Name": "TriggerButtonUp",
+      "help": ["number of trigger button released"],
+      "Value": 6
+    },{
+      "Name": "TriggerButtonDown",
+      "help": ["number of trigger button pressed"],
+      "Value": 7
+    },{
+      "Name": "PowerButtonUp",
+      "help": ["number of power button released"],
+      "Value": 8
+    },{
+      "Name": "PowerButtonDown",
+      "help": ["number of power button pressed"],
+      "Value": 9
+    },{
+      "Name": "OnAcTimeInMinutes",
+      "help": ["number of minutes in AC power"],
+      "Value": 10
+    },{
+      "Name": "OnBatTimeInMinutes",
+      "help": ["number of minutes on battery"],
+      "Value": 11
+    },{
+      "Name": "RfcommSend",
+      "help": ["number of RFCOMM sent (SSI only)"],
+      "Value": 12
+    },{
+      "Name": "RfcommReceive",
+      "help": ["number of RFCOMM received (SSI only)"],
+      "Value": 13
+    },{
+      "Name": "RfcommReceiveDiscarded",
+      "help": ["number of RFCOMM discarded (SSI only)"],
+      "Value": 14
+    },{
+      "Name": "UartSend",
+      "help": ["number of UART sent (SSI only)"],
+      "Value": 15
+    },{
+      "Name": "UartReceive",
+      "help": ["number of UART received (SSI only)"],
+      "Value": 16
+    },{
+      "Name": "UartReceiveDiscarded",
+      "help": ["number of UART discarded (SSI only)"],
+      "Value": 17
+    },{
+      "Name": "ButtonLeftPress",
+      "help": ["number of left button press (CRS only)"],
+      "Value": 18
+    },{
+      "Name": "ButtonLeftRelease",
+      "help": ["number of left button release (CRS only)"],
+      "Value": 19
+    },{
+      "Name": "ButtonRightPress",
+      "help": ["number of right button press (CRS only)"],
+      "Value": 20
+    },{
+      "Name": "ButtonRightRelease",
+      "help": ["number of right button release (CRS only)"],
+      "Value": 21
+    },{
+      "Name": "RingUnitDetach",
+      "help": ["number of ring unit detach (CRS only)"],
+      "Value": 22
+    },{
+      "Name": "RingUnitAttach",
+      "help": ["number of ring unit attach (CRS only)"],
+      "Value": 23
+    },{
+      "Name": "DecodedBytes",
+      "help": ["number of decoded bytes (7x only ISCI)"],
+      "Value": 24
+    },{
+      "Name": "AbnormalShutdowns",
+      "help": ["number of abnormal shutdowns (7x only ISCI)"],
+      "Value": 25
+    },{
+      "Name": "BatteryChargeCycles",
+      "help": ["number of battery charge cycles (7x only ISCI)"],
+      "Value": 26
+    },{
+      "Name": "BatteryChargeCount",
+      "help": ["number of battery charge count (7x only ISCI)"],
+      "Value": 27
+    },{
+      "Name": "PowerOn",
+      "help": ["number of power on (only 8Ci)"],
+      "Value": 28
+    },{
+      "Name": "PowerOff",
+      "help": ["number of power off (only 8Ci)"],
+      "Value": 29
+    },{
+      "Name": "StandModeChange",
+      "help": ["number of stand mode change (only 7X/Q 7630 and higher)"],
+      "Value": 30
+    }]
+  },{
+    "Name": "Disconnect",
+    "help": ["Disconnect parameters to instruct the device what to do after disconnection"],
+    "Value": [{
+      "Name": "StartProfile",
+      "help": ["disconnect and then start the current profile"],
+      "Value": 0
+    },{
+      "Name": "DisableRadio",
+      "help": ["Disconnect and disable radio (low power)"],
+      "Value": 1
+    }]
+  },{
+    "Name": "ProfileSelect",
+    "help": ["Select a profile for the device (None, SPP, HID)"],
+    "Value": [{
+      "Name": "None",
+      "help": ["The device is in acceptor mode, not trying to connect to any host"],
+      "Value": 0
+    },{
+      "Name": "Spp",
+      "help": ["The device is in App mode"],
+      "Value": 1
+    },{
+      "Name": "Hid",
+      "help": ["The device is in Basic mode, sometimes referred as Keyboard emulation"],
+      "Value": 2
+    }]
+  },{
+    "Name": "ProfileConfig",
+    "help": ["Configure a profile for the device (None, Acceptor, Initiator)"],
+    "Value": [{
+      "Name": "None",
+      "help": ["The device is in either acceptor or initiator mode, meaning not even discoverable"],
+      "Value": 0
+    },{
+      "Name": "Acceptor",
+      "help": ["The device is discoverable and will accept any connection"],
+      "Value": 1
+    },{
+      "Name": "Initiator",
+      "help": ["The device initiates a connection to the Bluetooth address specified in the Profile Configuration"],
+      "Value": 2
+    }]
+  },{
+    "Name": "Notifications",
+    "help": ["Configuration masks for selecting the notifications the device should send to the host"],
+    "Value": [{
+      "Name": "TriggerButtonPress",
+      "help": ["The device sends a notification when the trigger button is pressed"],
+      "Value": 1
+    },{
+      "Name": "TriggerButtonRelease",
+      "help": ["The device sends a notification when the trigger button is released"],
+      "Value": 2
+    },{
+      "Name": "PowerButtonPress",
+      "help": ["The device sends a notification when the power button is pressed"],
+      "Value": 4
+    },{
+      "Name": "PowerButtonRelease",
+      "help": ["The device sends a notification when the power button is released"],
+      "Value": 8
+    },{
+      "Name": "PowerState",
+      "help": ["The device sends a notification when the power state changes (battery to AC or vice-versa) (not supported on all device)"],
+      "Value": 16
+    },{
+      "Name": "BatteryLevelChange",
+      "help": ["The device sends a notification when the battery level changed (not supported on all device)"],
+      "Value": 32
+    }]
+  },{
+    "Name": "Timer",
+    "help": ["Identifies the timers used in the device, (trigger lock, disconnected, connected)"],
+    "Value": [{
+      "Name": "AutoLock",
+      "help": ["The trigger button stays ineffective for the specified amount of time ",
+              "or until the device receives a data confirmation command."],
+      "Value": 1
+    },{
+      "Name": "PowerOffDisconnected",
+      "help": ["This timer specifies the amount of time the device stays on while it is not connected to any host."],
+      "Value": 2
+    },{
+      "Name": "PowerOffConnected",
+      "help": ["This timer specifies the amount of time the device stays on while it is connected to a host."],
+      "Value": 4
+    }]
+  },{
+    "Name": "DataFormat",
+    "help": ["Identifies the data format the device should send the data to the host"],
+    "Value": [{
+      "Name": "Raw",
+      "help": ["The device sends the data without any protocol overhead"],
+      "Value": 0
+    },{
+      "Name": "Packet",
+      "help": ["The device sends the data embedded in a protocol packet (default)"],
+      "Value": 1
+    },{
+      "Name": "IdOnly",
+      "help": ["The device sends only the RFID tag ID, (valid only for D600 NFC devices)"],
+      "Value": 2
+    },{
+      "Name": "TagTypeAndId",
+      "help": ["The device sends the tag type and RFID tag ID, (valid only for D600 NFC devices)"],
+      "Value": 10
+    },{
+      "Name": "DataOnly",
+      "help": ["The device sends only the tag data, (valid only for D600 NFC devices)"],
+      "Value": 4
+    },{
+      "Name": "TagTypeAndData",
+      "help": ["The device sends the tag type and the tag data, (valid only for D600 NFC devices)"],
+      "Value": 12
+    }]
+  },{
+    "Name": "TriggerMode",
+    "help": ["defines the operational mode of the device"],
+    "Value": [{
+      "Name": "LocalOnly",
+      "help": ["The device triggers a read only by pressing the trigger button"],
+      "Value": 1
+    },{
+      "Name": "RemoteAndLocal",
+      "help": ["The device triggers a read by pressing the trigger button or by receiving the trigger command"],
+      "Value": 2
+    },{
+      "Name": "AutoLock",
+      "help": ["the device waits for the host to unlock the trigger"],
+      "Value": 3
+    },{
+      "Name": "NormalLock",
+      "help": ["the device locks and unlocks the trigger locally (default)"],
+      "Value": 4
+    },{
+      "Name": "Presentation",
+      "help": ["The device triggers a read automatically without user intervention"],
+      "Value": 5
+    }]
+  },{
+    "Name": "ConnectReason",
+    "help": ["defines the reason as of how the device connects to the host"],
+    "Value": [{
+      "Name": "Unknown",
+      "help": ["The device connects to the host from unknown reason"],
+      "Value": 0
+    },{
+      "Name": "PowerOn",
+      "help": ["The device connects to the host just after power on"],
+      "Value": 1
+    },{
+      "Name": "Barcode",
+      "help": ["The device connects to the host by reading the host address from a barcode"],
+      "Value": 2
+    },{
+      "Name": "UserAction",
+      "help": ["The device connects to the host by user action (usually a press on the trigger button)"],
+      "Value": 3
+    },{
+      "Name": "HostChange",
+      "help": ["The device connects to the host from a change of the host address in the profile configuration"],
+      "Value": 4
+    },{
+      "Name": "Retry",
+      "help": ["The device connects to the host after a retry (device coming back to the radio range)"],
+      "Value": 5
+    }]
+  },{
+    "Name": "StartUpRoleSpp",
+    "help": ["The start up role SPP defines the start up role when using the SPP profile."],
+    "Value": [{
+      "Name": "Acceptor",
+      "help": ["The device returns to acceptor mode, not initiating a connection to a host."],
+      "Value": 0
+    },{
+      "Name": "LastRole",
+      "help": ["The device uses the last role configuration upon startup."],
+      "Value": 1
+    }]
+  },{
+    "Name": "ConnectBeepConfig",
+    "help": ["The connect beep configuration allows to turn off or on the connection beep when the scanner connects"],
+    "Value": [{
+      "Name": "NoBeep",
+      "help": ["The device won't beep upon connection to a host."],
+      "Value": 0
+    },{
+      "Name": "Beep",
+      "help": ["The device beeps when connecting to the host."],
+      "Value": 1
+    }]
+  },{
+    "Name": "StandConfig",
+    "help": ["The stand configuration defines the operational mode of the device when used with a stand."],
+    "Value": [{
+      "Name": "MobileMode",
+      "help": ["Mobile mode Works like today existing firmware Engine is always in ",
+              " trigger mode Engine hibernate enabled"],
+      "Value": 0
+    },{
+      "Name": "StandMode",
+      "help": ["Stand mode Engine always in presentation mode Engine hibernate ",
+              "disabled Scanner turns on immediately Power timers disabled Connection ",
+              "retries forever"],
+      "Value": 1
+    },{
+      "Name": "DetectMode",
+      "help": ["Detect mode On stand engine in presentation mode On stand engine ",
+              "hibernate disabled On stand charging led state not show On stand ",
+              "scanner turns on immediately On stand power timers disabled On stand ",
+              "connection retries forever Off stand engine in level mode Off stand ",
+              "battery led state reported Off stand engine hibernate enabled Off stand ",
+              "power off timers running Off stand connection retries halt after max ",
+              "count"],
+      "Value": 2
+    },{
+      "Name": "AutoMode",
+      "help": ["Auto mode On stand engine in presentation mode On stand engine hibernate ",
+              "disabled On stand charging led state not show On stand scanner turns on ",
+              "immediately On stand power timers disabled On stand connection retries ",
+              "forever Off stand does nothing, engine remains in presentation mode Off ",
+              "stand trigger press causes engine to enter level mode Engine in level ",
+              "mode battery led state reported Engine in level mode hibernate enabled ",
+              "Engine in level mode power off timers running Engine in level mode ",
+              "connection retries halt after max count"],
+      "Value": 3
+    }]
+  },{
+    "Name": "ButtonPressMask",
+    "help": ["The mask to apply for each button that is pressed"],
+    "Value": [{
+      "Name": "Left",
+      "help": ["The left button is pressed."],
+      "Value": 1
+    },{
+      "Name": "Right",
+      "help": ["The right button is pressed."],
+      "Value": 2
+    },{
+      "Name": "Middle",
+      "help": ["The middle button is pressed."],
+      "Value": 4
+    },{
+      "Name": "Power",
+      "help": ["The power button is pressed."],
+      "Value": 8
+    },{
+      "Name": "RingDetach",
+      "help": ["The Ring is detached from the wrist unit."],
+      "Value": 16
+    }]
+  }]
+}
