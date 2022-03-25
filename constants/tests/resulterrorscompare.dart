@@ -241,8 +241,8 @@ class SktErrors {
   /// The service does not respond
   static const int ESKT_SERVICENOTCOMMUNICATING = -87;
 
-  /// The SoftScan overlay view is not set
-  static const int ESKT_OVERLAYVIEWNOTSET = -90;
+  /// The SocketCam overlay view is not set
+	static const int ESKT_OVERLAYVIEWNOTSET = -90;
 
   /// This operation has been canceled
   static const int ESKT_CANCEL = -91;

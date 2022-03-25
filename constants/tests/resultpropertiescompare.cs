@@ -87,7 +87,7 @@ internal class CaptureGroup
 	public const int kSktCaptureIdDataConfirmationMode = 4;
 	public const int kSktCaptureIdDataConfirmationAction = 5;
 	public const int kSktCaptureIdMonitorMode = 6;
-	public const int kSktCaptureIdSoftScanStatus = 7;
+	public const int kSktCaptureIdSocketCamStatus = 7;
 	public const int kSktCaptureIdDataSourceInfo = 8;
 	public const int kSktCaptureIdDataEditingProfile = 9;
 	public const int kSktCaptureIdDataEditingCurrentProfile = 10;
@@ -213,10 +213,10 @@ public class PropId
 	public const int kMonitorMode = -2145124346;		// SKTPROPIDCAPTURE(True)|SKTGETTYPE(kByte)|SKTSETTYPE(kArray)|SKTSETGROUPID(kSktCaptureGroupGeneral)|SKTSETPROPID(kSktCaptureIdMonitorMode)
 
 	/// <summary>
-	/// property to get or set the SoftScan status
+	/// property to get or set the SocketCam status
 	/// (iOS only)
 	/// </summary>
-	public const int kSoftScanStatus = -2147352569;		// SKTPROPIDCAPTURE(True)|SKTGETTYPE(kNone)|SKTSETTYPE(kByte)|SKTSETGROUPID(kSktCaptureGroupGeneral)|SKTSETPROPID(kSktCaptureIdSoftScanStatus)
+	public const int kSocketCamStatus = -2147352569;		// SKTPROPIDCAPTURE(True)|SKTGETTYPE(kNone)|SKTSETTYPE(kByte)|SKTSETGROUPID(kSktCaptureGroupGeneral)|SKTSETPROPID(kSktCaptureIdSocketCamStatus)
 
 	/// <summary>
 	/// property to get and set the Data Editing Profile
@@ -489,12 +489,12 @@ public class PropId
 	public const int kConnectionBeepConfigDevice = 131351;		// SKTPROPIDCAPTURE(False)|SKTGETTYPE(kNone)|SKTSETTYPE(kByte)|SKTSETGROUPID(kSktCaptureGroupLocalFunctions)|SKTSETPROPID(kSktCaptureIdDeviceConnectionBeepConfig)
 
 	/// <summary>
-	/// Gets or sets the status of the flash on the SoftScan device.
+	/// Gets or sets the status of the flash on the SocketCam device.
 	/// </summary>
 	public const int kFlashDevice = 131352;		// SKTPROPIDCAPTURE(False)|SKTGETTYPE(kNone)|SKTSETTYPE(kByte)|SKTSETGROUPID(kSktCaptureGroupLocalFunctions)|SKTSETPROPID(kSktCaptureIdDeviceFlash)
 
 	/// <summary>
-	/// property to get or set the Capture Device Overlay View (SoftScan
+	/// property to get or set the Capture Device Overlay View (SocketCam
 	/// only)
 	/// </summary>
 	public const int kOverlayViewDevice = 590105;		// SKTPROPIDCAPTURE(False)|SKTGETTYPE(kNone)|SKTSETTYPE(kObject)|SKTSETGROUPID(kSktCaptureGroupLocalFunctions)|SKTSETPROPID(kSktCaptureIdDeviceOverlayView)

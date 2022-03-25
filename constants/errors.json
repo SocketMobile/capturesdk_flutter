@@ -1,352 +1,438 @@
 {
-  "errors": [{
-    "name": "ESKT_WAITTIMEOUT",
-    "value": 1,
-    "help": ["The wait timed out"]
-  }, {
-    "name": "ESKT_ALREADYDONE",
-    "value": 2,
-    "help": ["This operation is already complete"]
-  }, {
-    "name": "ESKT_PENDING",
-    "value": 3,
-    "help": ["This operation is pending"]
-  }, {
-    "name": "ESKT_STILLPENDING",
-    "value": 4,
-    "help": ["This operation is still pending"]
-  }, {
-    "name": "ESKT_CREATED",
-    "value": 5,
-    "help": ["The object has been created"]
-  }, {
-    "name": "ESKT_NOERROR",
-    "value": 0,
-    "help": ["There is no error"]
-  }, {
-    "name": "ESKT_TESTFAILED",
-    "value": -1,
-    "help": ["At least one test has failed"]
-  }, {
-    "name": "ESKT_NOTENOUGHMEMORY",
-    "value": -2,
-    "help": ["There is not enough memory to complete the operation"]
-  }, {
-    "name": "ESKT_UNABLECREATELOCK",
-    "value": -3,
-    "help": ["A lock cannot be created"]
-  }, {
-    "name": "ESKT_UNABLELOCK",
-    "value": -4,
-    "help": ["Unable to lock a shared resource"]
-  }, {
-    "name": "ESKT_UNABLEUNLOCK",
-    "value": -5,
-    "help": ["Unable to unlock a shared resource"]
-  }, {
-    "name": "ESKT_LISTEMPTY",
-    "value": -6,
-    "help": ["Unable to remove an item from a list because the list is empty"]
-  }, {
-    "name": "ESKT_UNABLECREATEEVENT",
-    "value": -7,
-    "help": ["An event cannot be created"]
-  }, {
-    "name": "ESKT_UNABLESETEVENT",
-    "value": -8,
-    "help": ["Unable to set an event"]
-  }, {
-    "name": "ESKT_UNABLERESETEVENT",
-    "value": -9,
-    "help": ["Unable to reset an event"]
-  }, {
-    "name": "ESKT_EVENTNOTCREATED",
-    "value": -10,
-    "help": ["The event is not created"]
-  }, {
-    "name": "ESKT_INVALIDHANDLE",
-    "value": -11,
-    "help": ["The provided handle is invalid"]
-  }, {
-    "name": "ESKT_UNABLECREATETHREAD",
-    "value": -12,
-    "help": ["A thread cannot be created"]
-  }, {
-    "name": "ESKT_THREADALREADYCREATED",
-    "value": -13,
-    "help": ["The thread is already created"]
-  }, {
-    "name": "ESKT_THREADSTILLRUNNING",
-    "value": -14,
-    "help": ["The thread is still running"]
-  }, {
-    "name": "ESKT_NOTSUPPORTED",
-    "value": -15,
-    "help": ["This operation is not supported"]
-  }, {
-    "name": "ESKT_PENDINGOPERATIONNOTCOMPLETED",
-    "value": -16,
-    "help": ["The previous operation is not completed"]
-  }, {
-    "name": "ESKT_NOTFOUND",
-    "value": -17,
-    "help": ["The item cannot be found"]
-  }, {
-    "name": "ESKT_INVALIDPARAMETER",
-    "value": -18,
-    "help": ["The provided parameter is invalid"]
-  }, {
-    "name": "ESKT_NOTINITIALIZED",
-    "value": -19,
-    "help": ["Trying to use an object that is not yet initialized"]
-  }, {
-    "name": "ESKT_TIMEOUTOUTOFRANGE",
-    "value": -20,
-    "help": ["The timeout value is out of range"]
-  }, {
-    "name": "ESKT_UNABLEINITIALIZE",
-    "value": -21,
-    "help": ["The object cannot be initialized"]
-  }, {
-    "name": "ESKT_UNABLEDEINITIALIZE",
-    "value": -22,
-    "help": ["The object cannot be un-initialized"]
-  }, {
-    "name": "ESKT_UNKNOWNCONFIGURATION",
-    "value": -23,
-    "help": ["The configuration is unknown"]
-  }, {
-    "name": "ESKT_INVALIDCONFIGURATION",
-    "value": -24,
-    "help": ["The configuration is invalid"]
-  }, {
-    "name": "ESKT_ALREADYEXISTING",
-    "value": -25,
-    "help": ["Creating or adding an item that already exists"]
-  }, {
-    "name": "ESKT_BUFFERTOOSMALL",
-    "value": -26,
-    "help": ["The provided buffer is too small"]
-  }, {
-    "name": "ESKT_UNABLEOPENDEVICE",
-    "value": -27,
-    "help": ["The specified device cannot be opened"]
-  }, {
-    "name": "ESKT_UNABLECONFIGUREDEVICE",
-    "value": -28,
-    "help": ["The specified device cannot be configured"]
-  }, {
-    "name": "ESKT_UNABLECONVERTSTRING",
-    "value": -29,
-    "help": ["The string cannot be converted"]
-  }, {
-    "name": "ESKT_UNABLECOPYSTRING",
-    "value": -30,
-    "help": ["The specified string cannot be copied"]
-  }, {
-    "name": "ESKT_DEVICENOTOPEN",
-    "value": -31,
-    "help": ["The specified device is not open"]
-  }, {
-    "name": "ESKT_NOTAVAILABLE",
-    "value": -32,
-    "help": ["The specified item is not available"]
-  }, {
-    "name": "ESKT_UNABLEWRITEFILE",
-    "value": -33,
-    "help": ["The specified file cannot be written"]
-  }, {
-    "name": "ESKT_UNABLEREADFILE",
-    "value": -34,
-    "help": ["The specified file cannot be read"]
-  }, {
-    "name": "ESKT_WAITFAILED",
-    "value": -35,
-    "help": ["The wait has failed"]
-  }, {
-    "name": "ESKT_INVALIDCHECKSUM",
-    "value": -36,
-    "help": ["The specified checksum is invalid"]
-  }, {
-    "name": "ESKT_COMMANDDENIED",
-    "value": -37,
-    "help": ["This command has been denied"]
-  }, {
-    "name": "ESKT_COMMUNICATIONERROR",
-    "value": -38,
-    "help": ["There was an error during communication"]
-  }, {
-    "name": "ESKT_RECEIVEUNEXPECTEDCOMMAND",
-    "value": -39,
-    "help": ["An unexpected command has been received"]
-  }, {
-    "name": "ESKT_UNABLECREATEGUID",
-    "value": -40,
-    "help": ["The GUID cannot be created"]
-  }, {
-    "name": "ESKT_INVALIDVALUE",
-    "value": -41,
-    "help": ["The specified value is invalid"]
-  }, {
-    "name": "ESKT_REQUESTTIMEDOUT",
-    "value": -42,
-    "help": ["The request has timed out"]
-  }, {
-    "name": "ESKT_INVALIDOPERATION",
-    "value": -43,
-    "help": ["The operation is invalid"]
-  }, {
-    "name": "ESKT_WRONGPROTOCOL",
-    "value": -44,
-    "help": ["The protocol used is not the correct one"]
-  }, {
-    "name": "ESKT_QUEUERESETED",
-    "value": -45,
-    "help": ["The queue has been reset"]
-  }, {
-    "name": "ESKT_EXCEEDINGMTUSIZE",
-    "value": -46,
-    "help": ["The data size exceeeds maximum transmission unit"]
-  }, {
-    "name": "ESKT_NOTHINGTOLISTEN",
-    "value": -47,
-    "help": ["The listener thread has nothing to listen to"]
-  }, {
-    "name": "ESKT_OUTDATEDVERSION",
-    "value": -48,
-    "help": ["The current version is outdated"]
-  }, {
-    "name": "ESKT_INVALIDXMLTAG",
-    "value": -49,
-    "help": ["The XML tag is invalid"]
-  }, {
-    "name": "ESKT_UNABLEREGISTERFORHIDCHANGES",
-    "value": -50,
-    "help": ["Cannot register for  HID change notifications"]
-  }, {
-    "name": "ESKT_UNABLERETRIEVEMESSAGE",
-    "value": -51,
-    "help": ["The message cannot be retrieved"]
-  }, {
-    "name": "ESKT_SYNTAXERROR",
-    "value": -52,
-    "help": ["There is a syntax error"]
-  }, {
-    "name": "ESKT_UNABLEOPENFILE",
-    "value": -53,
-    "help": ["The specified file cannot be opened"]
-  }, {
-    "name": "ESKT_UNABLERETRIEVEPATH",
-    "value": -54,
-    "help": ["The file path cannot be retrieved"]
-  }, {
-    "name": "ESKT_UNABLECREATEDIRECTORY",
-    "value": -55,
-    "help": ["The specified directory cannot be created"]
-  }, {
-    "name": "ESKT_UNABLEDELETEFILE",
-    "value": -56,
-    "help": ["The specified file cannot be deleted"]
-  }, {
-    "name": "ESKT_UNABLEDELETEDIRECTORY",
-    "value": -57,
-    "help": ["The specified directory cannot be deleted"]
-  }, {
-    "name": "ESKT_UNABLEREADMODEMSTATUS",
-    "value": -60,
-    "help": ["The modem status cannot be read"]
-  }, {
-    "name": "ESKT_UNABLEGETCLASSDEVICES",
-    "value": -61,
-    "help": ["The Class of Devices cannot be retrieved"]
-  }, {
-    "name": "ESKT_UNABLEGETDEVICEINTERFACE",
-    "value": -62,
-    "help": ["The device interface cannot be retrieved"]
-  }, {
-    "name":	"ESKT_FILENOTFOUND",
-    "value": -63,
-    "help": ["The specified file or device cannot be found"]
-  }, {
-    "name":	"ESKT_FILEACCESSDENIED",
-    "value": -64,
-    "help": ["The specified file or device is not accessible"]
-  }, {
-    "name": "ESKT_UNABLEREADHIDINFO",
-    "value": -70,
-    "help": ["The HID information cannot be read"]
-  }, {
-    "name": "ESKT_CONFLICTPROFILE",
-    "value": -80,
-    "deprecated": true,
-    "help": ["The profile file causes a conflict"]
-  }, {
-    "name": "ESKT_DELETECURRENTPROFILE",
-    "value": -81,
-    "deprecated": true,
-    "help": ["The current profile cannot be deleted"]
-  }, {
-    "name": "ESKT_UNABLEINITIALIZEDATAEDITING",
-    "value": -82,
-    "deprecated": true,
-    "help": ["Data editing cannot be initialized"]
-  }, {
-    "name": "ESKT_UNKNOWNDATAEDITINGOPERATION",
-    "value": -83,
-    "deprecated": true,
-    "help": ["The data editing operation is invalid"]
-  }, {
-    "name": "ESKT_INCORRECTNUMBEROFPARAMETERS",
-    "value": -84,
-    "help": ["The number of parameters is incorrect"]
-  }, {
-    "name": "ESKT_INVALIDFORMAT",
-    "value": -85,
-    "help": ["The specified format is invalid"]
-  }, {
-    "name": "ESKT_INVALIDVERSION",
-    "value": -86,
-    "help": ["The version is invalid"]
-  }, {
-    "name": "ESKT_SERVICENOTCOMMUNICATING",
-    "value": -87,
-    "help": ["The service does not respond"]
-  }, {
-    "name": "ESKT_OVERLAYVIEWNOTSET",
-    "value": -90,
-    "help": ["The SoftScan overlay view is not set"]
-  }, {
-    "name": "ESKT_CANCEL",
-    "value": -91,
-    "help": ["This operation has been canceled"]
-  }, {
-    "name": "ESKT_EXPIRED",
-    "value": -92,
-    "help": ["The operation has expired"]
-  }, {
-    "name": "ESKT_INVALIDAPPINFO",
-    "value": -93,
-    "help": ["The AppInfo information is invalid"]
-  }, {
-    "name": "ESKT_BLEGATT",
-    "value": -94,
-    "help": ["BLE operation failed"]
-  }, {
-    "name": "ESKT_FAVORITENOTEMPTY",
-    "value": -95,
-    "help": ["Auto-discovery is in progress"]
-  }, {
-    "name": "ESKT_LOCATIONPERMISSIONMISSING",
-    "value": -96,
-    "help": ["Location permission is required to complete the operation"]
-  }, {
-    "name": "ESKT_UNABLETOCOMPLETEOPERATION",
-    "value": -97,
-    "help": ["The requested operation cannot be completed"]
-  }, {
-    "name": "ESKT_LOCATIONSERVICEDISABLED",
-    "value": -98,
-    "help": ["Location service is disabled"]
-  }
-]
+  "errors": [
+    {
+      "name": "ESKT_WAITTIMEOUT",
+      "value": 1,
+      "help": ["The wait timed out"]
+    },
+    {
+      "name": "ESKT_ALREADYDONE",
+      "value": 2,
+      "help": ["This operation is already complete"]
+    },
+    {
+      "name": "ESKT_PENDING",
+      "value": 3,
+      "help": ["This operation is pending"]
+    },
+    {
+      "name": "ESKT_STILLPENDING",
+      "value": 4,
+      "help": ["This operation is still pending"]
+    },
+    {
+      "name": "ESKT_CREATED",
+      "value": 5,
+      "help": ["The object has been created"]
+    },
+    {
+      "name": "ESKT_NOERROR",
+      "value": 0,
+      "help": ["There is no error"]
+    },
+    {
+      "name": "ESKT_TESTFAILED",
+      "value": -1,
+      "help": ["At least one test has failed"]
+    },
+    {
+      "name": "ESKT_NOTENOUGHMEMORY",
+      "value": -2,
+      "help": ["There is not enough memory to complete the operation"]
+    },
+    {
+      "name": "ESKT_UNABLECREATELOCK",
+      "value": -3,
+      "help": ["A lock cannot be created"]
+    },
+    {
+      "name": "ESKT_UNABLELOCK",
+      "value": -4,
+      "help": ["Unable to lock a shared resource"]
+    },
+    {
+      "name": "ESKT_UNABLEUNLOCK",
+      "value": -5,
+      "help": ["Unable to unlock a shared resource"]
+    },
+    {
+      "name": "ESKT_LISTEMPTY",
+      "value": -6,
+      "help": ["Unable to remove an item from a list because the list is empty"]
+    },
+    {
+      "name": "ESKT_UNABLECREATEEVENT",
+      "value": -7,
+      "help": ["An event cannot be created"]
+    },
+    {
+      "name": "ESKT_UNABLESETEVENT",
+      "value": -8,
+      "help": ["Unable to set an event"]
+    },
+    {
+      "name": "ESKT_UNABLERESETEVENT",
+      "value": -9,
+      "help": ["Unable to reset an event"]
+    },
+    {
+      "name": "ESKT_EVENTNOTCREATED",
+      "value": -10,
+      "help": ["The event is not created"]
+    },
+    {
+      "name": "ESKT_INVALIDHANDLE",
+      "value": -11,
+      "help": ["The provided handle is invalid"]
+    },
+    {
+      "name": "ESKT_UNABLECREATETHREAD",
+      "value": -12,
+      "help": ["A thread cannot be created"]
+    },
+    {
+      "name": "ESKT_THREADALREADYCREATED",
+      "value": -13,
+      "help": ["The thread is already created"]
+    },
+    {
+      "name": "ESKT_THREADSTILLRUNNING",
+      "value": -14,
+      "help": ["The thread is still running"]
+    },
+    {
+      "name": "ESKT_NOTSUPPORTED",
+      "value": -15,
+      "help": ["This operation is not supported"]
+    },
+    {
+      "name": "ESKT_PENDINGOPERATIONNOTCOMPLETED",
+      "value": -16,
+      "help": ["The previous operation is not completed"]
+    },
+    {
+      "name": "ESKT_NOTFOUND",
+      "value": -17,
+      "help": ["The item cannot be found"]
+    },
+    {
+      "name": "ESKT_INVALIDPARAMETER",
+      "value": -18,
+      "help": ["The provided parameter is invalid"]
+    },
+    {
+      "name": "ESKT_NOTINITIALIZED",
+      "value": -19,
+      "help": ["Trying to use an object that is not yet initialized"]
+    },
+    {
+      "name": "ESKT_TIMEOUTOUTOFRANGE",
+      "value": -20,
+      "help": ["The timeout value is out of range"]
+    },
+    {
+      "name": "ESKT_UNABLEINITIALIZE",
+      "value": -21,
+      "help": ["The object cannot be initialized"]
+    },
+    {
+      "name": "ESKT_UNABLEDEINITIALIZE",
+      "value": -22,
+      "help": ["The object cannot be un-initialized"]
+    },
+    {
+      "name": "ESKT_UNKNOWNCONFIGURATION",
+      "value": -23,
+      "help": ["The configuration is unknown"]
+    },
+    {
+      "name": "ESKT_INVALIDCONFIGURATION",
+      "value": -24,
+      "help": ["The configuration is invalid"]
+    },
+    {
+      "name": "ESKT_ALREADYEXISTING",
+      "value": -25,
+      "help": ["Creating or adding an item that already exists"]
+    },
+    {
+      "name": "ESKT_BUFFERTOOSMALL",
+      "value": -26,
+      "help": ["The provided buffer is too small"]
+    },
+    {
+      "name": "ESKT_UNABLEOPENDEVICE",
+      "value": -27,
+      "help": ["The specified device cannot be opened"]
+    },
+    {
+      "name": "ESKT_UNABLECONFIGUREDEVICE",
+      "value": -28,
+      "help": ["The specified device cannot be configured"]
+    },
+    {
+      "name": "ESKT_UNABLECONVERTSTRING",
+      "value": -29,
+      "help": ["The string cannot be converted"]
+    },
+    {
+      "name": "ESKT_UNABLECOPYSTRING",
+      "value": -30,
+      "help": ["The specified string cannot be copied"]
+    },
+    {
+      "name": "ESKT_DEVICENOTOPEN",
+      "value": -31,
+      "help": ["The specified device is not open"]
+    },
+    {
+      "name": "ESKT_NOTAVAILABLE",
+      "value": -32,
+      "help": ["The specified item is not available"]
+    },
+    {
+      "name": "ESKT_UNABLEWRITEFILE",
+      "value": -33,
+      "help": ["The specified file cannot be written"]
+    },
+    {
+      "name": "ESKT_UNABLEREADFILE",
+      "value": -34,
+      "help": ["The specified file cannot be read"]
+    },
+    {
+      "name": "ESKT_WAITFAILED",
+      "value": -35,
+      "help": ["The wait has failed"]
+    },
+    {
+      "name": "ESKT_INVALIDCHECKSUM",
+      "value": -36,
+      "help": ["The specified checksum is invalid"]
+    },
+    {
+      "name": "ESKT_COMMANDDENIED",
+      "value": -37,
+      "help": ["This command has been denied"]
+    },
+    {
+      "name": "ESKT_COMMUNICATIONERROR",
+      "value": -38,
+      "help": ["There was an error during communication"]
+    },
+    {
+      "name": "ESKT_RECEIVEUNEXPECTEDCOMMAND",
+      "value": -39,
+      "help": ["An unexpected command has been received"]
+    },
+    {
+      "name": "ESKT_UNABLECREATEGUID",
+      "value": -40,
+      "help": ["The GUID cannot be created"]
+    },
+    {
+      "name": "ESKT_INVALIDVALUE",
+      "value": -41,
+      "help": ["The specified value is invalid"]
+    },
+    {
+      "name": "ESKT_REQUESTTIMEDOUT",
+      "value": -42,
+      "help": ["The request has timed out"]
+    },
+    {
+      "name": "ESKT_INVALIDOPERATION",
+      "value": -43,
+      "help": ["The operation is invalid"]
+    },
+    {
+      "name": "ESKT_WRONGPROTOCOL",
+      "value": -44,
+      "help": ["The protocol used is not the correct one"]
+    },
+    {
+      "name": "ESKT_QUEUERESETED",
+      "value": -45,
+      "help": ["The queue has been reset"]
+    },
+    {
+      "name": "ESKT_EXCEEDINGMTUSIZE",
+      "value": -46,
+      "help": ["The data size exceeeds maximum transmission unit"]
+    },
+    {
+      "name": "ESKT_NOTHINGTOLISTEN",
+      "value": -47,
+      "help": ["The listener thread has nothing to listen to"]
+    },
+    {
+      "name": "ESKT_OUTDATEDVERSION",
+      "value": -48,
+      "help": ["The current version is outdated"]
+    },
+    {
+      "name": "ESKT_INVALIDXMLTAG",
+      "value": -49,
+      "help": ["The XML tag is invalid"]
+    },
+    {
+      "name": "ESKT_UNABLEREGISTERFORHIDCHANGES",
+      "value": -50,
+      "help": ["Cannot register for  HID change notifications"]
+    },
+    {
+      "name": "ESKT_UNABLERETRIEVEMESSAGE",
+      "value": -51,
+      "help": ["The message cannot be retrieved"]
+    },
+    {
+      "name": "ESKT_SYNTAXERROR",
+      "value": -52,
+      "help": ["There is a syntax error"]
+    },
+    {
+      "name": "ESKT_UNABLEOPENFILE",
+      "value": -53,
+      "help": ["The specified file cannot be opened"]
+    },
+    {
+      "name": "ESKT_UNABLERETRIEVEPATH",
+      "value": -54,
+      "help": ["The file path cannot be retrieved"]
+    },
+    {
+      "name": "ESKT_UNABLECREATEDIRECTORY",
+      "value": -55,
+      "help": ["The specified directory cannot be created"]
+    },
+    {
+      "name": "ESKT_UNABLEDELETEFILE",
+      "value": -56,
+      "help": ["The specified file cannot be deleted"]
+    },
+    {
+      "name": "ESKT_UNABLEDELETEDIRECTORY",
+      "value": -57,
+      "help": ["The specified directory cannot be deleted"]
+    },
+    {
+      "name": "ESKT_UNABLEREADMODEMSTATUS",
+      "value": -60,
+      "help": ["The modem status cannot be read"]
+    },
+    {
+      "name": "ESKT_UNABLEGETCLASSDEVICES",
+      "value": -61,
+      "help": ["The Class of Devices cannot be retrieved"]
+    },
+    {
+      "name": "ESKT_UNABLEGETDEVICEINTERFACE",
+      "value": -62,
+      "help": ["The device interface cannot be retrieved"]
+    },
+    {
+      "name": "ESKT_FILENOTFOUND",
+      "value": -63,
+      "help": ["The specified file or device cannot be found"]
+    },
+    {
+      "name": "ESKT_FILEACCESSDENIED",
+      "value": -64,
+      "help": ["The specified file or device is not accessible"]
+    },
+    {
+      "name": "ESKT_UNABLEREADHIDINFO",
+      "value": -70,
+      "help": ["The HID information cannot be read"]
+    },
+    {
+      "name": "ESKT_CONFLICTPROFILE",
+      "value": -80,
+      "deprecated": true,
+      "help": ["The profile file causes a conflict"]
+    },
+    {
+      "name": "ESKT_DELETECURRENTPROFILE",
+      "value": -81,
+      "deprecated": true,
+      "help": ["The current profile cannot be deleted"]
+    },
+    {
+      "name": "ESKT_UNABLEINITIALIZEDATAEDITING",
+      "value": -82,
+      "deprecated": true,
+      "help": ["Data editing cannot be initialized"]
+    },
+    {
+      "name": "ESKT_UNKNOWNDATAEDITINGOPERATION",
+      "value": -83,
+      "deprecated": true,
+      "help": ["The data editing operation is invalid"]
+    },
+    {
+      "name": "ESKT_INCORRECTNUMBEROFPARAMETERS",
+      "value": -84,
+      "help": ["The number of parameters is incorrect"]
+    },
+    {
+      "name": "ESKT_INVALIDFORMAT",
+      "value": -85,
+      "help": ["The specified format is invalid"]
+    },
+    {
+      "name": "ESKT_INVALIDVERSION",
+      "value": -86,
+      "help": ["The version is invalid"]
+    },
+    {
+      "name": "ESKT_SERVICENOTCOMMUNICATING",
+      "value": -87,
+      "help": ["The service does not respond"]
+    },
+    {
+      "name": "ESKT_OVERLAYVIEWNOTSET",
+      "value": -90,
+      "help": ["The SocketCam overlay view is not set"]
+    },
+    {
+      "name": "ESKT_CANCEL",
+      "value": -91,
+      "help": ["This operation has been canceled"]
+    },
+    {
+      "name": "ESKT_EXPIRED",
+      "value": -92,
+      "help": ["The operation has expired"]
+    },
+    {
+      "name": "ESKT_INVALIDAPPINFO",
+      "value": -93,
+      "help": ["The AppInfo information is invalid"]
+    },
+    {
+      "name": "ESKT_BLEGATT",
+      "value": -94,
+      "help": ["BLE operation failed"]
+    },
+    {
+      "name": "ESKT_FAVORITENOTEMPTY",
+      "value": -95,
+      "help": ["Auto-discovery is in progress"]
+    },
+    {
+      "name": "ESKT_LOCATIONPERMISSIONMISSING",
+      "value": -96,
+      "help": ["Location permission is required to complete the operation"]
+    },
+    {
+      "name": "ESKT_UNABLETOCOMPLETEOPERATION",
+      "value": -97,
+      "help": ["The requested operation cannot be completed"]
+    },
+    {
+      "name": "ESKT_LOCATIONSERVICEDISABLED",
+      "value": -98,
+      "help": ["Location service is disabled"]
+    }
+  ]
 }

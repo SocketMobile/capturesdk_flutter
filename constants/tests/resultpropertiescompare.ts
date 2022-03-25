@@ -42,10 +42,10 @@ export enum Property {
 	// Device: False	Get Type: Byte 	Set Type: Array
 	MonitorMode = -2145124346,
 
-	// property to get or set the SoftScan status
+	// property to get or set the SocketCam status
 	// (iOS only)
 	// Device: False	Get Type: None 	Set Type: Byte
-	SoftScanStatus = -2147352569,
+	SocketCamStatus = -2147352569,
 
 	// Gets the firmware version of the device
 	// Device: True	Get Type: None 	Set Type: NotApplicable
@@ -227,11 +227,11 @@ export enum Property {
 	// Device: True	Get Type: None 	Set Type: Byte
 	ConnectionBeepConfigDevice = 131351,
 
-	// Gets or sets the status of the flash on the SoftScan device.
+	// Gets or sets the status of the flash on the SocketCam device.
 	// Device: True	Get Type: None 	Set Type: Byte
 	FlashDevice = 131352,
 
-	// property to get or set the Capture Device Overlay View (SoftScan
+	// property to get or set the Capture Device Overlay View (SocketCam
 	// only)
 	// Device: True	Get Type: None 	Set Type: Object
 	OverlayViewDevice = 590105,
@@ -456,16 +456,16 @@ export enum Flash {
 	On = 1
 };
 
-// Define the Softscan experience (iOS-iPadOs only)
-export enum SoftScan {
+// Define the SocketCam experience (iOS-iPadOs only)
+export enum SocketCam {
 
-	// Enable SoftScan
+	// Enable SocketCam
 	Enable = 0,
-	// Disable SoftScan
+	// Disable SocketCam
 	Disable = 1,
-	// SoftScan is not supported, and cannot be enabled
+	// SocketCam is not supported, and cannot be enabled
 	NotSupported = 2,
-	// SoftScan is supported and can be enabled
+	// SocketCam is supported and can be enabled
 	Supported = 2
 };
 

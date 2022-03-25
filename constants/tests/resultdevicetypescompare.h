@@ -84,10 +84,10 @@ enum {
 	///</summary>
 	kSktCaptureDeviceTypeScanner9 = 196611,
 	///<summary>
-	/// SoftScan (only used in iOS and Android)
+	/// SocketCam (only used in iOS and Android)
 	/// value: 5 (0x00005)
 	///</summary>
-	kSktCaptureDeviceTypeSoftScan = 5,
+	kSktCaptureDeviceTypeSocketCam = 5,
 	///<summary>
 	/// Model S800
 	/// value: 196614 (0x30006)

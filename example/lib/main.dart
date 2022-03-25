@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:capture_flutter_beta/capture_flutter_beta.dart';
-import 'package:flutter/services.dart';
+import 'package:capturesdk/capturesdk.dart';
 
 void main() {
   runApp(const MyApp());
@@ -83,10 +82,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     final AppInfo appInfo = AppInfo(
-        'web:com.socketmobile.reactjs.native.example.example',
-        'MC0CFQC85w0MsxDng4wHBICX7+iCOiSqfAIUdSerA4/MJ2kYBGAGgIG/YHemNr8=',
+        'android:com.example.example',
+        'MC4CFQDNCtjazxILEh8oyT6w/wlaVKqS1gIVAKTz2W6TB9EgmjS1buy0A+3j7nX4',
         'ios:com.example.example',
-        'MCwCFFs3BlbCvhwzVwx0KjZYoptqLOE1AhRirn9KEMRV6HHxbjlNmU965e9uhw==',
+        'MC0CFA1nzK67TLNmSw/QKFUIiedulUUcAhUAzT6EOvRwiZT+h4qyjEZo9oc0ONM=',
         'bb57d8e1-f911-47ba-b510-693be162686a');
     String stat = _status;
     String mess = _message;
@@ -100,15 +99,15 @@ class _MyHomePageState extends State<MyHomePage> {
       stat = exception.code.toString();
       mess = exception.message;
       method = exception.method;
-      method = exception.details;
+      details = exception.details;
     }
     _updateVals(stat, mess, method, details);
   }
 
   Future<void> _handleGetNameProperty() async {
-    // example using friendly name
-    // to use another property, change id and type
-    // to correspond to desired property CapturePropertyIds
+    /// example using friendly name
+    /// to use another property, change id and type
+    /// to correspond to desired property CapturePropertyIds
 
     CaptureProperty property = CaptureProperty(
         CapturePropertyIds.friendlyNameDevice, CapturePropertyTypes.none, {});
@@ -121,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       CaptureProperty propertyResponse =
           await _deviceCapture!.getProperty(property);
-      // propertyResponse.value
+      /// propertyResponse.value
       stat = 'Get Property';
       mess =
           'Successfully Retrieved "name" property for device: ${propertyResponse.value}';
@@ -173,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future _openDeviceHelper(Capture deviceCapture, CaptureEvent e) async {
+  Future _openDeviceHelper(Capture deviceCapture, CaptureEvent e, bool isManager) async {
     // deviceArrival checks that a device is available
     // openDevice allows the device to be used (for decodedData)
     List<DeviceInfo> arr = _devices;
@@ -181,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String guid = e.value.guid;
     String name = e.value.name;
 
-    logger.log('Device Arrival =>', name + ' ($guid)');
+    logger.log('Device ${isManager ? 'Manager' : ''} Arrival =>', name + ' ($guid)');
 
     try {
       dynamic res = await deviceCapture.openDevice(guid, _capture);
@@ -192,17 +191,17 @@ class _MyHomePageState extends State<MyHomePage> {
           _devices = arr;
         });
       }
-      _updateVals('Device Opened', 'Successfully added "$name"');
+      _updateVals('Device ${isManager ? 'Manager' : ''} Opened', 'Successfully added "$name"');
     } on CaptureException catch (exception) {
       _updateVals(exception.code.toString(), exception.message,
           exception.method, exception.details);
     }
   }
 
-  Future<void> _closeDeviceHelper(e, handle) async {
+  Future<void> _closeDeviceHelper(e, handle, bool isManager) async {
     String guid = e.value.guid;
     String name = e.value.name;
-    logger.log('Device Removal =>', name + ' ($guid)');
+    logger.log('Device ${isManager ? 'Manager' : ''} Removal =>', name + ' ($guid)');
     try {
       dynamic res = await _deviceCapture!.close();
       if (res == 0) {
@@ -214,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
           _deviceCapture = null;
         });
       }
-      _updateVals('Device Closed', 'Successfully removed "$name"');
+      _updateVals('Device ${isManager ? 'Manager' : ''} Closed', 'Successfully removed "$name"');
     } on CaptureException catch (exception) {
       _updateVals('${exception.code}', 'Unable to remove "$name"',
           exception.method, exception.details);
@@ -222,6 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _onCaptureEvent(e, handle) {
+
     if (e == null) {
       return;
     } else if (e.runtimeType == CaptureException) {
@@ -239,18 +239,29 @@ class _MyHomePageState extends State<MyHomePage> {
           _deviceCapture = deviceCapture;
         });
 
-        _openDeviceHelper(deviceCapture, e);
+        _openDeviceHelper(deviceCapture, e, false);
         break;
       case CaptureEventIds.deviceRemoval:
-        _closeDeviceHelper(e, handle);
+        _closeDeviceHelper(e, handle, false);
         break;
 
       case CaptureEventIds.decodedData:
         setState(() {
-          //storing scanned data in state for future use
           _currentScan = e;
         });
         _updateVals('Decoded Data', "Successful scan!");
+        break;
+      case CaptureEventIds.deviceManagerArrival:
+        Capture deviceCapture = Capture(logger);
+
+        setState(() {
+          _deviceCapture = deviceCapture;
+        });
+
+        _openDeviceHelper(deviceCapture, e, true);
+        break;
+      case CaptureEventIds.deviceManagerRemoval:
+        _closeDeviceHelper(e, handle, true);
         break;
     }
   }
@@ -351,8 +362,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             _currentScan!.value.data.toString()
                         : 'No Data'))
               ]),
-              IconButton(
-                  icon: const Icon(Icons.add_box), onPressed: _openCapture),
             ],
           ),
         ));

@@ -529,16 +529,16 @@ typedef struct
 	TSktCaptureProperty Property;
 }TSktCaptureObject;
 
-extern const char* kSktCaptureSoftScanContext;
-extern const char* kSktCaptureSoftScanLayoutId;
-extern const char* kSktCaptureSoftScanViewFinderId;
-extern const char* kSktCaptureSoftScanFlashButtonId;
-extern const char* kSktCaptureSoftScanCancelButton;
-extern const char* kSktCaptureSoftScanFlashButton;
-extern const char* kSktCaptureSoftScanDirectionText;
-extern const char* kSktCaptureSoftScanBackgroundColor;
-extern const char* kSktCaptureSoftScanTextColor;
-extern const char* kSktCaptureSoftScanCamera;
+extern const char* kSktCaptureSocketCamContext;
+extern const char* kSktCaptureSocketCamLayoutId;
+extern const char* kSktCaptureSocketCamViewFinderId;
+extern const char* kSktCaptureSocketCamFlashButtonId;
+extern const char* kSktCaptureSocketCamCancelButton;
+extern const char* kSktCaptureSocketCamFlashButton;
+extern const char* kSktCaptureSocketCamDirectionText;
+extern const char* kSktCaptureSocketCamBackgroundColor;
+extern const char* kSktCaptureSocketCamTextColor;
+extern const char* kSktCaptureSocketCamCamera;
 
 
 

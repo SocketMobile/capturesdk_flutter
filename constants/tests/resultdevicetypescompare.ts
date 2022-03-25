@@ -84,9 +84,9 @@ export class CaptureDeviceType {
 	//value: 196611 (0x30003)
 	static readonly Scanner9 = 196611;
 
-	//SoftScan (only used in iOS and Android)
+	//SocketCam (only used in iOS and Android)
 	//value: 5 (0x00005)
-	static readonly SoftScan = 5;
+	static readonly SocketCam = 5;
 
 	//Model S800
 	//value: 196614 (0x30006)

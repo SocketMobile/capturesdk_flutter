@@ -3,7 +3,7 @@
 
 import 'dart:async';
 
-import '../capture_flutter_beta.dart';
+import '../capturesdk.dart';
 import './capture_options.dart';
 
 String defaultHost = "http://127.0.0.1:18481";
@@ -56,7 +56,7 @@ class Capture {
     } on CaptureException {
       rethrow;
     } catch (e) {
-      throw CaptureException(-32602, 'Something went wrong.', e.toString());
+      throw CaptureException(SktErrors.ESKT_COMMUNICATIONERROR, 'There was an error during communication.', e.toString());
     }
   }
 
@@ -109,7 +109,7 @@ class Capture {
       } on CaptureException {
         rethrow;
       } catch (e) {
-        throw CaptureException(-32602, 'Something went wrong.', e.toString());
+        throw CaptureException(SktErrors.ESKT_COMMUNICATIONERROR, 'There was an error during communication.', e.toString());
       }
     }
   }

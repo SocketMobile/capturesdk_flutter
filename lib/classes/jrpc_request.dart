@@ -1,6 +1,6 @@
 // ignore_for_file: unnecessary_this
 
-import '../capture_flutter_beta.dart';
+import '../capturesdk.dart';
 
 /// Wrapper for HTTP request to use json rpc parameters.
 /// JRpcRequest is required for use with JsonRpc oriented transport.

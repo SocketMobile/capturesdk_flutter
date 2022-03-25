@@ -65,11 +65,11 @@ def createEnum(result, prefix, formatStyle, section, jsonObject, branch, isDart=
         name = prefix + name
         value = jsonObject[section][p]['value']
         if checkIfBranchMatches(jsonObject, p, section, branch):
-            result += '\t///<summary>'
+            result += '' if isDart else '\t///<summary>'
             for hlp in jsonObject[section][p]['help']:
                 result += '\n\t/// {0}'.format(hlp)
                 result += '\n\t/// value: {0} (0x{1:05X})'.format(value,value)
-            result += '\n\t///</summary>\n'
+            result += '\n\t\n' if isDart else '\n\t///</summary>\n'
             result += formatStyle.format(name,value)
     result += isDart if isDart != False else ''
     result += '}\n\n' if isDart else '};\n\n'
@@ -177,11 +177,12 @@ def createIdsFileForTypescript(jsonObject, branch):
     return Ids
 
 def createIdsFileForDart(jsonObject, branch):
-    Ids = '// ignore_for_file: non_constant_identifier_names\nclass CaptureDeviceTypeClass {\n'
+    Ids = '// ignore_for_file: non_constant_identifier_names\n/// Differentiate between devices and device managers.\nclass CaptureDeviceTypeClass {\n'
     Ids = createEnum(Ids, '', '\tint {0} = {1};\n\n', 'classType', jsonObject, branch, "\tCaptureDeviceTypeClass();\n\n")
-    Ids += 'class CaptureDeviceTypeInterface {\n'
+    Ids += '/// Differentiate between types of interfaces (bluetooth, NFC, etc).\nclass CaptureDeviceTypeInterface {\n'
     Ids = createEnum(Ids, '', '\tint {0} = {1};\n\n', 'interfaceType', jsonObject, branch, "\tCaptureDeviceTypeInterface();\n\n")
 
+    Ids += "/// Differentiate between types of devices (Model 7, NFC tag, etc).\n"
     Ids += 'class CaptureDeviceType {\n'
     for p in jsonObject['deviceTypes']:
         name = p
@@ -190,8 +191,8 @@ def createIdsFileForDart(jsonObject, branch):
             print(name)
             value = getValue(jsonObject, p)
             for hlp in jsonObject['deviceTypes'][p]['help']:
-                Ids +='\t//{0}\n'.format(hlp)
-            Ids +='\t//value: {0} (0x{1:05X})\n'.format(value,value)
+                Ids +='\t///{0}\n'.format(hlp)
+            Ids +='\t///value: {0} (0x{1:05X})\n'.format(value,value)
             Ids += '\tint {0} = {1};\n\n'.format(name, value)
     Ids += '\tCaptureDeviceType();\n\n'
     Ids += '}\n'

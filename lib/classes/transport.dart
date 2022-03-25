@@ -2,7 +2,7 @@ import 'dart:io';
 // ignore_for_file: unnecessary_this, prefer_function_declarations_over_variables
 import 'dart:math';
 
-import '../capture_flutter_beta.dart';
+import '../capturesdk.dart';
 
 /// Initial transport Interface. Here is where we check the operating system and determine which subclass transport to use (HttpTransport or IosTransport)
 class Transport {

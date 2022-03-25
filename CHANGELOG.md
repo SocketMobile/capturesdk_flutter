@@ -6,6 +6,95 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.77] - 2022-03-25
+### Added
+- Updated pubspec and podspec descriptions to be at least 60 characters long.
+- Updated license to try and be MIT.
+
+## [1.2.76] - 2022-03-24
+### Added
+- renamed name in podspec from 'CaptureSDK' to 'capturesdk'.
+
+## [1.2.75] - 2022-03-24
+### Added
+- renamed podspec from 'capture_flutter_beta.podspec' to 'capturesdk.podspec'.
+
+## [1.2.74] - 2022-03-24
+### Added
+- Changing name of flutter sdk for pub package from 'capture_flutter_beta' to 'capturesdk'.
+
+## [1.2.57] - 2022-03-23
+### Added
+- Reverted changes to just include README update.
+
+## [1.2.56] - 2022-03-23
+### Added
+- Included module for SKTCaptureObjC into root iOS/pods file.
+
+## [1.2.55] - 2022-03-23
+### Added
+- New import syntax for Transport.h.
+
+## [1.2.54] - 2022-03-23
+### Added
+- Changing format in Objective C file to import SktCapture as module.
+
+## [1.2.53] - 2022-03-23
+### Added
+- Changing format in Objective C file to import SktCapture as module.
+
+## [1.2.52] - 2022-03-23
+### Added
+- changing version.
+
+## [1.2.51] - 2022-03-23
+### Added
+- working on fixing ios issues.
+- Removing need for non-modular-headers constraint.
+
+## [1.2.43] - 2022-03-18
+### Added
+- Refined versioning logic in generate_consts.sh.
+- Updated version and changelog.
+
+## [1.2.35] - 2022-03-17
+### Added
+- Removed unused build.sh and gitlab-ci logic.
+
+## [1.2.31] - 2022-03-15
+### Added
+- Re-added generate_consts.sh.
+- Shell script can now update and prepare flutter package for publication on pub.dev.
+
+## [1.2.28] - 2022-03-10
+### Added
+- Updated appinfo in README and example code.
+- Resolving outstanding threads in [merge request](https://git.socketmobile.com/capture/capturesdk-flutter/-/merge_requests/3).
+
+## [1.2.21] - 2022-03-10
+### Added
+- Updated git versioning logic.
+- Updated docs for Socket Mobile Website.
+- Updated config.py file to include commit number in version in documentation.
+
+## [1.2.1] - 2022-02-24
+### Added
+- Updated README.md to include iOS instructions for initializing app before installing package.
+
+
+## [1.2.0] - 2022-02-24
+### Added
+- Updated README.md to include iOS instructions for initializing app before installing package.
+
+## [1.1.9] - 2022-02-18
+### Added
+- Updated generate_consts.sh to update version in README.md.
+- Updated generate_consts.sh to allow either git subtree pull... or generate constants.
+
+## [1.1.8] - 2022-02-18
+### Added
+- Updated repo url for pub.dev (made a public snapshot).
+
 ## [1.1.7] - 2022-02-18
 ### Added
 - Specifying and updating dart doc comments to improve pubscore.

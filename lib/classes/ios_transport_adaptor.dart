@@ -1,7 +1,7 @@
 // ignore_for_file: unnecessary_this
 import 'dart:async';
 import 'package:flutter/services.dart';
-import '../capture_flutter_beta.dart';
+import '../capturesdk.dart';
 
 /// iOS counterpart for HttpTransport.
 /// Given that iOS doesn't require HTTP and we leverage the existing iOS library we have a separate and unique transport builder for iOS.

@@ -225,7 +225,8 @@ def createIdsFileForTypescript(jsonObject, branch):
     return Ids, Flags, Status
 
 def createIdsFileForDart(jsonObject, branch):
-    Ids = "class CaptureDataSourceID {\n"
+    Ids = "/// Generated datasource information for data in capture events.\n"
+    Ids += "class CaptureDataSourceID {\n"
     for p in jsonObject[SECTION]:
         name = p
         if checkIfBranchMatches(jsonObject, SECTION, p, branch):
@@ -235,11 +236,12 @@ def createIdsFileForDart(jsonObject, branch):
             print('TEST: ' + name)
             value = getValue(jsonObject, SECTION, p)
             for hlp in jsonObject[SECTION][p]['help']:
-                Ids +='\t// {0}\n'.format(hlp)
+                Ids +='\t/// {0}\n'.format(hlp)
             Ids += '\tint {0} = {1};\n\n'.format(name, value)
     Ids +="}\n"
 
-    Flags = "class CaptureDataSourceFlags {\n"
+    Flags = "/// Flags for the different data sources in capture events.\n"
+    Flags += "class CaptureDataSourceFlags {\n"
     for p in jsonObject[SECTION_FLAGS]:
         name = p
         if checkIfBranchMatches(jsonObject, SECTION_FLAGS, p, branch):
@@ -247,11 +249,12 @@ def createIdsFileForDart(jsonObject, branch):
             print(name)
             value = getValue(jsonObject, SECTION_FLAGS, p)
             for hlp in jsonObject[SECTION_FLAGS][p]['help']:
-                Flags +='\t// {0}\n'.format(hlp)
+                Flags +='\t/// {0}\n'.format(hlp)
             Flags += '\tint {0} = {1};\n\n'.format(name, value)
     Flags +="}\n"
 
-    Status = "class CaptureDataSourceStatus {\n"
+    Status = "/// Status properties for data sources in capture events.\n"
+    Status += "class CaptureDataSourceStatus {\n"
     for p in jsonObject[SECTION_STATUS]:
         name = p
         if checkIfBranchMatches(jsonObject, SECTION_STATUS, p, branch):
@@ -259,7 +262,7 @@ def createIdsFileForDart(jsonObject, branch):
             print(name)
             value = getValue(jsonObject, SECTION_STATUS, p)
             for hlp in jsonObject[SECTION_STATUS][p]['help']:
-                Status +='\t// {0}\n'.format(hlp)
+                Status +='\t/// {0}\n'.format(hlp)
             Status += '\tint {0} = {1};\n\n'.format(name, value)
     Status +="}\n"
 

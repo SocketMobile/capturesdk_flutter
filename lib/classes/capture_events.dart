@@ -22,8 +22,6 @@ class CaptureEventIds {
   static const int ccidStatus =
       15; // CCID Status notification (for PC/SC interface)
   static const int lastID = 16; // just for marking the end of this enum
-
-  CaptureEventIds();
 }
 
 // Data types of capture events
@@ -36,5 +34,4 @@ class CaptureEventTypes {
   static const int decodedData = 5;
   static const int deviceInfo = 6; // contains the device guid; type; and name
   static const int lastID = 7; // just for marking the end of this enum
-  CaptureEventTypes();
 }

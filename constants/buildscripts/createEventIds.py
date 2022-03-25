@@ -176,14 +176,14 @@ def addValues(name, valueObject, jsonObject, includeDeprecaded, branch, isDart=F
         if checkIfBranchMatches(p, branch) == False:
             continue
         for hlp in p['help']:
-            value +='\n\t// {0}'.format(hlp)
-        #need to add support for Dart as well - different syntax
+            value +='\n\t/// {0}'.format(hlp)
+        
         intOrNah = 'int ' if isDart else ''
         semiOrcomma = ';' if isDart else ','
         value += '\n\t' + intOrNah + '{0} = {1}'.format(name, val) + semiOrcomma
         
     if not isDart:
-        value = value[:-1] # remove the last coma
+        value = value[:-1] 
     value += '\n\n' if isDart else '\n'
     return value
 
@@ -214,7 +214,7 @@ def createEventValuesForDart(jsonObject, includeDeprecated, branch):
             continue
         name = ev['Name']
         for hlp in ev['help']:
-            values +='// {0}\n'.format(hlp)
+            values +='/// {0}\n'.format(hlp)
         values += 'class {0} {{\n'.format(name)
         values += addValues(name, ev, jsonObject, includeDeprecated, branch, True)
         values += '}\n\n'
@@ -266,7 +266,8 @@ def lowercaseHelper(name, isFromValues=False):
 
 def createEventIdsFileForDart(jsonObject, includeDeprecated, branch):
     final = ''
-    eventIds = "class CaptureEventIds {\n\n"
+    eventIds = "/// Ids assigned to each capture event.\n"
+    eventIds += "class CaptureEventIds {\n\n"
     for ev in jsonObject['Events']:
         if includeDeprecated == False:
             if 'Deprecated' in ev and ev['Deprecated'] == True:
@@ -279,14 +280,15 @@ def createEventIdsFileForDart(jsonObject, includeDeprecated, branch):
         print(name)
         value = getEventValue(ev)
         for hlp in ev['help']:
-            eventIds +='\t// {0}\n'.format(hlp)
-        eventIds +='\t// Type: {0}\n'.format(ev['Type'])
+            eventIds +='\t/// {0}\n'.format(hlp)
+        eventIds +='\t/// Type: {0}\n'.format(ev['Type'])
         eventIds += '\tint {0} = {1};\n\n'.format(name, value)
     eventIds += '\tCaptureEventIds();\n\n'
     eventIds += '}\n\n'
     final += eventIds
 
-    types = "class CaptureEventTypes { \n\n"
+    types = "/// Types of Capture Events a user might encounter.\n"
+    types += "class CaptureEventTypes { \n\n"
 
     for tp in jsonObject['Types']:
         typeObj = jsonObject['Types'][tp]
@@ -300,7 +302,7 @@ def createEventIdsFileForDart(jsonObject, includeDeprecated, branch):
         print(name)
         value = typeObj['value']
         for hlp in typeObj['help']:
-            types +='\t// {0}\n'.format(hlp)
+            types +='\t/// {0}\n'.format(hlp)
         types += '\tint {0} = {1};\n\n'.format(name, value)
     types += '\tCaptureEventTypes();\n\n'
     types += '}\n\n'

@@ -232,8 +232,7 @@ def addValues(name, valueObject, jsonObject, includeDeprecaded, branch, isDart=F
         if checkIfBranchMatches(p, branch) == False:
             continue
         for hlp in p['help']:
-            value +='\n\t// {0}'.format(hlp)
-        #need to add support for Dart as well - different syntax
+            value +='\n\t/// {0}'.format(hlp) if isDart else '\n\t// {0}'.format(hlp)
         intOrNah = 'int ' if isDart else ''
         semiOrcomma = ';' if isDart else ','
         value += '\n\t' + intOrNah + '{0} = {1}'.format(name, val) + semiOrcomma
@@ -270,7 +269,7 @@ def createPropertyValuesForDart(jsonObject, includeDeprecated, branch):
             continue
         name = p['Name']
         for hlp in p['help']:
-            values +='// {0}\n'.format(hlp)
+            values +='/// {0}\n'.format(hlp)
         values += 'class {0} {{\n'.format(name)
         values += addValues(name, p, jsonObject, includeDeprecated, branch, True)
         values += '}\n\n'
@@ -319,7 +318,7 @@ def lowercaseHelper(name, isFromValues=False):
 
 def createPropertyIdsFileForDart(jsonObject, includeDeprecated, branch):
     final = ''
-    propertyIds = "class CapturePropertyIds {\n\n"
+    propertyIds = "/// Ids associated with different properties in capture events.\nclass CapturePropertyIds {\n\n"
     for p in jsonObject['properties']:
         if includeDeprecated == False:
             if 'Deprecated' in p and p['Deprecated'] == True:
@@ -332,8 +331,8 @@ def createPropertyIdsFileForDart(jsonObject, includeDeprecated, branch):
         print(name)
         value = getPropertyValue(jsonObject, p)
         for hlp in p['help']:
-            propertyIds +='\t// {0}\n'.format(hlp)
-        propertyIds +='\t// Device: {0}\tGet Type: {1} \tSet Type: {2}\n'.format(p['Capture']==False, p['GetType'][1:], p['SetType'][1:])
+            propertyIds +='\t/// {0}\n'.format(hlp)
+        propertyIds +='\t/// Device: {0}\tGet Type: {1} \tSet Type: {2}\n'.format(p['Capture']==False, p['GetType'][1:], p['SetType'][1:])
         propertyIds += '\tint {0} = {1};\n\n'.format(name, value)
     propertyIds += '\tCapturePropertyIds();\n\n'
     propertyIds += '}\n\n'
@@ -352,7 +351,7 @@ def createPropertyIdsFileForDart(jsonObject, includeDeprecated, branch):
         print(name)
         value = getTypeValue(jsonObject, p)
         for hlp in jsonObject['Types'][p]['help']:
-            types +='\t// {0}\n'.format(hlp)
+            types +='\t/// {0}\n'.format(hlp)
         types += '\tint {0} = {1};\n\n'.format(name, value)
     types += '\tCapturePropertyTypes();\n\n'
     types += '}\n\n'

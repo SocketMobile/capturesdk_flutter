@@ -36,7 +36,7 @@ enum {
 	kSktCaptureIdDataConfirmationMode=4,
 	kSktCaptureIdDataConfirmationAction=5,
 	kSktCaptureIdMonitorMode=6,
-	kSktCaptureIdSoftScanStatus=7,
+	kSktCaptureIdSocketCamStatus=7,
 	kSktCaptureIdDataSourceInfo=8,
 	kSktCaptureIdDataEditingProfile=9,
 	kSktCaptureIdDataEditingCurrentProfile=10,
@@ -154,10 +154,10 @@ enum {
 	kSktCapturePropIdMonitorMode = -2145124346,		// SKTPROPIDCAPTURE(True)|SKTGETTYPE(kByte)|SKTSETTYPE(kArray)|SKTSETGROUPID(kSktCaptureGroupGeneral)|SKTSETPROPID(kSktCaptureIdMonitorMode)
 
 	///<summary>
-	/// property to get or set the SoftScan status
+	/// property to get or set the SocketCam status
 	/// (iOS only)
 	///</summary>
-	kSktCapturePropIdSoftScanStatus = -2147352569,		// SKTPROPIDCAPTURE(True)|SKTGETTYPE(kNone)|SKTSETTYPE(kByte)|SKTSETGROUPID(kSktCaptureGroupGeneral)|SKTSETPROPID(kSktCaptureIdSoftScanStatus)
+	kSktCapturePropIdSocketCamStatus = -2147352569,		// SKTPROPIDCAPTURE(True)|SKTGETTYPE(kNone)|SKTSETTYPE(kByte)|SKTSETGROUPID(kSktCaptureGroupGeneral)|SKTSETPROPID(kSktCaptureIdSocketCamStatus)
 
 	///<summary>
 	/// property to get and set the Data Editing Profile
@@ -430,12 +430,12 @@ enum {
 	kSktCapturePropIdConnectionBeepConfigDevice = 131351,		// SKTPROPIDCAPTURE(False)|SKTGETTYPE(kNone)|SKTSETTYPE(kByte)|SKTSETGROUPID(kSktCaptureGroupLocalFunctions)|SKTSETPROPID(kSktCaptureIdDeviceConnectionBeepConfig)
 
 	///<summary>
-	/// Gets or sets the status of the flash on the SoftScan device.
+	/// Gets or sets the status of the flash on the SocketCam device.
 	///</summary>
 	kSktCapturePropIdFlashDevice = 131352,		// SKTPROPIDCAPTURE(False)|SKTGETTYPE(kNone)|SKTSETTYPE(kByte)|SKTSETGROUPID(kSktCaptureGroupLocalFunctions)|SKTSETPROPID(kSktCaptureIdDeviceFlash)
 
 	///<summary>
-	/// property to get or set the Capture Device Overlay View (SoftScan
+	/// property to get or set the Capture Device Overlay View (SocketCam
 	/// only)
 	///</summary>
 	kSktCapturePropIdOverlayViewDevice = 590105,		// SKTPROPIDCAPTURE(False)|SKTGETTYPE(kNone)|SKTSETTYPE(kObject)|SKTSETGROUPID(kSktCaptureGroupLocalFunctions)|SKTSETPROPID(kSktCaptureIdDeviceOverlayView)

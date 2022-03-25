@@ -8,13 +8,13 @@
 */
 {
   "classType": {
-    "kDeviceClass":{
+    "kDeviceClass": {
       "value": 0,
-      "help":["the class is a device"]
+      "help": ["the class is a device"]
     },
-    "kDeviceManagerClass":{
+    "kDeviceManagerClass": {
       "value": 1,
-      "help":["the class is a device manager"],
+      "help": ["the class is a device manager"],
       "branch": "ble"
     }
   },
@@ -50,8 +50,8 @@
       "branch": "ble"
     }
   },
-  "managerID":{
-    "kDeviceManagerNone":{
+  "managerID": {
+    "kDeviceManagerNone": {
       "value": 0,
       "help": ["the device manager type is not set"]
     },
@@ -86,9 +86,9 @@
       "value": 4,
       "help": ["Model 7Xi (CHS 7Xi, replacement for 7X)"]
     },
-    "kModelSoftScan": {
+    "kModelSocketCam": {
       "value": 5,
-      "help": ["SoftScan (supported only in iOS)"]
+      "help": ["SocketCam (supported only in iOS)"]
     },
     "kModelS800": {
       "value": 6,
@@ -171,165 +171,165 @@
     }
   },
   "deviceTypes": {
-      "kNone": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kNone",
-          "productID": "kNone",
-          "help": ["no device type (initial value)"]
-      },
-        "kScanner7": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModel7",
-          "help": ["Model 7"]
-      },
-        "kScanner7x": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModel7x",
-          "help": ["Model 7X"]
-      },
-        "kScanner7xi": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModel7xi",
-          "help": ["Model 7Xi"]
-      },
-        "kScanner9": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModel9",
-          "help": ["Model 9 CRS"]
-      },
-        "kSoftScan": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kNone",
-          "productID": "kModelSoftScan",
-          "help": ["SoftScan (only used in iOS and Android)"]
-      },
-        "kScannerS800": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelS800",
-          "help": ["Model S800"]
-      },
-        "kScannerS850": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelS850",
-          "help": ["Model S850"]
-      },
-        "kScannerS840": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelS840",
-          "help": ["Model S840"]
-      },
-        "kScannerD700": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelD700",
-          "help": ["Model D700"]
-      },
-        "kScannerD730": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelD730",
-          "help": ["Model D730"]
-      },
-        "kScannerD740": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelD740",
-          "help": ["Model D740"]
-      },
-        "kScannerD750": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelD750",
-          "help": ["Model D750"]
-      },
-        "kScannerD760": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelD760",
-          "help": ["Model D760"]
-      },
-        "kScannerS700": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelS700",
-          "help": ["Model S700"]
-      },
-        "kScannerS730": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelS730",
-          "help": ["Model S730"]
-      },
-        "kScannerS740": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelS740",
-          "help": ["Model S740"]
-      },
-        "kScannerS750": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelS750",
-          "help": ["Model S750"]
-      },
-        "kScannerS760": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelS760",
-          "help": ["Model S760"]
-      },
-        "kScannerS860": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelS860",
-          "help": ["Model S860"]
-      },
-        "kScannerD790": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kModelD790",
-          "help": ["Model D790"]
-      },
-        "kScannerD600": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBle",
-          "productID": "kModelD600",
-          "help": ["Model D600"],
-          "branch": "ble"
-      },
-      "kScannerS550": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBle",
-          "productID": "kModelS550",
-          "help": ["Model S550"],
-          "branch": "ble"
-      },
-      "kNFCTag": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kNFC",
-          "productID": "kNFCTag",
-          "help": ["NFC Tag"],
-          "branch": "ble"
-      },
-        "kBtUnknown": {
-          "classType": "kDeviceClass",
-          "interfaceType": "kBluetooth",
-          "productID": "kUnknown",
-          "help": ["device type unknown by this version of Capture"]
-      },
-        "kDeviceManagerBle": {
-          "classType": "kDeviceManagerClass",
-          "interfaceType": "kBle",
-          "managerID": "kDeviceManagerBle",
-          "help": ["device manager for controlling BLE"],
-          "branch": "ble"
-        }
+    "kNone": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kNone",
+      "productID": "kNone",
+      "help": ["no device type (initial value)"]
+    },
+    "kScanner7": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModel7",
+      "help": ["Model 7"]
+    },
+    "kScanner7x": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModel7x",
+      "help": ["Model 7X"]
+    },
+    "kScanner7xi": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModel7xi",
+      "help": ["Model 7Xi"]
+    },
+    "kScanner9": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModel9",
+      "help": ["Model 9 CRS"]
+    },
+    "kSocketCam": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kNone",
+      "productID": "kModelSocketCam",
+      "help": ["SocketCam (only used in iOS and Android)"]
+    },
+    "kScannerS800": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS800",
+      "help": ["Model S800"]
+    },
+    "kScannerS850": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS850",
+      "help": ["Model S850"]
+    },
+    "kScannerS840": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS840",
+      "help": ["Model S840"]
+    },
+    "kScannerD700": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelD700",
+      "help": ["Model D700"]
+    },
+    "kScannerD730": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelD730",
+      "help": ["Model D730"]
+    },
+    "kScannerD740": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelD740",
+      "help": ["Model D740"]
+    },
+    "kScannerD750": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelD750",
+      "help": ["Model D750"]
+    },
+    "kScannerD760": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelD760",
+      "help": ["Model D760"]
+    },
+    "kScannerS700": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS700",
+      "help": ["Model S700"]
+    },
+    "kScannerS730": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS730",
+      "help": ["Model S730"]
+    },
+    "kScannerS740": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS740",
+      "help": ["Model S740"]
+    },
+    "kScannerS750": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS750",
+      "help": ["Model S750"]
+    },
+    "kScannerS760": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS760",
+      "help": ["Model S760"]
+    },
+    "kScannerS860": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS860",
+      "help": ["Model S860"]
+    },
+    "kScannerD790": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelD790",
+      "help": ["Model D790"]
+    },
+    "kScannerD600": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBle",
+      "productID": "kModelD600",
+      "help": ["Model D600"],
+      "branch": "ble"
+    },
+    "kScannerS550": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBle",
+      "productID": "kModelS550",
+      "help": ["Model S550"],
+      "branch": "ble"
+    },
+    "kNFCTag": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kNFC",
+      "productID": "kNFCTag",
+      "help": ["NFC Tag"],
+      "branch": "ble"
+    },
+    "kBtUnknown": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kUnknown",
+      "help": ["device type unknown by this version of Capture"]
+    },
+    "kDeviceManagerBle": {
+      "classType": "kDeviceManagerClass",
+      "interfaceType": "kBle",
+      "managerID": "kDeviceManagerBle",
+      "help": ["device manager for controlling BLE"],
+      "branch": "ble"
     }
+  }
 }

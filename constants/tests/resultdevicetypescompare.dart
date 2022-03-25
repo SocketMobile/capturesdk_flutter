@@ -87,9 +87,9 @@ class CaptureDeviceType {
   //value: 196611 (0x30003)
   int Scanner9 = 196611;
 
-  //SoftScan (only used in iOS and Android)
-  //value: 5 (0x00005)
-  int SoftScan = 5;
+	///SocketCam (only used in iOS and Android)
+	///value: 5 (0x00005)
+	int SocketCam = 5;
 
   //Model S800
   //value: 196614 (0x30006)

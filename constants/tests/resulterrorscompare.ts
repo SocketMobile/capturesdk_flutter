@@ -400,7 +400,7 @@ class SktErrors
 	static readonly ESKT_SERVICENOTCOMMUNICATING = -87;
 
 	/// <summary>
-	/// The SoftScan overlay view is not set
+	/// The SocketCam overlay view is not set
 	/// </summary>
 	static readonly ESKT_OVERLAYVIEWNOTSET = -90;
 

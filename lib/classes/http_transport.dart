@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../capture_flutter_beta.dart';
+import '../capturesdk.dart';
 
 /// Main transport for establishing and making requests on Android.
 /// utilizing json rpc as well as Websockets to establish channel.
@@ -24,7 +24,8 @@ class HttpTransport extends Transport {
   /// Piggyback Capture's openClient and use parameters and interfaces unique to http connections
   /// Implement JSON Rpc protocols.
   Future<int> openClient(
-      String host, AppInfo appInfo, Function notification) async {
+    String host, AppInfo appInfo, Function notification) async {
+
     var jsonRpc = JRpcRequest(this._getJsonRpcId(), 'openclient', appInfo);
 
     RegExp exp = RegExp(r'(http|ftp|https):');
@@ -44,7 +45,7 @@ class HttpTransport extends Transport {
     } on CaptureException {
       rethrow;
     } catch (ex) {
-      throw CaptureException(-32602, 'Something went wrong.', ex.toString());
+      throw CaptureException(SktErrors.ESKT_COMMUNICATIONERROR, 'There was an error during communication.', ex.toString());
     }
   }
 
@@ -80,7 +81,7 @@ class HttpTransport extends Transport {
     } on CaptureException {
       rethrow;
     } catch (e) {
-      throw CaptureException(-32602, 'Something went wrong.', e.toString());
+      throw CaptureException(SktErrors.ESKT_UNABLEDEINITIALIZE, 'The object cannot be un-initialized', e.toString());
     }
   }
 
@@ -156,13 +157,16 @@ class HttpTransport extends Transport {
         logger!.log(jsonRpc.method.toString() + ' =>', jsonRpcString);
         Response res = await post(uri, headers: headers, body: jsonRpcString);
         dynamic err = json.decode(res.body)['error'];
+        print(err);
         if (err != null) {
           throw CaptureException(err['code'], err['message'] ?? 'no message');
         } else {
           return JRpcResponse(1, res.body);
         }
+      } on CaptureException catch (err) {
+        rethrow;
       } catch (err) {
-        throw CaptureException(-2100, 'Something went wrong.', err.toString());
+        throw CaptureException(SktErrors.ESKT_COMMUNICATIONERROR, 'There was an error during communication.', err.toString());
       }
     }
 

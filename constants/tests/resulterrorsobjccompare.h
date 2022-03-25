@@ -402,7 +402,7 @@ typedef NS_ENUM(NSInteger, SKTCaptureErrors) {
 	SKTCaptureE_SERVICENOTCOMMUNICATING = -87,
 
 	/**
-	The SoftScan overlay view is not set
+	The SocketCam overlay view is not set
 	*/
 	SKTCaptureE_OVERLAYVIEWNOTSET = -90,
 

@@ -1,12 +1,12 @@
 PODS:
-  - capture_flutter_beta (0.0.1):
+  - capturesdk (1.2.76):
     - Flutter
     - SKTCaptureObjC (~> 1.3)
   - Flutter (1.0.0)
   - SKTCaptureObjC (1.3.133)
 
 DEPENDENCIES:
-  - capture_flutter_beta (from `.symlinks/plugins/capture_flutter_beta/ios`)
+  - capturesdk (from `.symlinks/plugins/capturesdk/ios`)
   - Flutter (from `Flutter`)
 
 SPEC REPOS:
@@ -14,13 +14,13 @@ SPEC REPOS:
     - SKTCaptureObjC
 
 EXTERNAL SOURCES:
-  capture_flutter_beta:
-    :path: ".symlinks/plugins/capture_flutter_beta/ios"
+  capturesdk:
+    :path: ".symlinks/plugins/capturesdk/ios"
   Flutter:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  capture_flutter_beta: 40fc58c7d48c224a373d037677dfc016edc3cec4
+  capturesdk: 179af653466220882c7d6a6bf9097df774df5d47
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   SKTCaptureObjC: 8e1a7d8ddc7e0a34132988b7bcb17974a90f8adb
 

@@ -71,12 +71,12 @@ typedef NS_ENUM(NSInteger, SKTCapturePropertyID) {
 	SKTCapturePropertyIDMonitorMode = -2145124346,
 
 	/**
-	property to get or set the SoftScan status
+	property to get or set the SocketCam status
 	(iOS only)
 
 	Device: False	Get Type: None 	Set Type: Byte
 	*/
-	SKTCapturePropertyIDSoftScanStatus = -2147352569,
+	SKTCapturePropertyIDSocketCamStatus = -2147352569,
 
 	/**
 	property to get and set the Data Editing Profile
@@ -439,14 +439,14 @@ typedef NS_ENUM(NSInteger, SKTCapturePropertyID) {
 	SKTCapturePropertyIDConnectionBeepConfigDevice = 131351,
 
 	/**
-	Gets or sets the status of the flash on the SoftScan device.
+	Gets or sets the status of the flash on the SocketCam device.
 
 	Device: True	Get Type: None 	Set Type: Byte
 	*/
 	SKTCapturePropertyIDFlashDevice = 131352,
 
 	/**
-	property to get or set the Capture Device Overlay View (SoftScan
+	property to get or set the Capture Device Overlay View (SocketCam
 	only)
 
 	Device: True	Get Type: None 	Set Type: Object

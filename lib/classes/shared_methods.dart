@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-import '../capture_flutter_beta.dart';
+import '../capturesdk.dart';
 
 /// Helper function to determine which type a dynamic value should be.
 typifyValue(val, type) {

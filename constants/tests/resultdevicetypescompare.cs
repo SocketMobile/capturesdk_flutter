@@ -109,10 +109,10 @@ public class DeviceTypes
 	public const int kScanner9 = 196611;
 
 	/// <summary>
-	/// SoftScan (only used in iOS and Android)
+	/// SocketCam (only used in iOS and Android)
 	/// value: 5 (0x00005)
 	/// </summary>
-	public const int kSoftScan = 5;
+	public const int kSocketCam = 5;
 
 	/// <summary>
 	/// Model S800

@@ -443,16 +443,18 @@ class Flash {
   int on = 1;
 }
 
-// Define the Softscan experience (iOS-iPadOs only)
-class SoftScan {
-  // Enable SoftScan
-  int enable = 0;
-  // Disable SoftScan
-  int disable = 1;
-  // SoftScan is not supported, and cannot be enabled
-  int notSupported = 2;
-  // SoftScan is supported and can be enabled
-  int supported = 2;
+/// Define the SocketCam experience (iOS-iPadOs only)
+class SocketCam {
+
+	/// Enable SocketCam
+	int enable = 0;
+	/// Disable SocketCam
+	int disable = 1;
+	/// SocketCam is not supported, and cannot be enabled
+	int notSupported = 2;
+	/// SocketCam is supported and can be enabled
+	int supported = 2;
+
 }
 
 // Define the possible power states

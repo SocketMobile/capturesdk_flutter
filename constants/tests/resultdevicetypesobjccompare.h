@@ -100,11 +100,11 @@ typedef NS_ENUM(NSInteger, SKTCaptureDeviceType){
 	SKTCaptureDeviceTypeScanner9 = 196611,
 
 	/**
-	SoftScan (only used in iOS and Android)
+	SocketCam (only used in iOS and Android)
 
 	value: 5 (0x00005)
 	*/
-	SKTCaptureDeviceTypeSoftScan = 5,
+	SKTCaptureDeviceTypeSocketCam = 5,
 
 	/**
 	Model S800
