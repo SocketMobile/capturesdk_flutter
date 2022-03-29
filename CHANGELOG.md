@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.80] - 2022-03-29
+### Added
+- Updated README.md to include updated get and setFriendlyName functions.
+-Updaated image links in README.md to reference githubusercontent link instead of relative path (pub.dev is currently working on not just defaulting to master because repos sometimes use another name, such as main).
+
+## [1.2.78] - 2022-03-25
+### Added
+- Updated description for package.
+
 ## [1.2.77] - 2022-03-25
 ### Added
 - Updated pubspec and podspec descriptions to be at least 60 characters long.

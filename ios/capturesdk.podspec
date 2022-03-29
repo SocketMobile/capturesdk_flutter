@@ -4,8 +4,8 @@
 Pod::Spec.new do |s|
   s.name             = 'capturesdk'
   s.version          = '1.2.76'
-  s.summary          = 'Flutter SDK for Socket Mobile Capture Library.'
-  s.description      = 'This is the Flutter CaptureSDK provided by Socket Mobile Inc."'
+  s.summary          = 'Flutter CaptureSDK for Socket Mobile Inc.'
+  s.description      = 'The official Flutter CaptureSDK by Socket Mobile. It supports all current Socket Mobile’s barcode and NFC Reader scanning solutions.'
                        
   s.homepage         = 'https://docs.socketmobile.com/captureflutter/en/latest'
   s.license           = {

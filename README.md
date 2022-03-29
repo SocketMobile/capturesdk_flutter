@@ -21,18 +21,18 @@ Second, go to `ios/Runner/Info.plist` and at the bottom, just above `</dict>`, i
 
 ```dart
 <key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Bluetooth is needed to connect to a Socket Mobile device</string>
-	<key>UISupportedExternalAccessoryProtocols</key>
-	<array>
-		<string>com.socketmobile.chs</string>
-	</array>
+  <string>Bluetooth is needed to connect to a Socket Mobile device</string>
+  <key>UISupportedExternalAccessoryProtocols</key>
+  <array>
+    <string>com.socketmobile.chs</string>
+  </array>
 ```
 
 If you do not do this, you will encounter an error saying `This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app's Info.plist must contain an NSBluetoothAlwaysUsageDescription key with a string value explaining to the user how the app uses this data.`. This is a bluetooth security measure, and to permit bluetooth access you will need to add the above entry in your `Info.plist` file. 
 
 Third, open the project's iOS directory in xcode. Once you've done that, select the Runner and navigate to the build settings. In the search bar, type in 'module' and then look for the portion that says "Allow Non-modular includes in Framework Modules". Once that property is location, select "Yes". See the image below for what it should look like.
 
-![Build Settings](runnerimg.png)
+![Build Settings](https://raw.githubusercontent.com/SocketMobile/capturesdk_flutter_snapshot/main/runnerimg.png)
 
 # Android
 You will need to update the network configuration to enable the Android Capture client. You can find out more about network configuration [here](https://docs.socketmobile.com/capture/java/en/latest/android/getting-started.html).
@@ -50,7 +50,7 @@ Install the flutter package using `flutter pub get capturesdk`. It will add the 
 ```dart
 dependencies:
   flutter:
-    capturesdk: 1.2.76   
+    capturesdk: 1.2.80   
 ```
 
 In the `main.dart`, you can import the capture flutter sdk by adding this line to the top of your file. 
@@ -136,46 +136,41 @@ It's important to create another `Capture` instance when you have successfully c
 `getProperty` enables you to retrieve specific values for the connected device, such as `friendlyNameDevice` which is the property corresponding to the scanners given name (as opposed to id/guid). Create a property instance with the provided values corresponding to the property id and type, as well an empty object. You can retrieve the friendly name of a device with the following request. 
 
 ```dart
-void _handleGetNameProperty(){
-   
-    var property = CaptureProperty(
-        CapturePropertyIds().friendlyNameDevice, 
-        CapturePropertyTypes().none,
-        {}
-    );
+Future<void> _handleGetNameProperty() async {
+    CaptureProperty property = CaptureProperty(
+        CapturePropertyIds.friendlyNameDevice,
+        CapturePropertyTypes.none,
+        {});
 
-    _newCapture.getProperty(property).then((response){
-        if (response['error'] != null){
-            print(response['error']['code']);
-        } else {
-            print('response['value']);
-        }
-    });
-}
+    try {
+      CaptureProperty propertyResponse =
+          await _deviceCapture!.getProperty(property);
+     print('Successfully Retrieved "name" property for device: ${propertyResponse.value}';);
+      //can incorporate UI logic to update device in device list
+    } on CaptureException catch (e) {
+     print(e.code);
+    }
+  }
 ```
 
 `setProperty` allows you to update the value of a specific property. The `CaptureProperty` instance you provide is similar to the one in `getProperty` but instead of an empty object for the value, you will send the value you want assigned to the property. You will also send the data type for the property as well instead of `CapturePropertyTypes().none`. In the case of `friendlyNameDevice`, you would send a string value with the type `CapturePropertyTypes().string`. See below.
 
 ```dart
-void _handleSetNameProperty(){
+Future<void> _handleSetNameProperty() async {
+    CaptureProperty property = CaptureProperty(
+        CapturePropertyIds.friendlyNameDevice,
+        CapturePropertyTypes.string,
+        _newName);
 
-    var property = CaptureProperty(
-        CapturePropertyIds().friendlyNameDevice, 
-        CapturePropertyTypes().string, 
-        _newName
-    );
-    
-
-    _newCapture.setProperty(property).then((res){
-       
-        if (res['error'] != null){
-            print(response['error']['code']);
-        } else {
-            print('successfully updated device friendly name!')
-        }
-        
-    });
-}
+    try {
+      CaptureProperty propertyResponse =
+          await _deviceCapture!.setProperty(property);
+     print('Successfully set "name" property to "$_newName".');
+      //can incorporate UI logic to update device in device list
+    } on CaptureException catch (e) {
+     print(e.code);
+    }
+  }
 ```
 
 The response in `setProperty` does not contain a `value` property. You can access the updated value by calling the `getProperty` request after a successful `setProperty` call or you can use the locally stored value that you're using for assignment. 
@@ -183,7 +178,7 @@ The response in `setProperty` does not contain a `value` property. You can acces
 ## Important
 To register your app for Flutter, you can select the Flutter language first, and then you can pick one of two platform options; Android and iOS. Below is an example of credentials generated during iOS registration.
 
-![iOS app registration](readme.png)
+![iOS app registration](https://raw.githubusercontent.com/SocketMobile/capturesdk_flutter_snapshot/main/readme.png)
 
 If you want to add support for both platforms you will need to generate an app key for one platform first and then the other separately. Once these two keys are generated, all you need to do is inlcude the iOS and Android appKey and appId, respectively, to the same `AppInfo` instance.
 

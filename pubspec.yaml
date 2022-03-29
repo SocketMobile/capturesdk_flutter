@@ -1,5 +1,5 @@
 name: capturesdk
-description: This is the Flutter CaptureSDK provided by Socket Mobile Inc.
+description: The official Flutter CaptureSDK by Socket Mobile. It supports all current Socket Mobile’s barcode and NFC Reader scanning solutions.
 repository: https://github.com/SocketMobile/capturesdk_flutter_snapshot
 
 # The following line prevents the package from being accidentally published to
@@ -16,7 +16,7 @@ repository: https://github.com/SocketMobile/capturesdk_flutter_snapshot
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.2.76      
+version: 1.2.80      
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
