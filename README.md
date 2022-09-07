@@ -1,5 +1,5 @@
 # Flutter CaptureSDK
-This is the Flutter CatureSDK for Socket Mobile's Capture library. 
+This is the Flutter CatureSDK for Socket Mobile's Capture library. The accompanying package can be found on [pub.dev](https://pub.dev/packages/capturesdk_flutter).
 
 ## Getting Started
 Before installing the package, you will need to adjust a few properties in your Flutter app.
@@ -45,18 +45,18 @@ In order to pass the internet permissions, you need to have the below line in yo
 
 ## Installation
  
-Install the flutter package using `flutter pub get capturesdk`. It will add the below line to your `pubspec.yaml` file.
+Install the flutter package using `flutter pub get capturesdk_flutter`. It will add the below line to your `pubspec.yaml` file.
 
 ```dart
 dependencies:
   flutter:
-    capturesdk: 1.3.0   
+    capturesdk_flutter: 1.3.1   
 ```
 
 In the `main.dart`, you can import the capture flutter sdk by adding this line to the top of your file. 
 
 ```dart
-import 'package:capturesdk/capturesdk.dart';
+import 'package:capturesdk_flutter/capturesdk.dart';
 ```
 
 Create a `Capture` instance with the line `Capture capture = Capture(logger);`. `logger` is an optional argument that is passed to `Capture` and can be helpful with tracing values and requests throughout the app, particularly in `Capture` and `HttpTransport` where the bulk of the Capture logic and requests are handled. 
@@ -202,3 +202,9 @@ In order for it to work, you will need to add five argments to `AppInfo` in the 
   For more information about the Flutter CaptureSDK, please visit the [documentation](https://docs.socketmobile.com/captureflutter/en/latest).
 
   For a full demonstration, check out [this video](https://vimeo.com/694611104).
+
+  ## DEPRECATION NOTICE
+  - The previous package name, `capturesdk`, is now *deprecated*. 
+  - The new package `capturesdk_flutter` is the *replacement*. 
+  - *Please use `capturesdk_flutter` moving forward.*
+  - Correct package can be found [here](https://pub.dev/packages/capturesdk_flutter).

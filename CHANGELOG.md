@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 <!--new item here (do not remove)-->
+## [1.3.1] - 2022-09-07
+### Added
+ - Updated references from 'capturesdk' to 'capturesdk_flutter'.
+
 ## [1.3.0] - 2022-09-06
 ### Added
  - Changed package name to avoid conflict with iOS SDK naming. 
