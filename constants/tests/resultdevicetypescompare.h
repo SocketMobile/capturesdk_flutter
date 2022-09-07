@@ -84,15 +84,20 @@ enum {
 	///</summary>
 	kSktCaptureDeviceTypeScanner9 = 196611,
 	///<summary>
-	/// SocketCam (only used in iOS and Android)
+	/// SocketCam C820 (only used in iOS and Android)
 	/// value: 5 (0x00005)
 	///</summary>
-	kSktCaptureDeviceTypeSocketCam = 5,
+	kSktCaptureDeviceTypeSocketCamC820 = 5,
 	///<summary>
 	/// Model S800
 	/// value: 196614 (0x30006)
 	///</summary>
 	kSktCaptureDeviceTypeScannerS800 = 196614,
+	///<summary>
+	/// Model S820
+	/// value: 196634 (0x3001A)
+	///</summary>
+	kSktCaptureDeviceTypeScannerS820 = 196634,
 	///<summary>
 	/// Model S850
 	/// value: 196615 (0x30007)
@@ -108,6 +113,11 @@ enum {
 	/// value: 196617 (0x30009)
 	///</summary>
 	kSktCaptureDeviceTypeScannerD700 = 196617,
+	///<summary>
+	/// Model D720
+	/// value: 196633 (0x30019)
+	///</summary>
+	kSktCaptureDeviceTypeScannerD720 = 196633,
 	///<summary>
 	/// Model D730
 	/// value: 196618 (0x3000A)
@@ -133,6 +143,11 @@ enum {
 	/// value: 196622 (0x3000E)
 	///</summary>
 	kSktCaptureDeviceTypeScannerS700 = 196622,
+	///<summary>
+	/// Model S720
+	/// value: 196632 (0x30018)
+	///</summary>
+	kSktCaptureDeviceTypeScannerS720 = 196632,
 	///<summary>
 	/// Model S730
 	/// value: 196623 (0x3000F)
@@ -174,15 +189,25 @@ enum {
 	///</summary>
 	kSktCaptureDeviceTypeScannerS550 = 327702,
 	///<summary>
+	/// Model S370
+	/// value: 327707 (0x5001B)
+	///</summary>
+	kSktCaptureDeviceTypeScannerS370 = 327707,
+	///<summary>
+	/// Model S320
+	/// value: 327708 (0x5001C)
+	///</summary>
+	kSktCaptureDeviceTypeScannerS320 = 327708,
+	///<summary>
 	/// NFC Tag
 	/// value: 393239 (0x60017)
 	///</summary>
 	kSktCaptureDeviceTypeNFCTag = 393239,
 	///<summary>
 	/// device type unknown by this version of Capture
-	/// value: 196632 (0x30018)
+	/// value: 196637 (0x3001D)
 	///</summary>
-	kSktCaptureDeviceTypeBtUnknown = 196632,
+	kSktCaptureDeviceTypeBtUnknown = 196637,
 	///<summary>
 	/// device manager for controlling BLE
 	/// value: 17104897 (0x1050001)

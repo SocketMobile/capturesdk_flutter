@@ -1,33 +1,59 @@
 // The Transport Connector wires the protocol defined by pigeon in IosTransport.h
-// to the SKTCaptureObjC SDK.
+// to CaptureSDK.
 
-// It also handles the events coming from SKTCaptureObjC by converting them in JSON
+// It also handles the events coming from CaptureSDK by converting them in JSON
 // format so that the Dart side can create a Dart object corresponding to the event
 // The only type checking in this case is assumed by checking the event type member
 // which indicates the type of the data of the event received.
 
-// The Type checking is less important for the events coming from the SKTCaptureObjC
+// The Type checking is less important for the events coming from the CaptureSDK
 // since they are expected to be generated correctly by the Capture SDK.
 
 #import "IosTransport.h"
-#import "SKTCapture.h"
+#import <CaptureSDK/CaptureSDK.h>
 #import "CaptureFlutterHandle.h"
 #import "TransportConnector.h"
 
-@implementation TransportConnector
+@implementation TransportConnector{
+    BOOL connectionRestarted;
+}
+
 - (void)openClientAppInfo:(nullable IosAppInfo *)appInfo completion:(void(^)(IosTransportHandle *_Nullable, FlutterError *_Nullable))completion{
     SKTAppInfo* sktAppInfo = [SKTAppInfo new];
     sktAppInfo.DeveloperID = appInfo.developerId;
     sktAppInfo.AppID = appInfo.appId;
     sktAppInfo.AppKey = appInfo.appKey;
-    SKTCapture* capture = [[SKTCapture alloc] initWithDelegate: self];
+    SKTCapture* capture = nil;
     NSNumber* captureHandle;
     if(self->_handles == nil){
-        NSLog(@"initialize handles");
+        self->connectionRestarted = FALSE;
         self->_handles = [CaptureFlutterHandle new];
+        capture = [[SKTCapture alloc] initWithDelegate: self];
+        captureHandle = [self->_handles addNewObject:capture];
     }
-    captureHandle = [self->_handles addNewObject:capture];
-    NSLog(@"Just before calling Capture openWithAppInfo");
+    else{
+        if(connectionRestarted == FALSE){
+            [NSOperationQueue.mainQueue addOperationWithBlock:^{
+                NSNumber* firstHandle = [self->_handles getFirstHandle];
+                SKTCapture* capture = [self->_handles getObjectFromHandle:firstHandle];
+                [self closeDevicesButThisHandle: firstHandle withCompletion:^{
+                    [capture closeWithCompletionHandler:^(SKTResult result) {
+                        self->connectionRestarted = TRUE;
+                        [self openClientAppInfo:appInfo
+                                     completion:^(IosTransportHandle * _Nullable tspHandle, FlutterError * _Nullable flutterError) {
+                            self->connectionRestarted = FALSE;
+                            completion(tspHandle, flutterError);
+                        }];
+                    }];
+                }];
+            }];
+            return;
+        }
+    }
+    if(capture == nil){
+        captureHandle = [self->_handles getFirstHandle];
+        capture = [self->_handles getObjectFromHandle:captureHandle];
+    }
     [capture openWithAppInfo:sktAppInfo completionHandler:^(SKTResult result){
         IosTransportHandle* handle = nil;
         FlutterError* res = nil;
@@ -41,7 +67,6 @@
             handle.value = captureHandle;
         }
         completion(handle, res);
-        NSLog(@"Done opening Capture");
     }];
 }
 
@@ -141,6 +166,40 @@
     else {
         FlutterError* err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_NOTINITIALIZED] message:@"Capture is not initialized, did you open Capture first?" details:nil];
         completion(nil, err);
+    }
+}
+
+-(void)closeDevicesButThisHandle:(NSNumber*) handle
+                  withCompletion:(void(^)(void))completion{
+    NSEnumerator* enumeration = [self->_handles getEnumator];
+
+    NSString* handleKey = [CaptureFlutterHandle getKeyHandle:handle];
+    [self closeNextDeviceFromEnumerator:enumeration
+                          notThisHandle:handleKey
+                         withCompletion:completion];
+}
+
+-(void)closeNextDeviceFromEnumerator:(NSEnumerator*)enumeration
+                       notThisHandle:(NSString*)handle
+                      withCompletion:(void(^)(void))completion{
+    NSString* key = [enumeration nextObject];
+    if(key != nil){
+        if([key containsString:handle] == FALSE){
+            SKTCapture* device = (SKTCapture*)[self->_handles removeObjectFromHandleString:key];
+            [device closeWithCompletionHandler:^(SKTResult result) {
+                [self closeNextDeviceFromEnumerator:enumeration
+                                      notThisHandle:handle
+                                     withCompletion:completion];
+            }];
+        }
+        else{
+            [self closeNextDeviceFromEnumerator:enumeration
+                                  notThisHandle:handle
+                                 withCompletion:completion];
+        }
+    }
+    else {
+        completion();
     }
 }
 
@@ -245,7 +304,6 @@
 }
 
 - (void)didReceiveEvent:(SKTCaptureEvent * _Nonnull)event forCapture:(SKTCapture * _Nonnull)capture withResult:(SKTResult)result {
-    NSLog(@"Capture didReceiveEvent");
     if(_flutterEvent != nil){
       NSNumber* handle = [_handles findHandleFromObject:capture];
       NSString* json = [self createJsonFromHandle:handle withResult:result forEvent:event];
@@ -341,7 +399,6 @@
     [stringData appendString:@"]"];
     return stringData;
 }
-
 
 @end
 

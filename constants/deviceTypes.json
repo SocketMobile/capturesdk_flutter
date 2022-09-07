@@ -86,9 +86,9 @@
       "value": 4,
       "help": ["Model 7Xi (CHS 7Xi, replacement for 7X)"]
     },
-    "kModelSocketCam": {
+    "kModelSocketCamC820": {
       "value": 5,
-      "help": ["SocketCam (supported only in iOS)"]
+      "help": ["SocketCam C820 (supported only in iOS)"]
     },
     "kModelS800": {
       "value": 6,
@@ -165,8 +165,30 @@
       "help": ["NFC Tag"],
       "branch": "ble"
     },
-    "kUnknown": {
+    "kModelS720": {
       "value": 24,
+      "help": ["Model S720"]
+    },    
+    "kModelD720": {
+      "value": 25,
+      "help": ["Model D720"]
+    },
+    "kModelS820": {
+      "value": 26,
+      "help": ["Model S820"]
+    },
+    "kModelS370": {
+      "value": 27,
+      "help": ["Model S370"],
+      "branch": "ble"
+    },    
+	"kModelS320": {
+      "value": 28,
+      "help": ["Model S320"],
+      "branch": "ble"
+    },
+    "kUnknown": {
+      "value": 29,
       "help": ["the product is unknown by the host software"]
     }
   },
@@ -201,17 +223,23 @@
       "productID": "kModel9",
       "help": ["Model 9 CRS"]
     },
-    "kSocketCam": {
+    "kSocketCamC820": {
       "classType": "kDeviceClass",
       "interfaceType": "kNone",
-      "productID": "kModelSocketCam",
-      "help": ["SocketCam (only used in iOS and Android)"]
+      "productID": "kModelSocketCamC820",
+      "help": ["SocketCam C820 (only used in iOS and Android)"]
     },
     "kScannerS800": {
       "classType": "kDeviceClass",
       "interfaceType": "kBluetooth",
       "productID": "kModelS800",
       "help": ["Model S800"]
+    },
+    "kScannerS820": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS820",
+      "help": ["Model S820"]
     },
     "kScannerS850": {
       "classType": "kDeviceClass",
@@ -230,6 +258,12 @@
       "interfaceType": "kBluetooth",
       "productID": "kModelD700",
       "help": ["Model D700"]
+    },
+    "kScannerD720": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelD720",
+      "help": ["Model D720"]
     },
     "kScannerD730": {
       "classType": "kDeviceClass",
@@ -260,6 +294,12 @@
       "interfaceType": "kBluetooth",
       "productID": "kModelS700",
       "help": ["Model S700"]
+    },
+    "kScannerS720": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBluetooth",
+      "productID": "kModelS720",
+      "help": ["Model S720"]
     },
     "kScannerS730": {
       "classType": "kDeviceClass",
@@ -309,6 +349,20 @@
       "interfaceType": "kBle",
       "productID": "kModelS550",
       "help": ["Model S550"],
+      "branch": "ble"
+    },
+    "kScannerS370": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBle",
+      "productID": "kModelS370",
+      "help": ["Model S370"],
+      "branch": "ble"
+    },
+    "kScannerS320": {
+      "classType": "kDeviceClass",
+      "interfaceType": "kBle",
+      "productID": "kModelS320",
+      "help": ["Model S320"],
       "branch": "ble"
     },
     "kNFCTag": {

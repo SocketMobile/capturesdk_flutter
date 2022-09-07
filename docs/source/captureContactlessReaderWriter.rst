@@ -5,13 +5,13 @@ Using Contactless Reader/Writer with Flutter Capture
 
 .. NOTE::
   Not all the Companions support the Contactless Reader/Writer. At the moment only iOS and iPadOS Companion work with Socket Mobile D600 and S550 with Capture.
-  The platforms that don't support BLE or the Socket Mobile D600 and S550 is not yet supported simply don't receive the device manager arrival message. 
+  The platforms that don't support Bluetooth Low Energy or the Socket Mobile D600 and S550 is not yet supported simply don't receive the device manager arrival message. 
 
 Device Manager
 ^^^^^^^^^^^^^^
-The Socket Mobile contactless reader/writer (D600 and S550) uses Bluetooth Low Energy (BLE) to communicate with the host.
+The Socket Mobile contactless reader/writer (D600 and S550) uses Bluetooth Low Energy to communicate with the host.
 
-Capture SDK provides a new Device Manager object in order to provide some control over the BLE transport.
+Capture SDK provides a new Device Manager object in order to provide some control over the Bluetooth Low Energy transport.
 
 The Device Manager UUID and reference are received in the 2 notifications 
 ``CaptureEventIds.DeviceManagerArrival`` and ``CaptureEventIds.DeviceManagerRemoval``.
@@ -73,7 +73,7 @@ In this example the assumptions are a ``capture`` reference set to the main capt
 
 Favorite Devices
 ^^^^^^^^^^^^^^^^
-To facilitate the operations of discovering and connecting to a BLE contactless
+To facilitate the operations of discovering and connecting to a Bluetooth Low Energy contactless
 reader/writer, a concept of favorite devices has been introduced.
 
 The Device Manager has a property to configure in a persistent way the favorite
@@ -95,9 +95,9 @@ where the favorite devices is set to ``"*"``.
   But as soon as the discovery restarts when, for example when the contactless
   reader/writer is no longer ON or in range, then the power consumption
   increases slightly. Setting the favorite devices to an empty string will stop
-  the **auto discovery and connect** mode, and BLE discovery won't happen again
+  the **auto discovery and connect** mode, and Bluetooth Low Energy discovery won't happen again
   until the favorite devices is set or the discovery is implicitly started by
-  using the BLE Device Manager startDiscovery property.
+  using the Bluetooth Low Energy Device Manager startDiscovery property.
 
 .. _contactlessreaderwriterautodiscoveryconnnectlabel:
 

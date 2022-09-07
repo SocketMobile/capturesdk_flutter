@@ -143,6 +143,8 @@ def createErrorsFileForTypeScript(jsonObject, includeDeprecated, branch):
 
 def createErrorsFileForDart(jsonObject, includeDeprecated, branch):
     errors = ''
+    errors += "// ignore_for_file: constant_identifier_names\n"
+    errors += '\n'
     errors += "/// defines the Errors used in Capture\n"
     errors += "class SktErrors\n"
     errors += "{\n"

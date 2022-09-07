@@ -2,18 +2,20 @@
 
    <br />
 
-Getting Started with Flutter Capture SDK
+Getting Started with Flutter CaptureSDK
 =============================================
 
 Requirements
 ------------
-The Socket Mobile Capture SDK uses Bluetooth Classic for the barcode scanner products and Bluetooth Low Energy (BLE) for the Contactless Reader/Writer products (Socket Mobile D600, S550).
+The Socket Mobile CaptureSDK supports all Socket Mobile data collection devices, including camera based scanning.
 
-Even though the Flutter Capture SDK allows to develop an app to run on iOS and Android the underlying Capture architecture on these 2 platforms is different.
+Even though the Flutter CaptureSDK allows to develop an app to run on iOS and Android the underlying Capture architecture on these 2 platforms is different.
 
-On Android there is a service embedded in the Socket Mobile Companion app that is required in order to connect the Socket Mobile device to the Android host.
+On Android there is a service is required to connect the Socket Mobile device to the Android host.  This service is installed through the Socket Mobile Companion app which can be installed through the Play store.  
 
-On iOS the communication with the Socket Mobile devices are embedded in Flutter pigeon middleware, therefore adding more configuration to be taken care of in the application itself.
+The Companion app is not required for iOS devices, but strongly recommended, as it can be used to setup the scanner as well as get support.
+
+There is no Windows support for the Flutter CaptureSDK at this time.
 
 **Requirements for iOS platform**
 

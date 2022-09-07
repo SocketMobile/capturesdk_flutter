@@ -11,6 +11,7 @@
 @implementation CaptureFlutterHandle {
     NSDictionary* _handles;
     int _counter;
+    NSNumber* _firstHandle; // root Capture
 }
 
 -(void)checkInitialized {
@@ -51,18 +52,30 @@
     cal += _counter;
     NSNumber* handle = [NSNumber numberWithInt:cal];
     [_handles setValue:obj forKey:[CaptureFlutterHandle getKeyHandle:handle]];
+    if (_counter == 1){
+        _firstHandle = handle;
+    }
     return handle;
 }
+
+-(id)getObjectFromHandleString:(NSString*)handle{
+    return [_handles valueForKey:handle];
+}
+
 -(id)getObjectFromHandle:(NSNumber*)handle{
     [self checkHandle:handle];
-    return [_handles valueForKey:[CaptureFlutterHandle getKeyHandle:handle]];
-    
+    return [self getObjectFromHandleString:[CaptureFlutterHandle getKeyHandle:handle]];
+}
+
+-(id)removeObjectFromHandleString:(NSString*) handle{
+    NSObject* obj = [self getObjectFromHandleString:handle];
+    NSMutableDictionary* dic = (NSMutableDictionary*)_handles;
+    [dic removeObjectForKey:handle];
+    return obj;
 }
 
 -(id)removeObjectFromHandle:(NSNumber*) handle{
-    NSObject* obj = [self getObjectFromHandle:handle];
-    NSMutableDictionary* dic = (NSMutableDictionary*)_handles;
-    [dic removeObjectForKey:[CaptureFlutterHandle getKeyHandle:handle]];
+    NSObject* obj = [self removeObjectFromHandleString:[CaptureFlutterHandle getKeyHandle:handle]];
     return obj;
 }
 
@@ -88,4 +101,17 @@
     }];
     return found;
 }
+
+-(NSInteger)getCount {
+    return [_handles count];
+}
+
+-(NSNumber*)getFirstHandle {
+    return _firstHandle;
+}
+
+-(NSEnumerator*) getEnumator {
+    return [_handles keyEnumerator];
+}
+
 @end

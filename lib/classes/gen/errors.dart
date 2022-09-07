@@ -2,6 +2,8 @@
 // 2022 © Socket Mobile, Inc. all rights reserved
 
 
+// ignore_for_file: constant_identifier_names
+
 /// defines the Errors used in Capture
 class SktErrors
 {
@@ -224,7 +226,7 @@ class SktErrors
 	/// The service does not respond
 	static const int ESKT_SERVICENOTCOMMUNICATING = -87;
 
-	/// The SoftScan overlay view is not set
+	/// The SocketCam overlay view is not set
 	static const int ESKT_OVERLAYVIEWNOTSET = -90;
 
 	/// This operation has been canceled

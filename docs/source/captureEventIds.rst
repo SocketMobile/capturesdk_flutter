@@ -8,39 +8,39 @@ Capture Events List
 -------------------
 
 
-+---------------------------------------------------+-------------------------------------------------------+
-|               NAME                                |                   DESCRIPTION                         |
-+===================================================+=======================================================+
-| CaptureEventIds.deviceArrival                     |  Device Arrival occurs when a device connects         |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.deviceRemoval                     |  Device Removal occurs when a device disconnects      |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.terminate                         |  Terminate is sent when Capture is terminated         |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.error                             |  A Capture error has occurred                         |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.decodedData                       |  A device has decoded some data                       |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.power                             |  A device power status has changed (not all devices)  |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.buttons                           |  A device buttons has been pressed (not all devices)  |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.batteryLevel                      |  A device battery level has changed (not all devices) |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.listenerStarted                   |  Capture Bluetooth Classic listener has started       |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.deviceOwnership                   |  A device ownership has changed (lost or gain)        |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.deviceManagerArrival              |  A BLE device manager is ready to be used             |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.deviceManagerRemoval              |  A BLE device manager has been remove                 |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.deviceDiscovered                  |  A BLE device has been discovered                     |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.discoveryEnd                      |  The BLE device discovery has ended                   |
-+---------------------------------------------------+-------------------------------------------------------+
-| CaptureEventIds.ccidStatus                        |  PC/SC CCID Status notification (not used)            |
-+---------------------------------------------------+-------------------------------------------------------+
++---------------------------------------------------+--------------------------------------------------------+
+|               NAME                                |                   DESCRIPTION                          |
++===================================================+========================================================+
+| CaptureEventIds.deviceArrival                     |  Device Arrival occurs when a device connects          |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.deviceRemoval                     |  Device Removal occurs when a device disconnects       |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.terminate                         |  Terminate is sent when Capture is terminated          |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.error                             |  A Capture error has occurred                          |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.decodedData                       |  A device has decoded some data                        |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.power                             |  A device power status has changed (not all devices)   |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.buttons                           |  A device buttons has been pressed (not all devices)   |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.batteryLevel                      |  A device battery level has changed (not all devices)  |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.listenerStarted                   |  Capture Bluetooth Classic listener has started        |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.deviceOwnership                   |  A device ownership has changed (lost or gain)         |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.deviceManagerArrival              |  A Bluetooth Low Energy device manager is ready for use|
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.deviceManagerRemoval              |  A Bluetooth Low Energy device manager has been remove |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.deviceDiscovered                  |  A Bluetooth Low Energy device has been discovered     |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.discoveryEnd                      |  The Bluetooth Low Energy device discovery has ended   |
++---------------------------------------------------+--------------------------------------------------------+
+| CaptureEventIds.ccidStatus                        |  PC/SC CCID Status notification (not used)             |
++---------------------------------------------------+--------------------------------------------------------+
 
 
 CaptureEventIds.deviceArrival
@@ -177,11 +177,11 @@ If the application needs really to regain the ownership of a device, then it can
 
 CaptureEventIds.deviceManagerArrival
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A BLE device manager is ready to be used. 
+A Bluetooth Low Energy device manager is ready to be used. 
 
-The BLE device manager could initiate a BLE device discovery, or start the auto discovery if the device manager favorite property is not empty.
+The Bluetooth Low Energy device manager could initiate a Bluetooth Low Energy device discovery, or start the auto discovery if the device manager favorite property is not empty.
 
-If the BLE device manager is not open, then it won't try to discover or connect to BLE Socket Mobile devices such as D600 or S550.
+If the Bluetooth Low Energy device manager is not open, then it won't try to discover or connect to Bluetooth Low Energy Socket Mobile devices such as D600 or S550.
 
 Please refer to :ref:`Using Contactless Reader/Writer<usingcontactlessreaderwriterlabel>` for more information about connecting to Socket Mobile Contactless Reader/Writer devices.
 
@@ -196,7 +196,7 @@ Arguments:
 
 CaptureEventIds.deviceManagerRemoval
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A BLE device manager has been removed, often when the Bluetooth Radio of the host has been turned off.
+A Bluetooth Low Energy device manager has been removed, often when the Bluetooth Radio of the host has been turned off.
 
 Arguments:
       - id: ``CaptureEventIds.deviceRemoval``,
@@ -209,7 +209,7 @@ Arguments:
 
 CaptureEventIds.deviceDiscovered
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-A BLE device has been discovered by the BLE device manager.
+A Bluetooth Low Energy device has been discovered by the Bluetooth Low Energy device manager.
 
 Arguments:
       - id: ``CaptureEventIds.deviceDiscovered``,
@@ -234,7 +234,7 @@ An example of the string value could look like this:
 
 CaptureEventIds.discoveryEnd
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The BLE device discovery has ended.
+The Bluetooth Low Energy device discovery has ended.
 
 Arguments:
       - id: ``CaptureEventIds.discoveryEnd``,

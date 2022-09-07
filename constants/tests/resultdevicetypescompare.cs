@@ -109,16 +109,22 @@ public class DeviceTypes
 	public const int kScanner9 = 196611;
 
 	/// <summary>
-	/// SocketCam (only used in iOS and Android)
+	/// SocketCam C820 (only used in iOS and Android)
 	/// value: 5 (0x00005)
 	/// </summary>
-	public const int kSocketCam = 5;
+	public const int kSocketCamC820 = 5;
 
 	/// <summary>
 	/// Model S800
 	/// value: 196614 (0x30006)
 	/// </summary>
 	public const int kScannerS800 = 196614;
+
+	/// <summary>
+	/// Model S820
+	/// value: 196634 (0x3001A)
+	/// </summary>
+	public const int kScannerS820 = 196634;
 
 	/// <summary>
 	/// Model S850
@@ -137,6 +143,12 @@ public class DeviceTypes
 	/// value: 196617 (0x30009)
 	/// </summary>
 	public const int kScannerD700 = 196617;
+
+	/// <summary>
+	/// Model D720
+	/// value: 196633 (0x30019)
+	/// </summary>
+	public const int kScannerD720 = 196633;
 
 	/// <summary>
 	/// Model D730
@@ -167,6 +179,12 @@ public class DeviceTypes
 	/// value: 196622 (0x3000E)
 	/// </summary>
 	public const int kScannerS700 = 196622;
+
+	/// <summary>
+	/// Model S720
+	/// value: 196632 (0x30018)
+	/// </summary>
+	public const int kScannerS720 = 196632;
 
 	/// <summary>
 	/// Model S730
@@ -217,6 +235,18 @@ public class DeviceTypes
 	public const int kScannerS550 = 327702;
 
 	/// <summary>
+	/// Model S370
+	/// value: 327707 (0x5001B)
+	/// </summary>
+	public const int kScannerS370 = 327707;
+
+	/// <summary>
+	/// Model S320
+	/// value: 327708 (0x5001C)
+	/// </summary>
+	public const int kScannerS320 = 327708;
+
+	/// <summary>
 	/// NFC Tag
 	/// value: 393239 (0x60017)
 	/// </summary>
@@ -224,9 +254,9 @@ public class DeviceTypes
 
 	/// <summary>
 	/// device type unknown by this version of Capture
-	/// value: 196632 (0x30018)
+	/// value: 196637 (0x3001D)
 	/// </summary>
-	public const int kBtUnknown = 196632;
+	public const int kBtUnknown = 196637;
 
 	/// <summary>
 	/// device manager for controlling BLE

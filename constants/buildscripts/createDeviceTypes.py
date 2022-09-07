@@ -63,6 +63,8 @@ def createEnum(result, prefix, formatStyle, section, jsonObject, branch, isDart=
     for p in jsonObject[section]:
         name = p[1:]
         name = prefix + name
+        if (isDart):
+            name = dartLowerHelper(name, True)
         value = jsonObject[section][p]['value']
         if checkIfBranchMatches(jsonObject, p, section, branch):
             result += '' if isDart else '\t///<summary>'
@@ -71,19 +73,18 @@ def createEnum(result, prefix, formatStyle, section, jsonObject, branch, isDart=
                 result += '\n\t/// value: {0} (0x{1:05X})'.format(value,value)
             result += '\n\t\n' if isDart else '\n\t///</summary>\n'
             result += formatStyle.format(name,value)
-    result += isDart if isDart != False else ''
     result += '}\n\n' if isDart else '};\n\n'
     return result
 
 def createIdsFileForH(jsonObject, branch):
-    Ids = "// Class Types\n";
-    Ids += "enum {\n";
+    Ids = "// Class Types\n"
+    Ids += "enum {\n"
     Ids = createEnum(Ids, 'kSktCaptureDeviceTypeClass', '\t{0} = {1},\n', 'classType', jsonObject, branch)
-    Ids += "// Interface Types\n";
-    Ids += "enum {\n";
+    Ids += "// Interface Types\n"
+    Ids += "enum {\n"
     Ids = createEnum(Ids, 'kSktCaptureDeviceTypeInterface', '\t{0} = {1},\n', 'interfaceType', jsonObject, branch)
-    Ids += "// Devices Types\n";
-    Ids += "enum {\n";
+    Ids += "// Devices Types\n"
+    Ids += "enum {\n"
     for p in jsonObject['deviceTypes']:
         name = p[1:]
         name = "kSktCaptureDeviceType" + name
@@ -151,7 +152,7 @@ def createIdsFileForObjectiveC(jsonObject, branch):
             Ids +='\n\tvalue: {0} (0x{1:05X})\n'.format(value,value)
             Ids +="\t*/\n"
             Ids += '\t{0} = {1},\n\n'.format(name, value)
-    Ids += "};\n";
+    Ids += "};\n"
 
     return Ids
 
@@ -175,26 +176,32 @@ def createIdsFileForTypescript(jsonObject, branch):
     Ids += '};\n'
 
     return Ids
+    
+def dartLowerHelper(n, extra):
+    val = n if extra else n[1:] 
+    name = list(val)
+    name[0] = name[0].lower()
+    name = ''.join(name)
+    return name
 
 def createIdsFileForDart(jsonObject, branch):
     Ids = '// ignore_for_file: non_constant_identifier_names\n/// Differentiate between devices and device managers.\nclass CaptureDeviceTypeClass {\n'
-    Ids = createEnum(Ids, '', '\tint {0} = {1};\n\n', 'classType', jsonObject, branch, "\tCaptureDeviceTypeClass();\n\n")
+    Ids = createEnum(Ids, '', '\tstatic const int {0} = {1};\n\n', 'classType', jsonObject, branch, "\tCaptureDeviceTypeClass();\n\n")
     Ids += '/// Differentiate between types of interfaces (bluetooth, NFC, etc).\nclass CaptureDeviceTypeInterface {\n'
-    Ids = createEnum(Ids, '', '\tint {0} = {1};\n\n', 'interfaceType', jsonObject, branch, "\tCaptureDeviceTypeInterface();\n\n")
+    Ids = createEnum(Ids, '', '\tstatic const int {0} = {1};\n\n', 'interfaceType', jsonObject, branch, "\tCaptureDeviceTypeInterface();\n\n")
 
     Ids += "/// Differentiate between types of devices (Model 7, NFC tag, etc).\n"
     Ids += 'class CaptureDeviceType {\n'
     for p in jsonObject['deviceTypes']:
         name = p
         if checkIfBranchMatches(jsonObject, p, 'deviceTypes', branch):
-            name = name[1:]
+            name = dartLowerHelper(name, False)
             print(name)
             value = getValue(jsonObject, p)
             for hlp in jsonObject['deviceTypes'][p]['help']:
                 Ids +='\t///{0}\n'.format(hlp)
             Ids +='\t///value: {0} (0x{1:05X})\n'.format(value,value)
-            Ids += '\tint {0} = {1};\n\n'.format(name, value)
-    Ids += '\tCaptureDeviceType();\n\n'
+            Ids += '\tstatic const int {0} = {1};\n\n'.format(name, value)
     Ids += '}\n'
 
     return Ids

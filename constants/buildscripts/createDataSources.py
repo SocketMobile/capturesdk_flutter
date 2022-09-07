@@ -224,20 +224,24 @@ def createIdsFileForTypescript(jsonObject, branch):
 
     return Ids, Flags, Status
 
+def dartLowerHelper(n):
+    name = list(n[1:])
+    name[0] = name[0].lower()
+    name = ''.join(name)
+    return name
+
 def createIdsFileForDart(jsonObject, branch):
     Ids = "/// Generated datasource information for data in capture events.\n"
     Ids += "class CaptureDataSourceID {\n"
     for p in jsonObject[SECTION]:
         name = p
         if checkIfBranchMatches(jsonObject, SECTION, p, branch):
-            name = list(name[1:])
-            name[0] = name[0].lower()
-            name = ''.join(name)
+            name = dartLowerHelper(name)
             print('TEST: ' + name)
             value = getValue(jsonObject, SECTION, p)
             for hlp in jsonObject[SECTION][p]['help']:
                 Ids +='\t/// {0}\n'.format(hlp)
-            Ids += '\tint {0} = {1};\n\n'.format(name, value)
+            Ids += '\tstatic const int {0} = {1};\n\n'.format(name, value)
     Ids +="}\n"
 
     Flags = "/// Flags for the different data sources in capture events.\n"
@@ -245,12 +249,12 @@ def createIdsFileForDart(jsonObject, branch):
     for p in jsonObject[SECTION_FLAGS]:
         name = p
         if checkIfBranchMatches(jsonObject, SECTION_FLAGS, p, branch):
-            name = name[1:]
+            name = dartLowerHelper(name)
             print(name)
             value = getValue(jsonObject, SECTION_FLAGS, p)
             for hlp in jsonObject[SECTION_FLAGS][p]['help']:
                 Flags +='\t/// {0}\n'.format(hlp)
-            Flags += '\tint {0} = {1};\n\n'.format(name, value)
+            Flags += '\tstatic const int {0} = {1};\n\n'.format(name, value)
     Flags +="}\n"
 
     Status = "/// Status properties for data sources in capture events.\n"
@@ -258,12 +262,12 @@ def createIdsFileForDart(jsonObject, branch):
     for p in jsonObject[SECTION_STATUS]:
         name = p
         if checkIfBranchMatches(jsonObject, SECTION_STATUS, p, branch):
-            name = name[1:]
+            name = dartLowerHelper(name)
             print(name)
             value = getValue(jsonObject, SECTION_STATUS, p)
             for hlp in jsonObject[SECTION_STATUS][p]['help']:
                 Status +='\t/// {0}\n'.format(hlp)
-            Status += '\tint {0} = {1};\n\n'.format(name, value)
+            Status += '\tstatic const int {0} = {1};\n\n'.format(name, value)
     Status +="}\n"
 
     return Ids, Flags, Status

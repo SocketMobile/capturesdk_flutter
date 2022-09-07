@@ -1,4 +1,4 @@
-# CaptureSDK Flutter
+# Flutter CaptureSDK
 This is the Flutter CatureSDK for Socket Mobile's Capture library. 
 
 ## Getting Started
@@ -50,7 +50,7 @@ Install the flutter package using `flutter pub get capturesdk`. It will add the 
 ```dart
 dependencies:
   flutter:
-    capturesdk: 1.2.80   
+    capturesdk: 1.3.0   
 ```
 
 In the `main.dart`, you can import the capture flutter sdk by adding this line to the top of your file. 
@@ -198,3 +198,7 @@ In order for it to work, you will need to add five argments to `AppInfo` in the 
   3. iOS appId
   4. AppKey after iOS registration
   5. Developer ID
+
+  For more information about the Flutter CaptureSDK, please visit the [documentation](https://docs.socketmobile.com/captureflutter/en/latest).
+
+  For a full demonstration, check out [this video](https://vimeo.com/694611104).

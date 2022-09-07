@@ -8,6 +8,15 @@ import './capture_options.dart';
 
 String defaultHost = "http://127.0.0.1:18481";
 
+Logger defaultLogger = Logger((message, arg) => {
+        if (message != null && message.isNotEmpty)
+          // ignore: avoid_print
+          {print(message + " " + arg + '\n\n')}
+        else
+          // ignore: avoid_print
+          {print(arg + '\n\n')}
+      });
+
 /// The main entrypoint for Socket Mobile Capture SDK.
 /// Where connection to Capture library is initiated, maintained and through which requests are made.
 class Capture {
@@ -38,12 +47,13 @@ class Capture {
   /// Initialize transport for capture.
   Future<int?> transportHelper(AppInfo appInfo, Function eventNotification,
       [CaptureOptions? options]) async {
+        Logger? finalLogger = this.logger ?? defaultLogger;
     if (options != null) {
       this.transport =
-          options.transport ?? Transport().getTransport(this.logger);
+          options.transport ?? Transport().getTransport(finalLogger);
       this.host = options.host ?? defaultHost;
     } else {
-      this.transport = Transport().getTransport(this.logger);
+      this.transport = Transport().getTransport(finalLogger);
     }
 
     try {

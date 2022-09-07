@@ -28,7 +28,7 @@ export './classes/params.dart';
 
 export './classes/decoded_data.dart';
 
-export './classes/property_ids_types.dart';
+// export './classes/property_ids_types.dart';
 
 export './classes/capture_exception.dart';
 
@@ -36,7 +36,7 @@ export './classes/datasource.dart';
 
 // constants
 export './classes/gen/errors.dart';
-// TODO
+export './classes/gen/property_ids.dart';
 // export './classes/gen/event_ids.dart';
 
 export './classes/ios_transport.dart';

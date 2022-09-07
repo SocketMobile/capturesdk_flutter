@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'dart:convert';
-import 'package:capturesdk/classes/capture_event.dart';
-import 'package:capturesdk/classes/shared_methods.dart';
+import 'package:capturesdk_flutter/classes/capture_event.dart';
+import 'package:capturesdk_flutter/classes/shared_methods.dart';
 
 /// Establishes event channel using StreamSubscription.
 /// Returns a capture event and establishes channel listener.

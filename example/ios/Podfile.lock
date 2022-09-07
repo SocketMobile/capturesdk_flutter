@@ -1,29 +1,29 @@
 PODS:
-  - capturesdk (1.2.76):
+  - CaptureSDK (1.5.2)
+  - capturesdk_flutter (1.2.76):
+    - CaptureSDK (~> 1.5)
     - Flutter
-    - SKTCaptureObjC (~> 1.3)
   - Flutter (1.0.0)
-  - SKTCaptureObjC (1.3.133)
 
 DEPENDENCIES:
-  - capturesdk (from `.symlinks/plugins/capturesdk/ios`)
+  - capturesdk_flutter (from `.symlinks/plugins/capturesdk_flutter/ios`)
   - Flutter (from `Flutter`)
 
 SPEC REPOS:
   trunk:
-    - SKTCaptureObjC
+    - CaptureSDK
 
 EXTERNAL SOURCES:
-  capturesdk:
-    :path: ".symlinks/plugins/capturesdk/ios"
+  capturesdk_flutter:
+    :path: ".symlinks/plugins/capturesdk_flutter/ios"
   Flutter:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  capturesdk: 179af653466220882c7d6a6bf9097df774df5d47
+  CaptureSDK: d4af475179be4db4bc02e50bdfd864c4995c0ace
+  capturesdk_flutter: 334e771f406c4b6a92c97c3ca66b6778632c783a
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  SKTCaptureObjC: 8e1a7d8ddc7e0a34132988b7bcb17974a90f8adb
 
-PODFILE CHECKSUM: 38808d86c5eae98448b9b0d062d6a18426bbf4a2
+PODFILE CHECKSUM: 4b21526f2bd83cf4c62d5d1d099ee9b6a50e9687
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

@@ -568,7 +568,9 @@ export enum Disconnect {
 	// disconnect and then start the current profile
 	StartProfile = 0,
 	// Disconnect and disable radio (low power)
-	DisableRadio = 1
+	DisableRadio = 1,
+	// Disconnect a device and make it available for a new connection (for Bluetooth Low Energy device)
+	MakeAvailable = 2
 };
 
 // Select a profile for the device (None, SPP, HID)

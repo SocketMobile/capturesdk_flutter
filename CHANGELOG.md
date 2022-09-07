@@ -5,11 +5,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+<!--new item here (do not remove)-->
+## [1.3.0] - 2022-09-06
+### Added
+ - Changed package name to avoid conflict with iOS SDK naming. 
+
+## [1.2.105] - 2022-05-17
+### Added
+ - Fixed hot reload issue on iOS.
+ - Added default logger so user doesn't have to include their own.
+
+## [1.2.84] - 2022-03-29
+### Added
+ - Updated changelog and added changelog additional line logic.
+
+## [1.2.83] - 2022-03-29
+### Added
+- Updated README.md title to be consistent with other references.
 
 ## [1.2.80] - 2022-03-29
 ### Added
 - Updated README.md to include updated get and setFriendlyName functions.
--Updaated image links in README.md to reference githubusercontent link instead of relative path (pub.dev is currently working on not just defaulting to master because repos sometimes use another name, such as main).
+- Updated image links in README.md to reference githubusercontent link instead of relative path (pub.dev is currently working on not just defaulting to master because repos sometimes use another name, such as main).
 
 ## [1.2.78] - 2022-03-25
 ### Added

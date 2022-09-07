@@ -233,7 +233,7 @@ def addValues(name, valueObject, jsonObject, includeDeprecaded, branch, isDart=F
             continue
         for hlp in p['help']:
             value +='\n\t/// {0}'.format(hlp) if isDart else '\n\t// {0}'.format(hlp)
-        intOrNah = 'int ' if isDart else ''
+        intOrNah = 'static const int ' if isDart else ''
         semiOrcomma = ';' if isDart else ','
         value += '\n\t' + intOrNah + '{0} = {1}'.format(name, val) + semiOrcomma
         
@@ -333,8 +333,7 @@ def createPropertyIdsFileForDart(jsonObject, includeDeprecated, branch):
         for hlp in p['help']:
             propertyIds +='\t/// {0}\n'.format(hlp)
         propertyIds +='\t/// Device: {0}\tGet Type: {1} \tSet Type: {2}\n'.format(p['Capture']==False, p['GetType'][1:], p['SetType'][1:])
-        propertyIds += '\tint {0} = {1};\n\n'.format(name, value)
-    propertyIds += '\tCapturePropertyIds();\n\n'
+        propertyIds += '\tstatic const int {0} = {1};\n\n'.format(name, value)
     propertyIds += '}\n\n'
     final += propertyIds
 
@@ -352,8 +351,7 @@ def createPropertyIdsFileForDart(jsonObject, includeDeprecated, branch):
         value = getTypeValue(jsonObject, p)
         for hlp in jsonObject['Types'][p]['help']:
             types +='\t/// {0}\n'.format(hlp)
-        types += '\tint {0} = {1};\n\n'.format(name, value)
-    types += '\tCapturePropertyTypes();\n\n'
+        types += '\tstatic const int {0} = {1};\n\n'.format(name, value)
     types += '}\n\n'
 
     final += types

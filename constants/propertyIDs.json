@@ -177,7 +177,7 @@
       "SetType": "kNotApplicable",
       "GroupId": "kSktCaptureGroupGeneral",
       "PropId": " kSktCaptureIdInterfaceVersion",
-      "int32": "-2147418110",
+      "int32": "-2147418112",
       "help": [
         "Gets the version of the firmware interface that Capture service",
         "supports. This can be useful for determining if the Capture service",
@@ -241,7 +241,7 @@
       "SetType": "kByte",
       "GroupId": "kSktCaptureGroupGeneral",
       "PropId": "kSktCaptureIdSocketCamStatus",
-      "int32": "-2145255417",
+      "int32": "-2147352569",
       "help": ["property to get or set the SocketCam status", "(iOS only)"]
     },
     {
@@ -396,6 +396,7 @@
       "SetType": "kDataSource",
       "GroupId": "kSktCaptureGroupGeneral",
       "PropId": "kSktCaptureIdDeviceDataSource",
+      "int32": "7798788",
       "help": ["property to get or set the data source status / information"]
     },
     {
@@ -1448,6 +1449,13 @@
           "Name": "DisableRadio",
           "help": ["Disconnect and disable radio (low power)"],
           "Value": 1
+        },
+        {
+          "Name": "MakeAvailable",
+          "help": [
+            "Disconnect a device and make it available for a new connection (for Bluetooth Low Energy device)"
+          ],
+          "Value": 2
         }
       ]
     },

@@ -84,13 +84,17 @@ export class CaptureDeviceType {
 	//value: 196611 (0x30003)
 	static readonly Scanner9 = 196611;
 
-	//SocketCam (only used in iOS and Android)
+	//SocketCam C820 (only used in iOS and Android)
 	//value: 5 (0x00005)
-	static readonly SocketCam = 5;
+	static readonly SocketCamC820 = 5;
 
 	//Model S800
 	//value: 196614 (0x30006)
 	static readonly ScannerS800 = 196614;
+
+	//Model S820
+	//value: 196634 (0x3001A)
+	static readonly ScannerS820 = 196634;
 
 	//Model S850
 	//value: 196615 (0x30007)
@@ -103,6 +107,10 @@ export class CaptureDeviceType {
 	//Model D700
 	//value: 196617 (0x30009)
 	static readonly ScannerD700 = 196617;
+
+	//Model D720
+	//value: 196633 (0x30019)
+	static readonly ScannerD720 = 196633;
 
 	//Model D730
 	//value: 196618 (0x3000A)
@@ -123,6 +131,10 @@ export class CaptureDeviceType {
 	//Model S700
 	//value: 196622 (0x3000E)
 	static readonly ScannerS700 = 196622;
+
+	//Model S720
+	//value: 196632 (0x30018)
+	static readonly ScannerS720 = 196632;
 
 	//Model S730
 	//value: 196623 (0x3000F)
@@ -156,13 +168,21 @@ export class CaptureDeviceType {
 	//value: 327702 (0x50016)
 	static readonly ScannerS550 = 327702;
 
+	//Model S370
+	//value: 327707 (0x5001B)
+	static readonly ScannerS370 = 327707;
+
+	//Model S320
+	//value: 327708 (0x5001C)
+	static readonly ScannerS320 = 327708;
+
 	//NFC Tag
 	//value: 393239 (0x60017)
 	static readonly NFCTag = 393239;
 
 	//device type unknown by this version of Capture
-	//value: 196632 (0x30018)
-	static readonly BtUnknown = 196632;
+	//value: 196637 (0x3001D)
+	static readonly BtUnknown = 196637;
 
 	//device manager for controlling BLE
 	//value: 17104897 (0x1050001)

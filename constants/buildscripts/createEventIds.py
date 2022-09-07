@@ -282,8 +282,7 @@ def createEventIdsFileForDart(jsonObject, includeDeprecated, branch):
         for hlp in ev['help']:
             eventIds +='\t/// {0}\n'.format(hlp)
         eventIds +='\t/// Type: {0}\n'.format(ev['Type'])
-        eventIds += '\tint {0} = {1};\n\n'.format(name, value)
-    eventIds += '\tCaptureEventIds();\n\n'
+        eventIds += '\tstatic const int {0} = {1};\n\n'.format(name, value)
     eventIds += '}\n\n'
     final += eventIds
 
@@ -303,8 +302,7 @@ def createEventIdsFileForDart(jsonObject, includeDeprecated, branch):
         value = typeObj['value']
         for hlp in typeObj['help']:
             types +='\t/// {0}\n'.format(hlp)
-        types += '\tint {0} = {1};\n\n'.format(name, value)
-    types += '\tCaptureEventTypes();\n\n'
+        types += '\tstatic const int {0} = {1};\n\n'.format(name, value)
     types += '}\n\n'
 
     final += types

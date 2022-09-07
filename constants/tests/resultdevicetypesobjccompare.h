@@ -100,11 +100,11 @@ typedef NS_ENUM(NSInteger, SKTCaptureDeviceType){
 	SKTCaptureDeviceTypeScanner9 = 196611,
 
 	/**
-	SocketCam (only used in iOS and Android)
+	SocketCam C820 (only used in iOS and Android)
 
 	value: 5 (0x00005)
 	*/
-	SKTCaptureDeviceTypeSocketCam = 5,
+	SKTCaptureDeviceTypeSocketCamC820 = 5,
 
 	/**
 	Model S800
@@ -112,6 +112,13 @@ typedef NS_ENUM(NSInteger, SKTCaptureDeviceType){
 	value: 196614 (0x30006)
 	*/
 	SKTCaptureDeviceTypeScannerS800 = 196614,
+
+	/**
+	Model S820
+
+	value: 196634 (0x3001A)
+	*/
+	SKTCaptureDeviceTypeScannerS820 = 196634,
 
 	/**
 	Model S850
@@ -133,6 +140,13 @@ typedef NS_ENUM(NSInteger, SKTCaptureDeviceType){
 	value: 196617 (0x30009)
 	*/
 	SKTCaptureDeviceTypeScannerD700 = 196617,
+
+	/**
+	Model D720
+
+	value: 196633 (0x30019)
+	*/
+	SKTCaptureDeviceTypeScannerD720 = 196633,
 
 	/**
 	Model D730
@@ -168,6 +182,13 @@ typedef NS_ENUM(NSInteger, SKTCaptureDeviceType){
 	value: 196622 (0x3000E)
 	*/
 	SKTCaptureDeviceTypeScannerS700 = 196622,
+
+	/**
+	Model S720
+
+	value: 196632 (0x30018)
+	*/
+	SKTCaptureDeviceTypeScannerS720 = 196632,
 
 	/**
 	Model S730
@@ -226,6 +247,20 @@ typedef NS_ENUM(NSInteger, SKTCaptureDeviceType){
 	SKTCaptureDeviceTypeScannerS550 = 327702,
 
 	/**
+	Model S370
+
+	value: 327707 (0x5001B)
+	*/
+	SKTCaptureDeviceTypeScannerS370 = 327707,
+
+	/**
+	Model S320
+
+	value: 327708 (0x5001C)
+	*/
+	SKTCaptureDeviceTypeScannerS320 = 327708,
+
+	/**
 	NFC Tag
 
 	value: 393239 (0x60017)
@@ -235,9 +270,9 @@ typedef NS_ENUM(NSInteger, SKTCaptureDeviceType){
 	/**
 	device type unknown by this version of Capture
 
-	value: 196632 (0x30018)
+	value: 196637 (0x3001D)
 	*/
-	SKTCaptureDeviceTypeBtUnknown = 196632,
+	SKTCaptureDeviceTypeBtUnknown = 196637,
 
 	/**
 	device manager for controlling BLE

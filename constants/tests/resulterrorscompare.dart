@@ -4,6 +4,7 @@
   2022 © Socket Mobile, Inc. all rights reserved
 */
 
+
 /// defines the Errors used in Capture
 class SktErrors {
   /// The wait timed out

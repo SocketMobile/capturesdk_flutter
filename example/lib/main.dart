@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:capturesdk/capturesdk.dart';
+import 'package:capturesdk_flutter/capturesdk.dart';
 
 void main() {
   runApp(const MyApp());
@@ -202,6 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String guid = e.value.guid;
     String name = e.value.name;
     logger.log('Device ${isManager ? 'Manager' : ''} Removal =>', name + ' ($guid)');
+    
     try {
       dynamic res = await _deviceCapture!.close();
       if (res == 0) {
@@ -218,6 +219,31 @@ class _MyHomePageState extends State<MyHomePage> {
       _updateVals('${exception.code}', 'Unable to remove "$name"',
           exception.method, exception.details);
     }
+  }
+
+  Future<void> _genericGetProperty() async {
+    CaptureProperty property = CaptureProperty(
+        CapturePropertyIds.socketCamStatus, CapturePropertyTypes.none, {});
+
+    String stat = _status;
+    String mess = _message;
+    String? method;
+    String? details;
+
+    try {
+      CaptureProperty propertyResponse =
+          await _deviceCapture!.getProperty(property);
+      print(propertyResponse.value);
+      stat = 'Get Property';
+      mess =
+          'Successfully Retrieved "socketcam" property for device: ${propertyResponse.value}';
+    } on CaptureException catch (exception) {
+      stat = exception.code.toString();
+      mess = exception.code == -32602 ? 'JSON parse error' : exception.message;
+      method = exception.method;
+      details = exception.details;
+    }
+    _updateVals(stat, mess, method, details);
   }
 
   _onCaptureEvent(e, handle) {
@@ -242,7 +268,9 @@ class _MyHomePageState extends State<MyHomePage> {
         _openDeviceHelper(deviceCapture, e, false);
         break;
       case CaptureEventIds.deviceRemoval:
-        _closeDeviceHelper(e, handle, false);
+        if (_deviceCapture != null){
+          _closeDeviceHelper(e, handle, false);
+        }
         break;
 
       case CaptureEventIds.decodedData:
@@ -261,7 +289,9 @@ class _MyHomePageState extends State<MyHomePage> {
         _openDeviceHelper(deviceCapture, e, true);
         break;
       case CaptureEventIds.deviceManagerRemoval:
-        _closeDeviceHelper(e, handle, true);
+        if (_deviceCapture != null){
+          _closeDeviceHelper(e, handle, true);
+        }
         break;
     }
   }
@@ -360,7 +390,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Text(_currentScan != null
                         ? 'Scan from ${_currentScan!.value.name}: ' +
                             _currentScan!.value.data.toString()
-                        : 'No Data'))
+                        : 'No Data')),
+                const Text('Get Generic Property'),
+                IconButton(
+                  icon: const Icon(Icons.add_box),
+                  onPressed:
+                      _deviceCapture != null ? _genericGetProperty : null,
+                ),
               ]),
             ],
           ),
