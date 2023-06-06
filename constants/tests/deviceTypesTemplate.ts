@@ -1,6 +1,0 @@
-/**
-Device Types definitions
-PLEASE DO NOT MODIFY THIS AUTO GENERATED FILE
-*/
-
-$DEVICETYPES$

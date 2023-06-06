@@ -1,5 +1,13 @@
-# Flutter CaptureSDK
+# Flutter CaptureSDK 1.3.17
 This is the Flutter CatureSDK for Socket Mobile's Capture library. The accompanying package can be found on [pub.dev](https://pub.dev/packages/capturesdk_flutter).
+
+# Devices compatibility and CaptureSDK versions
+|       Devices                                          |          <= 1.2        |          1.3           |
+| :----------------------------------------------------: | :--------------------: | :--------------------: |
+|   **SocketCam C820**                                   |          ❌            |           ❌           |
+|   **S720/D720/S820**                                   |          ❌            |           ✅           |
+|   **D600, S550, and all other barcode scanners**       |          ✅            |           ✅           |
+|   **S370**                                             |          ❌            |           ❌           |
 
 ## Getting Started
 Before installing the package, you will need to adjust a few properties in your Flutter app.
