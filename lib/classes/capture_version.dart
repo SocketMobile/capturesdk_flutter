@@ -1,14 +1,5 @@
 /// What version of capture is being used.
 class CaptureVersion {
-  int? major;
-  int? middle;
-  int? minor;
-  int? build;
-  int? year;
-  int? month;
-  int? day;
-  int? hour;
-  int? minute;
 
   CaptureVersion(
       [this.major,
@@ -20,6 +11,15 @@ class CaptureVersion {
       this.day,
       this.hour,
       this.minute]);
+  int? major;
+  int? middle;
+  int? minor;
+  int? build;
+  int? year;
+  int? month;
+  int? day;
+  int? hour;
+  int? minute;
 
   Object encode() {
     final Map<Object?, Object?> pigeonMap = <Object?, Object?>{};

@@ -1,15 +1,18 @@
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'device_info.freezed.dart';
+part 'device_info.g.dart';
+
 /// Basic properties for a paired or stored device.
-class DeviceInfo {
-  String name;
-  String guid;
-  int type;
+@freezed
+class DeviceInfo with _$DeviceInfo {
+  const factory DeviceInfo({
+    required String name,
+    required String guid,
+    required int type,
+  }) = _DeviceInfo;
 
-  DeviceInfo(this.name, this.guid, this.type);
-
-  DeviceInfo.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
-        guid = json['guid'],
-        type = json['type'];
-
-  Map<String, dynamic> toJson() => {'name': name, 'guid': guid, 'type': type};
+  factory DeviceInfo.fromJson(Map<String, dynamic> json) =>
+      _$DeviceInfoFromJson(json);
 }

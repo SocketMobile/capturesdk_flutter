@@ -16,58 +16,59 @@ NS_ASSUME_NONNULL_BEGIN
 @class IosTransportResult;
 
 @interface DataSource : NSObject
-@property(nonatomic, strong, nullable) NSNumber * id;
-@property(nonatomic, copy, nullable) NSString * name;
-@property(nonatomic, strong, nullable) NSNumber * status;
-@property(nonatomic, strong, nullable) NSNumber * flags;
+@property(nonatomic, strong, nullable) NSNumber *id;
+@property(nonatomic, strong, nullable) NSString *name;
+@property(nonatomic, strong, nullable) NSNumber *status;
+@property(nonatomic, strong, nullable) NSNumber *flags;
 @end
 
 @interface Version : NSObject
-@property(nonatomic, strong, nullable) NSNumber * major;
-@property(nonatomic, strong, nullable) NSNumber * middle;
-@property(nonatomic, strong, nullable) NSNumber * minor;
-@property(nonatomic, strong, nullable) NSNumber * build;
-@property(nonatomic, strong, nullable) NSNumber * year;
-@property(nonatomic, strong, nullable) NSNumber * month;
-@property(nonatomic, strong, nullable) NSNumber * day;
-@property(nonatomic, strong, nullable) NSNumber * hour;
-@property(nonatomic, strong, nullable) NSNumber * minute;
+@property(nonatomic, strong, nullable) NSNumber *major;
+@property(nonatomic, strong, nullable) NSNumber *middle;
+@property(nonatomic, strong, nullable) NSNumber *minor;
+@property(nonatomic, strong, nullable) NSNumber *build;
+@property(nonatomic, strong, nullable) NSNumber *year;
+@property(nonatomic, strong, nullable) NSNumber *month;
+@property(nonatomic, strong, nullable) NSNumber *day;
+@property(nonatomic, strong, nullable) NSNumber *hour;
+@property(nonatomic, strong, nullable) NSNumber *minute;
 @end
 
 @interface Property : NSObject
-@property(nonatomic, strong, nullable) NSNumber * id;
-@property(nonatomic, strong, nullable) NSNumber * type;
-@property(nonatomic, copy, nullable) NSString * stringValue;
-@property(nonatomic, strong, nullable) NSNumber * longValue;
-@property(nonatomic, strong, nullable) NSArray * arrayValue;
-@property(nonatomic, strong, nullable) NSNumber * byteValue;
-@property(nonatomic, strong, nullable) DataSource * dataSourceValue;
-@property(nonatomic, strong, nullable) Version * versionValue;
+@property(nonatomic, strong, nullable) NSNumber *propertyId;
+@property(nonatomic, strong, nullable) NSNumber *type;
+@property(nonatomic, strong, nullable) NSString *stringValue;
+@property(nonatomic, strong, nullable) NSNumber *longValue;
+@property(nonatomic, strong, nullable) NSArray *arrayValue;
+@property(nonatomic, strong, nullable) NSNumber *byteValue;
+@property(nonatomic, strong, nullable) DataSource *dataSourceValue;
+@property(nonatomic, strong, nullable) Version *versionValue;
+@property(nonatomic, strong, nullable) NSObject *objectValue;
 @end
 
 @interface IosAppInfo : NSObject
-@property(nonatomic, copy, nullable) NSString * appId;
-@property(nonatomic, copy, nullable) NSString * developerId;
-@property(nonatomic, copy, nullable) NSString * appKey;
+@property(nonatomic, strong, nullable) NSString *appId;
+@property(nonatomic, strong, nullable) NSString *developerId;
+@property(nonatomic, strong, nullable) NSString *appKey;
 @end
 
 @interface IosTransportHandle : NSObject
-@property(nonatomic, strong, nullable) NSNumber * value;
+@property(nonatomic, strong, nullable) NSNumber *value;
 @end
 
 @interface IosTransportResult : NSObject
-@property(nonatomic, strong, nullable) NSNumber * value;
+@property(nonatomic, strong, nullable) NSNumber *value;
 @end
 
 /// The codec used by IosTransport.
 NSObject<FlutterMessageCodec> *IosTransportGetCodec(void);
 
 @protocol IosTransport
-- (void)openClientAppInfo:(nullable IosAppInfo *)appInfo completion:(void(^)(IosTransportHandle *_Nullable, FlutterError *_Nullable))completion;
-- (void)openDeviceHandle:(nullable IosTransportHandle *)handle guid:(nullable NSString *)guid completion:(void(^)(IosTransportHandle *_Nullable, FlutterError *_Nullable))completion;
-- (void)closeHandle:(nullable IosTransportHandle *)handle completion:(void(^)(IosTransportResult *_Nullable, FlutterError *_Nullable))completion;
-- (void)getPropertyHandle:(nullable IosTransportHandle *)handle property:(nullable Property *)property completion:(void(^)(Property *_Nullable, FlutterError *_Nullable))completion;
-- (void)setPropertyHandle:(nullable IosTransportHandle *)handle property:(nullable Property *)property completion:(void(^)(Property *_Nullable, FlutterError *_Nullable))completion;
+- (void)openClientAppInfo:(nullable IosAppInfo *)appInfo completion:(void (^)(IosTransportHandle *_Nullable, FlutterError *_Nullable))completion;
+- (void)openDeviceHandle:(nullable IosTransportHandle *)handle guid:(nullable NSString *)guid completion:(void (^)(IosTransportHandle *_Nullable, FlutterError *_Nullable))completion;
+- (void)closeHandle:(nullable IosTransportHandle *)handle completion:(void (^)(IosTransportResult *_Nullable, FlutterError *_Nullable))completion;
+- (void)getPropertyHandle:(nullable IosTransportHandle *)handle property:(nullable Property *)property completion:(void (^)(Property *_Nullable, FlutterError *_Nullable))completion;
+- (void)setPropertyHandle:(nullable IosTransportHandle *)handle property:(nullable Property *)property completion:(void (^)(Property *_Nullable, FlutterError *_Nullable))completion;
 @end
 
 extern void IosTransportSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<IosTransport> *_Nullable api);

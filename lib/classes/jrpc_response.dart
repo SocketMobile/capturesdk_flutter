@@ -1,15 +1,20 @@
-import 'jrpc.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-/// Wrapper for response from http requests that utilize json rpc.
-class JRpcResponse extends JsonRpc {
-  dynamic result;
+import 'id_converter.dart';
+import 'jrpc_error.dart';
 
-  JRpcResponse(int id, String response) : super(id) {
-    // ignore: unnecessary_this
-    this.result = response;
-  }
+part 'jrpc_response.freezed.dart';
+part 'jrpc_response.g.dart';
 
-  JRpcResponse.fromJson(Map<String, dynamic> json) : result = json['result'];
+@freezed
+class JRpcResponse with _$JRpcResponse {
+  const factory JRpcResponse({
+    required String jsonrpc,
+    @IdConverter() String? id,
+    Map<String, dynamic>? result,
+    JRpcError? error,
+  }) = _JRpcResponse;
 
-  Map<String, dynamic> toJson() => {'result': result};
+  factory JRpcResponse.fromJson(Map<String, Object?> json) => _$JRpcResponseFromJson(json);
 }

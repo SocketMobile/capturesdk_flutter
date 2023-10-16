@@ -45,5 +45,17 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/.gradle
+tests/.DS_Store
+/.build
+/Packages
 
-generate_consts.sh
+# iOS
+/*.xcodeproj
+xcuserdata/
+DerivedData/
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+builds
+fastlane/README.md
+fastlane/report.xml
+/.vscode

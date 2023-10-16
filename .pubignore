@@ -54,3 +54,4 @@ app.*.map.json
 /example/ios/Pods
 /example/pubspec.yaml
 /example/pubspec.lock
+/generate_consts.sh

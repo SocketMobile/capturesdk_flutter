@@ -1,17 +1,19 @@
-// ignore_for_file: file_names
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'capture_property.dart';
+
+part 'params.freezed.dart';
+part 'params.g.dart';
+
 /// Used in requests as well as storing device or property details.
-class Params {
-  int? handle = 0;
-  String? guid;
-  dynamic property;
+@freezed
+class Params with _$Params {
+  const factory Params({
+    required int handle,
+    String? guid,
+    CaptureProperty? property,
+  }) = _Params;
 
-  Params(this.handle, {this.guid, this.property});
-
-  Params.fromJson(Map<String, dynamic> json)
-      : handle = json['handle'],
-        guid = json['guid'],
-        property = json['property'];
-
-  Map<String, dynamic> toJson() =>
-      {'handle': handle, 'guid': guid, 'property': property};
+  factory Params.fromJson(Map<String, Object?> json) => _$ParamsFromJson(json);
 }

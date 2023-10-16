@@ -140,7 +140,7 @@
     }
 }
 
-- (void)setPropertyHandle:(nullable IosTransportHandle *)handle property:(nullable Property *)property completion:(void(^)(Property *_Nullable, FlutterError *_Nullable))completion{
+- (void)setPropertyHandle:(nullable IosTransportHandle *) handle property:(nullable Property *)property completion:(void(^)(Property *_Nullable, FlutterError *_Nullable))completion{
     if(_handles != nil){
         @try{
             SKTCapture* capture = (SKTCapture*)[_handles getObjectFromHandle:[handle value]];
@@ -205,8 +205,8 @@
 
 + (SKTCaptureProperty*) convertToCaptureProperty:(Property*) property {
     SKTCaptureProperty* captureProperty = [SKTCaptureProperty new];
-    captureProperty.ID = [property.id intValue];
-    captureProperty.Type = [property.type intValue];
+    captureProperty.ID = property.propertyId.intValue;
+    captureProperty.Type = property.type.intValue;
     switch(captureProperty.Type) {
         case SKTCapturePropertyTypeNone:
             break;
@@ -246,6 +246,7 @@
         case SKTCapturePropertyTypeEnum:
             break;
         case SKTCapturePropertyTypeObject:
+            captureProperty.Object = [TransportConnector  InjectRootUiViewIfOverlayProperty:property.propertyId fromContext: property.objectValue];
             break;
         case SKTCapturePropertyTypeLastType:
             break;
@@ -253,9 +254,9 @@
     return captureProperty;
 }
 
-+ (Property*) convertToDartProperty:(SKTCaptureProperty* _Nullable) property {
++ (Property*) convertToDartProperty:(SKTCaptureProperty* _Nullable) property{
     Property* dartProperty = [Property new];
-    dartProperty.id = [[NSNumber alloc]initWithInt: (int)property.ID];
+    dartProperty.propertyId = [[NSNumber alloc]initWithInt: (int)property.ID];
     dartProperty.type = [[NSNumber alloc]initWithInt:(int)property.Type];
     switch(property.Type){
         case SKTCapturePropertyTypeNone:
@@ -296,11 +297,34 @@
         case SKTCapturePropertyTypeEnum:
             break;
         case SKTCapturePropertyTypeObject:
+            dartProperty.objectValue = property.Object;
             break;
         case SKTCapturePropertyTypeLastType:
             break;
     }
     return dartProperty;
+}
+
+// Replace YourViewController with the name of your main view controller class
++ (UIViewController *)getPresentedViewController {
+    UIViewController *topViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (topViewController.presentedViewController) {
+        topViewController = topViewController.presentedViewController;
+    }
+    return topViewController;
+}
+
++(NSDictionary*)InjectRootUiViewIfOverlayProperty:(NSNumber*)propertyId fromContext: (NSDictionary*)socketCamContext {
+    if (propertyId.intValue == SKTCapturePropertyIDOverlayViewDevice) {
+           UIViewController *mainUiViewController = [TransportConnector getPresentedViewController];
+           NSMutableDictionary *socketCamContextModif = [NSMutableDictionary dictionaryWithDictionary:socketCamContext];
+           [socketCamContextModif setObject:mainUiViewController forKey:SKTCaptureSocketCamContext];
+
+           return socketCamContextModif;
+       }
+
+       return nil;
+
 }
 
 - (void)didReceiveEvent:(SKTCaptureEvent * _Nonnull)event forCapture:(SKTCapture * _Nonnull)capture withResult:(SKTResult)result {

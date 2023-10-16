@@ -22,6 +22,9 @@ class SktErrors
 	/// The object has been created
 	static const int ESKT_CREATED = 5;
 
+	/// No data present
+	static const int ESKT_NODATA = 6;
+
 	/// There is no error
 	static const int ESKT_NOERROR = 0;
 
@@ -252,5 +255,8 @@ class SktErrors
 
 	/// Location service is disabled
 	static const int ESKT_LOCATIONSERVICEDISABLED = -98;
+
+	/// Bluetooth permission is not granted
+	static const int ESKT_BLUETOOTHPERMISSIONMISSING = -99;
 
 }

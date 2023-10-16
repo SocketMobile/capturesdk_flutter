@@ -1,5 +1,21 @@
+// ignore_for_file: invalid_use_of_protected_member
+
+import 'dart:io';
+
+import 'package:example/widgets/footer.dart';
+import 'package:example/widgets/mainview.dart';
+import 'package:example/widgets/socketcam.dart';
 import 'package:flutter/material.dart';
 import 'package:capturesdk_flutter/capturesdk.dart';
+
+const AppInfo appInfo = AppInfo(
+    appIdAndroid: 'android:com.example.example',
+    appKeyAndroid:
+        'MC4CFQDNCtjazxILEh8oyT6w/wlaVKqS1gIVAKTz2W6TB9EgmjS1buy0A+3j7nX4',
+    appIdIos: 'ios:com.example.example',
+    appKeyIos:
+        'MC0CFA1nzK67TLNmSw/QKFUIiedulUUcAhUAzT6EOvRwiZT+h4qyjEZo9oc0ONM=',
+    developerId: 'bb57d8e1-f911-47ba-b510-693be162686a');
 
 void main() {
   runApp(const MyApp());
@@ -33,18 +49,23 @@ class _MyHomePageState extends State<MyHomePage> {
   String _status = 'starting';
   String _message = '--';
   List<DeviceInfo> _devices = [];
-  String _newName = '';
+  List<DecodedData> _decodedDataList = [];
   Capture? _capture;
   Capture? _deviceCapture;
-  CaptureEvent? _currentScan;
-  final _nameController = TextEditingController();
+  Capture? _bleDeviceManagerCapture;
+  Capture? _socketcamDevice;
+  bool _useSocketCam = false;
+  bool _isOpen = false;
 
-  var logger = Logger((message, arg) => {
-        if (message != null && message.isNotEmpty)
-          {print(message + " " + arg + '\n\n')}
-        else
-          {print(arg + '\n\n')}
-      });
+  Logger logger = Logger((message, arg) {
+    if (message.isNotEmpty) {
+      // ignore: avoid_print
+      print('CAPTURE FLUTTER: $message $arg\n\n');
+    } else {
+      // ignore: avoid_print
+      print('CAPTURE FLUTTER: $arg\n\n');
+    }
+  });
 
   void _updateVals(String stat, String mess,
       [String? method, String? details]) {
@@ -63,30 +84,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    _nameController.addListener(_handleNameChange);
-
     _openCapture();
-
+    // start capture service for companion before using Socket Cam on Android
+    if (Platform.isAndroid) {
+      CapturePlugin.startCaptureService();
+    }
     super.initState();
   }
 
   Future _openCapture() async {
-    setState(() {
-      _capture = null;
-    });
-
     Capture capture = Capture(logger);
 
     setState(() {
       _capture = capture;
     });
 
-    final AppInfo appInfo = AppInfo(
-        'android:com.example.example',
-        'MC4CFQDNCtjazxILEh8oyT6w/wlaVKqS1gIVAKTz2W6TB9EgmjS1buy0A+3j7nX4',
-        'ios:com.example.example',
-        'MC0CFA1nzK67TLNmSw/QKFUIiedulUUcAhUAzT6EOvRwiZT+h4qyjEZo9oc0ONM=',
-        'bb57d8e1-f911-47ba-b510-693be162686a');
     String stat = _status;
     String mess = _message;
     String? method;
@@ -95,6 +107,9 @@ class _MyHomePageState extends State<MyHomePage> {
       int? response = await capture.openClient(appInfo, _onCaptureEvent);
       stat = 'handle: $response';
       mess = 'capture open success';
+      setState(() {
+        _isOpen = true;
+      });
     } on CaptureException catch (exception) {
       stat = exception.code.toString();
       mess = exception.message;
@@ -104,94 +119,43 @@ class _MyHomePageState extends State<MyHomePage> {
     _updateVals(stat, mess, method, details);
   }
 
-  Future<void> _handleGetNameProperty() async {
-    /// example using friendly name
-    /// to use another property, change id and type
-    /// to correspond to desired property CapturePropertyIds
-
-    CaptureProperty property = CaptureProperty(
-        CapturePropertyIds.friendlyNameDevice, CapturePropertyTypes.none, {});
-
-    String stat = _status;
-    String mess = _message;
-    String? method;
-    String? details;
-
-    try {
-      CaptureProperty propertyResponse =
-          await _deviceCapture!.getProperty(property);
-      /// propertyResponse.value
-      stat = 'Get Property';
-      mess =
-          'Successfully Retrieved "name" property for device: ${propertyResponse.value}';
-    } on CaptureException catch (exception) {
-      stat = exception.code.toString();
-      mess = exception.code == -32602 ? 'JSON parse error' : exception.message;
-      method = exception.method;
-      details = exception.details;
-    }
-    _updateVals(stat, mess, method, details);
-  }
-
-  Future<void> _handleSetNameProperty() async {
-    CaptureProperty property = CaptureProperty(
-        CapturePropertyIds.friendlyNameDevice,
-        CapturePropertyTypes.string,
-        _newName);
-
-    String stat = _status;
-    String mess = _message;
-    String? method;
-    String? details;
-
-    try {
-      CaptureProperty propertyResponse =
-          await _deviceCapture!.setProperty(property);
-      stat = 'Set Property';
-      mess = 'Successfully set "name" property to "$_newName".';
-      //can incorporate UI logic to update device in device list
-    } on CaptureException catch (e) {
-      stat = '${e.code}';
-      mess = e.code == -32602 ? 'JSON parse error' : e.message;
-      method = e.method;
-      details = e.details;
-    }
-
-    setState(() {
-      _newName = '';
-    });
-
-    _nameController.text = '';
-
-    _updateVals(stat, mess, method, details);
-  }
-
-  void _handleNameChange() {
-    setState(() {
-      _newName = _nameController.text;
-    });
-  }
-
-  Future _openDeviceHelper(Capture deviceCapture, CaptureEvent e, bool isManager) async {
+  Future _openDeviceHelper(
+      Capture deviceCapture, CaptureEvent e, bool isManager, int handle) async {
     // deviceArrival checks that a device is available
     // openDevice allows the device to be used (for decodedData)
     List<DeviceInfo> arr = _devices;
 
-    String guid = e.value.guid;
-    String name = e.value.name;
+    DeviceInfo _deviceInfo = e.deviceInfo;
 
-    logger.log('Device ${isManager ? 'Manager' : ''} Arrival =>', name + ' ($guid)');
+    logger.log('Device ${isManager ? 'Manager' : ''} Arrival =>',
+        '${_deviceInfo.name} (${_deviceInfo.guid})');
 
     try {
-      dynamic res = await deviceCapture.openDevice(guid, _capture);
-      // res is 0 if no error, if not zero there is error in catch
-      if (res == 0 && !arr.contains(e.value)) {
-        arr.add(e.value);
+      await deviceCapture.openDevice(_deviceInfo.guid, _capture);
+      if (!isManager) {
+        if (!arr.contains(_deviceInfo)) {
+          if (SocketCamTypes.contains(_deviceInfo.type)) {
+            setState(() {
+              _socketcamDevice = deviceCapture;
+            });
+          } else {
+            setState(() {
+              _deviceCapture = deviceCapture;
+            });
+          }
+          arr.add(_deviceInfo);
+          setState(() {
+            _devices = arr;
+          });
+        }
+      } else {
         setState(() {
-          _devices = arr;
+          _bleDeviceManagerCapture = deviceCapture;
         });
+        _getFavorite(deviceCapture);
       }
-      _updateVals('Device ${isManager ? 'Manager' : ''} Opened', 'Successfully added "$name"');
+      _updateVals('Device${isManager ? ' Manager' : ''} Opened',
+          'Successfully added "${_deviceInfo.name}"');
     } on CaptureException catch (exception) {
       _updateVals(exception.code.toString(), exception.message,
           exception.method, exception.details);
@@ -199,10 +163,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _closeDeviceHelper(e, handle, bool isManager) async {
-    String guid = e.value.guid;
-    String name = e.value.name;
-    logger.log('Device ${isManager ? 'Manager' : ''} Removal =>', name + ' ($guid)');
-    
+    String guid = e.value["guid"];
+    String name = e.value["name"];
+    logger.log(
+        'Device ${isManager ? 'Manager' : ''} Removal =>', name + ' ($guid)');
+
     try {
       dynamic res = await _deviceCapture!.close();
       if (res == 0) {
@@ -210,44 +175,29 @@ class _MyHomePageState extends State<MyHomePage> {
         arr.removeWhere((element) => element.guid == guid);
         setState(() {
           _devices = arr;
-          _currentScan = null;
           _deviceCapture = null;
         });
+        if (_bleDeviceManagerCapture != null &&
+            guid == _bleDeviceManagerCapture!.guid) {
+          setState(() {
+            _bleDeviceManagerCapture = null;
+          });
+          (null);
+        } else {
+          setState(() {
+            _deviceCapture = null;
+          });
+        }
       }
-      _updateVals('Device ${isManager ? 'Manager' : ''} Closed', 'Successfully removed "$name"');
+      _updateVals('Device ${isManager ? 'Manager' : ''} Closed',
+          'Successfully removed "$name"');
     } on CaptureException catch (exception) {
       _updateVals('${exception.code}', 'Unable to remove "$name"',
           exception.method, exception.details);
     }
   }
 
-  Future<void> _genericGetProperty() async {
-    CaptureProperty property = CaptureProperty(
-        CapturePropertyIds.socketCamStatus, CapturePropertyTypes.none, {});
-
-    String stat = _status;
-    String mess = _message;
-    String? method;
-    String? details;
-
-    try {
-      CaptureProperty propertyResponse =
-          await _deviceCapture!.getProperty(property);
-      print(propertyResponse.value);
-      stat = 'Get Property';
-      mess =
-          'Successfully Retrieved "socketcam" property for device: ${propertyResponse.value}';
-    } on CaptureException catch (exception) {
-      stat = exception.code.toString();
-      mess = exception.code == -32602 ? 'JSON parse error' : exception.message;
-      method = exception.method;
-      details = exception.details;
-    }
-    _updateVals(stat, mess, method, details);
-  }
-
   _onCaptureEvent(e, handle) {
-
     if (e == null) {
       return;
     } else if (e.runtimeType == CaptureException) {
@@ -260,40 +210,116 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (e.id) {
       case CaptureEventIds.deviceArrival:
         Capture deviceCapture = Capture(logger);
-
-        setState(() {
-          _deviceCapture = deviceCapture;
-        });
-
-        _openDeviceHelper(deviceCapture, e, false);
+        _openDeviceHelper(deviceCapture, e, false, handle);
         break;
       case CaptureEventIds.deviceRemoval:
-        if (_deviceCapture != null){
+        if (_deviceCapture != null) {
           _closeDeviceHelper(e, handle, false);
         }
         break;
 
       case CaptureEventIds.decodedData:
+        setStatus('Decoded Data', 'Successfully decoded data!');
+        List<DecodedData> _myList = [..._decodedDataList];
+        Map<String, dynamic> jsonMap = e.value as Map<String, dynamic>;
+        DecodedData decoded = DecodedData.fromJson(jsonMap);
+        _myList.add(decoded);
         setState(() {
-          _currentScan = e;
+          _decodedDataList = _myList;
         });
-        _updateVals('Decoded Data', "Successful scan!");
         break;
       case CaptureEventIds.deviceManagerArrival:
-        Capture deviceCapture = Capture(logger);
-
-        setState(() {
-          _deviceCapture = deviceCapture;
-        });
-
-        _openDeviceHelper(deviceCapture, e, true);
+        Capture bleDeviceManagerCapture = Capture(logger);
+        _openDeviceHelper(bleDeviceManagerCapture, e, true, handle);
         break;
       case CaptureEventIds.deviceManagerRemoval:
-        if (_deviceCapture != null){
+        if (_deviceCapture != null) {
           _closeDeviceHelper(e, handle, true);
         }
         break;
     }
+  }
+
+  Future<void> _closeCapture() async {
+    try {
+      final res = await _capture!.close();
+      setStatus("Success in closing Capture: $res");
+      setState(() {
+        _isOpen = false;
+        _devices = [];
+        _useSocketCam = false;
+      });
+    } on CaptureException catch (exception) {
+      int code = exception.code;
+      String messge = exception.message;
+      setStatus("failed to close capture: $code: $messge");
+    }
+  }
+
+  void setStatus(String stat, [String? msg]) {
+    setState(() {
+      _status = stat;
+      _message = msg ?? _message;
+    });
+  }
+
+  void _setUseSocketCam(bool val) {
+    setState(() {
+      _useSocketCam = val;
+    });
+  }
+
+  void _clearAllScans() {
+    setState(() {
+      _decodedDataList = [];
+    });
+  }
+
+  Future<void> _getFavorite(Capture dev) async {
+    CaptureProperty property = const CaptureProperty(
+      id: CapturePropertyIds.favorite,
+      type: CapturePropertyTypes.none,
+      value: {},
+    );
+
+    String stat = "retrieving BLE Device Manager favorite...";
+    setStatus(stat);
+    try {
+      var favorite = await dev.getProperty(property);
+      logger.log(favorite.value, 'GET Favorite');
+      if (favorite.value.length == 0) {
+        setFavorite(dev);
+      } else {
+        stat = "Favorite found! Try using an NFC Reader.";
+      }
+    } on CaptureException catch (exception) {
+      var code = exception.code.toString();
+      var message = exception.message;
+      logger.log(code, message);
+      stat = 'failed to get favorite: $code : $message';
+    }
+    setStatus(stat);
+  }
+
+  Future<void> setFavorite(Capture dev) async {
+    CaptureProperty property = const CaptureProperty(
+      id: CapturePropertyIds.favorite,
+      type: CapturePropertyTypes.string,
+      value: '*',
+    );
+
+    String stat = 'successfully set favorite for BLE Device Manager';
+
+    try {
+      var data = await dev.setProperty(property);
+      logger.log(data.value.toString(), 'SET Favorite');
+    } on CaptureException catch (exception) {
+      var code = exception.code.toString();
+      var message = exception.message;
+      logger.log(code, message);
+      stat = 'failed to set favorite: $code : $message';
+    }
+    setStatus(stat);
   }
 
   @override
@@ -307,13 +333,14 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              // TestWidget(),
               Row(children: <Widget>[
                 const Text(
                   'Status: ',
                 ),
                 Text(
                   _status,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ]),
               Row(children: <Widget>[
@@ -323,47 +350,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 Flexible(
                   child: Text(
                     _message,
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
               ]),
-              Row(children: [
-                Text(_deviceCapture != null
-                    ? 'Get Friendly Name'
-                    : 'Please connect device to get friendly name.'),
-                IconButton(
-                  icon: const Icon(Icons.add_box),
-                  onPressed:
-                      _deviceCapture != null ? _handleGetNameProperty : null,
-                ),
-              ]),
-              Row(children: [
-                SizedBox(
-                  width: 300,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 40,
-                      top: 20,
-                      right: 40,
-                      bottom: 20,
-                    ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.add_box),
-                          onPressed: _newName.isNotEmpty
-                              ? _handleSetNameProperty
-                              : null,
-                        ),
-                        labelText: 'Edit Device Name',
-                        border: const OutlineInputBorder(),
-                      ),
-                      controller: _nameController,
-                    ),
-                  ),
-                ),
-              ]),
-              Row(children: const <Widget>[
+              !_useSocketCam
+                  ? MainView(
+                      deviceCapture: _deviceCapture, setStatus: setStatus)
+                  : SocketCamWidget(
+                      clientOrDeviceHandle: _capture!.clientOrDeviceHandle,
+                      socketCamCapture: _capture,
+                      socketCamDevice: _socketcamDevice,
+                      logger: logger,
+                      setStatus: setStatus),
+              const Row(children: <Widget>[
                 Text(
                   'Devices',
                 ),
@@ -381,23 +381,14 @@ class _MyHomePageState extends State<MyHomePage> {
                             _devices[index].guid);
                       },
                     ),
-              Row(children: <Widget>[
-                Flexible(
-                  child: Text('Scanned Data: ',
-                      style: Theme.of(context).textTheme.bodyText1),
-                ),
-                Flexible(
-                    child: Text(_currentScan != null
-                        ? 'Scan from ${_currentScan!.value.name}: ' +
-                            _currentScan!.value.data.toString()
-                        : 'No Data')),
-                const Text('Get Generic Property'),
-                IconButton(
-                  icon: const Icon(Icons.add_box),
-                  onPressed:
-                      _deviceCapture != null ? _genericGetProperty : null,
-                ),
-              ]),
+              FooterWidget(
+                  clearAllScans: _clearAllScans,
+                  decodedDataList: _decodedDataList,
+                  isOpen: _isOpen,
+                  closeCapture: _closeCapture,
+                  openCapture: _openCapture,
+                  useSocketCam: _useSocketCam,
+                  setUseSocketCam: _setUseSocketCam)
             ],
           ),
         ));

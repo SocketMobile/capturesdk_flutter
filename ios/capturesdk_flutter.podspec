@@ -17,8 +17,8 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'CaptureSDK', '~>1.5'
-  s.platform = :ios, '11'
+  s.platforms    = { :ios => "12.0" }
+  s.dependency 'CaptureSDK', '~>1.8.34'
   s.static_framework = true
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }

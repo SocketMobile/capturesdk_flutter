@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 <!--new item here (do not remove)-->
+## [1.3.17] - 2023-04-12
+### Added
+ - Fixed gradle issues.
+ - Added check for battery level property.
+
 ## [1.3.1] - 2022-09-07
 ### Added
  - Updated references from 'capturesdk' to 'capturesdk_flutter'.

@@ -1,23 +1,15 @@
-// ignore_for_file: unnecessary_this
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../capturesdk.dart';
+part 'jrpc_request.freezed.dart';
+part 'jrpc_request.g.dart';
 
-/// Wrapper for HTTP request to use json rpc parameters.
-/// JRpcRequest is required for use with JsonRpc oriented transport.
-class JRpcRequest extends JsonRpc {
-  String? method;
-  dynamic params;
-
-  JRpcRequest(int id, this.method, this.params) : super(0) {
-    this.id = id;
-    this.jsonrpc = this.jsonrpc;
-  }
-
-  JRpcRequest.fromJson(Map<String, dynamic> json)
-      : method = json['method'],
-        params = json['params'];
-  // jsonrpc = json['jsonrpc'];
-
-  Map<String, dynamic> toJson() =>
-      {'method': method, 'params': params, 'id': id, 'jsonrpc': jsonrpc};
+@Freezed(toJson: true)
+class JRpcRequest with _$JRpcRequest {
+  const factory JRpcRequest({
+    @Default('2.0') String jsonrpc,
+    required String id,
+    required String method,
+    Object? params,
+  }) = _JRpcRequest;
 }

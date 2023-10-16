@@ -1,13 +1,11 @@
 buildscript {
-    ext.kotlin_version = '1.6.10'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+         classpath("com.android.tools.build:gradle:4.2.0")
     }
 }
 
@@ -16,6 +14,12 @@ allprojects {
         google()
         mavenCentral()
     }
+    gradle.projectsEvaluated {
+      tasks.withType(JavaCompile) {
+         options.encoding = 'UTF-8'
+         options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+      }
+   }
 }
 
 rootProject.buildDir = '../build'
@@ -24,6 +28,6 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }

@@ -1,25 +1,28 @@
-/// Copyright © 2022 Socket Mobile, Inc.
-// ignore_for_file: unnecessary_this, unnecessary_null_comparison
+//ignore_for_file: avoid_print
 
 import 'dart:async';
-
-import '../capturesdk.dart';
 import './capture_options.dart';
+import '../capturesdk.dart';
 
-String defaultHost = "http://127.0.0.1:18481";
+String defaultHost = 'http://127.0.0.1:18481';
 
-Logger defaultLogger = Logger((message, arg) => {
-        if (message != null && message.isNotEmpty)
-          // ignore: avoid_print
-          {print(message + " " + arg + '\n\n')}
-        else
-          // ignore: avoid_print
-          {print(arg + '\n\n')}
-      });
+Logger defaultLogger = Logger((String message, Object? arg) {
+  if (message.isNotEmpty) {
+    print('$message $arg\n\n');
+  } else {
+    print('$arg\n\n');
+  }
+});
 
 /// The main entrypoint for Socket Mobile Capture SDK.
 /// Where connection to Capture library is initiated, maintained and through which requests are made.
 class Capture {
+  Capture(
+      [this.logger,
+      this.clientOrDeviceHandle,
+      this.transportHandle,
+      this.onEventNotification,
+      this.transport]);
   Transport? transport;
   String host = defaultHost;
   int? clientOrDeviceHandle;
@@ -29,44 +32,40 @@ class Capture {
   Logger? logger;
   bool? iOS;
 
-  Capture(
-      [this.logger,
-      this.clientOrDeviceHandle,
-      this.transportHandle,
-      this.onEventNotification,
-      this.transport]);
+  dynamic get guid => null;
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
         'transport': transport,
         'host': host,
         'clientOrDeviceHandle': clientOrDeviceHandle,
         'transportHandle': transportHandle,
         'rootCapture': rootCapture
       };
-  
+
   /// Initialize transport for capture.
   Future<int?> transportHelper(AppInfo appInfo, Function eventNotification,
       [CaptureOptions? options]) async {
-        Logger? finalLogger = this.logger ?? defaultLogger;
+    final Logger finalLogger = logger ?? defaultLogger;
     if (options != null) {
-      this.transport =
-          options.transport ?? Transport().getTransport(finalLogger);
-      this.host = options.host ?? defaultHost;
+      transport = options.transport ?? Transport().getTransport(finalLogger);
+      host = options.host ?? defaultHost;
     } else {
-      this.transport = Transport().getTransport(finalLogger);
+      transport = Transport().getTransport(finalLogger);
     }
 
     try {
-      int? _tryOpen = await this.transport!.openClient(host, appInfo,
+      final int tryOpen = await transport!.openClient(host, appInfo,
           (dynamic event, int handle) {
+        // ignore: avoid_dynamic_calls
         return eventNotification(event, handle);
       });
-      this.clientOrDeviceHandle = _tryOpen;
-      return this.clientOrDeviceHandle;
+      clientOrDeviceHandle = tryOpen;
+      return clientOrDeviceHandle;
     } on CaptureException {
       rethrow;
     } catch (e) {
-      throw CaptureException(SktErrors.ESKT_COMMUNICATIONERROR, 'There was an error during communication.', e.toString());
+      throw CaptureException(SktErrors.ESKT_COMMUNICATIONERROR,
+          'There was an error during communication.', e.toString());
     }
   }
 
@@ -80,13 +79,13 @@ class Capture {
 
   /// close capture connection. Remove any handles and reset root transport and capture.
   Future<int> close([int? handle]) async {
-    if (this.transport != null && this.clientOrDeviceHandle != null) {
+    if (transport != null && clientOrDeviceHandle != null) {
       try {
-        int? hndl = handle ?? this.clientOrDeviceHandle;
-        await this.transport?.close(hndl);
-        this.rootCapture = null;
-        this.transport = null;
-        this.clientOrDeviceHandle = null;
+        final int hndl = handle ?? clientOrDeviceHandle ?? 0;
+        await transport?.close(hndl);
+        rootCapture = null;
+        transport = null;
+        clientOrDeviceHandle = null;
         return SktErrors.ESKT_NOERROR;
       } on CaptureException {
         rethrow;
@@ -98,35 +97,37 @@ class Capture {
           SktErrors.ESKT_NOTINITIALIZED, 'Transport is not initialized');
     }
   }
+
   /// Initiate connection to open physical device.
   /// Set new root capture in order to work within device ecosystem.
-  /// If successful, set clientOrDeviceHandle to response value and return 
+  /// If successful, set clientOrDeviceHandle to response value and return
   /// code for 'no error' (0).
-  Future openDevice(String guid, Capture? capture) async {
+  Future<int> openDevice(String guid, Capture? capture) async {
     if (capture == null) {
       throw CaptureException(SktErrors.ESKT_INVALIDPARAMETER,
           'The provided parameter is invalid', 'NO CAPTURE INSTANCE');
     } else {
-      this.rootCapture = capture;
-      this.transport = capture.transport;
-      this.transportHandle = capture.transportHandle;
+      rootCapture = capture;
+      transport = capture.transport;
+      transportHandle = capture.transportHandle;
       try {
-        dynamic value = await this
-            .transport
-            ?.openDevice(this.rootCapture!.clientOrDeviceHandle, guid);
-        this.clientOrDeviceHandle = value;
+        final int? value = await transport?.openDevice(
+            rootCapture!.clientOrDeviceHandle ?? 0, guid);
+        clientOrDeviceHandle = value;
         return SktErrors.ESKT_NOERROR;
       } on CaptureException {
         rethrow;
       } catch (e) {
-        throw CaptureException(SktErrors.ESKT_COMMUNICATIONERROR, 'There was an error during communication.', e.toString());
+        throw CaptureException(SktErrors.ESKT_COMMUNICATIONERROR,
+            'There was an error during communication.', e.toString());
       }
     }
   }
+
   /// Request to retrieve a capture property from a given device.
   Future<CaptureProperty> getProperty(CaptureProperty property) async {
-    if (this.transport != null) {
-      return this.transport!.getProperty(this.clientOrDeviceHandle, property);
+    if (transport != null) {
+      return transport!.getProperty(clientOrDeviceHandle ?? 0, property);
     }
 
     throw CaptureException(
@@ -135,8 +136,8 @@ class Capture {
 
   /// Request to update a capture property for a given device.
   Future<CaptureProperty> setProperty(CaptureProperty property) async {
-    if (this.transport != null) {
-      return this.transport!.setProperty(this.clientOrDeviceHandle, property);
+    if (transport != null) {
+      return transport!.setProperty(clientOrDeviceHandle ?? 0, property);
     }
 
     throw CaptureException(

@@ -1,0 +1,51 @@
+group 'com.capturesdk_flutter'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://bin.socketmobile.com/repo/releases' }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.2.2'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://bin.socketmobile.com/repo/releases' }
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 33
+
+    defaultConfig {
+        minSdkVersion 22
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+    
+    dependencies {
+        implementation 'androidx.core:core:1.0.2'
+        implementation 'androidx.annotation:annotation:1.0.0'
+        implementation "androidx.lifecycle:lifecycle-runtime:2.1.0"
+
+    }
+
+    namespace 'com.capturesdk_flutter'
+}
+
+dependencies {
+    // implementation fileTree(dir: "libs", include: ["*.aar", "*.jar"])
+    // implementation 'com.google.zxing:core:3.5.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
+    implementation 'com.socketmobile:capture-android:1.6.15'
+}

@@ -1,1 +1,1 @@
-/* CaptureFlutter version 1.2.14.0 2022/03/04 10:43:58 © 2022 Socket Mobile, inc. */
+/* CaptureFlutter version 1.3.38.0 2023/08/11 10:45:36 © 2023 Socket Mobile, inc. */

@@ -1,25 +1,20 @@
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'app_info.freezed.dart';
+part 'app_info.g.dart';
+
 /// This is the app information used to access the API.
 /// These credentials are generated when you register your app on the Socket Mobile website.
-class AppInfo {
-  String appIdAndroid;
-  String appIdIos;
-  String appKeyAndroid;
-  String appKeyIos;
-  String developerId;
+@freezed
+class AppInfo with _$AppInfo {
+  const factory AppInfo({
+    @JsonKey(name: 'appId') String? appIdAndroid, // ignore: invalid_annotation_target
+    @JsonKey(includeToJson: false) String? appIdIos, // ignore: invalid_annotation_target
+    @JsonKey(name: 'appKey') String? appKeyAndroid, // ignore: invalid_annotation_target
+    @JsonKey(includeToJson: false) String? appKeyIos, // ignore: invalid_annotation_target
+    required String developerId,
+  }) = _AppInfo;
 
-  AppInfo(this.appIdAndroid, this.appKeyAndroid, this.appIdIos, this.appKeyIos,
-      this.developerId);
-
-  AppInfo.fromJson(Map<String, dynamic> json)
-      : appIdAndroid = json['appId'],
-        appKeyAndroid = json['appKey'],
-        appIdIos = '',
-        appKeyIos = '',
-        developerId = json['developerId'];
-
-  Map<String, dynamic> toJson() => {
-        'appId': appIdAndroid,
-        'appKey': appKeyAndroid,
-        'developerId': developerId,
-      };
+  factory AppInfo.fromJson(Map<String, Object?> json) => _$AppInfoFromJson(json);
 }

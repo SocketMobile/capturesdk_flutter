@@ -122,9 +122,9 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 @implementation Property
 + (Property *)fromMap:(NSDictionary *)dict {
   Property *result = [[Property alloc] init];
-  result.id = dict[@"id"];
-  if ((NSNull *)result.id == [NSNull null]) {
-    result.id = nil;
+  result.propertyId = dict[@"id"];
+  if ((NSNull *)result.propertyId == [NSNull null]) {
+    result.propertyId = nil;
   }
   result.type = dict[@"type"];
   if ((NSNull *)result.type == [NSNull null]) {
@@ -154,10 +154,14 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
   if ((NSNull *)result.versionValue == [NSNull null]) {
     result.versionValue = nil;
   }
+  result.objectValue =  dict[@"objectValue"];
+  if ((NSNull *)result.objectValue == [NSNull null]) {
+    result.objectValue = nil;
+  }
   return result;
 }
 - (NSDictionary *)toMap {
-  return [NSDictionary dictionaryWithObjectsAndKeys:(self.id ? self.id : [NSNull null]), @"id", (self.type ? self.type : [NSNull null]), @"type", (self.stringValue ? self.stringValue : [NSNull null]), @"stringValue", (self.longValue ? self.longValue : [NSNull null]), @"longValue", (self.arrayValue ? self.arrayValue : [NSNull null]), @"arrayValue", (self.byteValue ? self.byteValue : [NSNull null]), @"byteValue", (self.dataSourceValue ? [self.dataSourceValue toMap] : [NSNull null]), @"dataSourceValue", (self.versionValue ? [self.versionValue toMap] : [NSNull null]), @"versionValue", nil];
+  return [NSDictionary dictionaryWithObjectsAndKeys:(self.propertyId ? self.propertyId : [NSNull null]), @"id", (self.type ? self.type : [NSNull null]), @"type", (self.objectValue ? self.objectValue : [NSNull null]), @"objectValue", (self.stringValue ? self.stringValue : [NSNull null]), @"stringValue", (self.longValue ? self.longValue : [NSNull null]), @"longValue", (self.arrayValue ? self.arrayValue : [NSNull null]), @"arrayValue", (self.byteValue ? self.byteValue : [NSNull null]), @"byteValue", (self.dataSourceValue ? [self.dataSourceValue toMap] : [NSNull null]), @"dataSourceValue", (self.versionValue ? [self.versionValue toMap] : [NSNull null]), @"versionValue", nil];
 }
 @end
 
@@ -288,7 +292,7 @@ static NSDictionary<NSString *, id> *wrapResult(id result, FlutterError *error) 
 }
 @end
 
-NSObject<FlutterMessageCodec> *IosTransportGetCodec() {
+NSObject<FlutterMessageCodec> *IosTransportGetCodec(void) {
   static dispatch_once_t s_pred = 0;
   static FlutterStandardMessageCodec *s_sharedObject = nil;
   dispatch_once(&s_pred, ^{
