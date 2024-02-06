@@ -45,7 +45,11 @@ class Capture {
   /// Initialize transport for capture.
   Future<int?> transportHelper(AppInfo appInfo, Function eventNotification,
       [CaptureOptions? options]) async {
+    const int maxRetries = 10;
+    const int retryMilliseconds = 250;
+
     final Logger finalLogger = logger ?? defaultLogger;
+
     if (options != null) {
       transport = options.transport ?? Transport().getTransport(finalLogger);
       host = options.host ?? defaultHost;
@@ -53,20 +57,32 @@ class Capture {
       transport = Transport().getTransport(finalLogger);
     }
 
-    try {
-      final int tryOpen = await transport!.openClient(host, appInfo,
-          (dynamic event, int handle) {
-        // ignore: avoid_dynamic_calls
-        return eventNotification(event, handle);
-      });
-      clientOrDeviceHandle = tryOpen;
-      return clientOrDeviceHandle;
-    } on CaptureException {
-      rethrow;
-    } catch (e) {
-      throw CaptureException(SktErrors.ESKT_COMMUNICATIONERROR,
-          'There was an error during communication.', e.toString());
+    for (int retryCount = 0; retryCount < maxRetries; retryCount++) {
+      try {
+        clientOrDeviceHandle = await transport!.openClient(host, appInfo,
+            (dynamic event, int handle) {
+          // ignore: avoid_dynamic_calls
+          return eventNotification(event, handle);
+        });
+        break; // Break out of the loop if the operation is successful
+      } on CaptureException {
+        if (retryCount == maxRetries - 1) {
+          rethrow;
+        }
+        await Future<dynamic>.delayed(
+            const Duration(milliseconds: retryMilliseconds));
+      } catch (e) {
+        if (retryCount == maxRetries - 1) {
+          // If this is the last retry and it still fails, throw an exception
+          throw CaptureException(SktErrors.ESKT_COMMUNICATIONERROR,
+              'There was an error during communication.', e.toString());
+        }
+        // Wait for a short duration before retrying
+        await Future<dynamic>.delayed(
+            const Duration(milliseconds: retryMilliseconds));
+      }
     }
+    return clientOrDeviceHandle;
   }
 
   /// Request that opens capture connection.

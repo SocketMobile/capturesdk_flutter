@@ -1,17 +1,18 @@
-# Flutter CaptureSDK 1.4.17
+# Flutter CaptureSDK 1.4.44
 
 This is the Flutter CatureSDK for Socket Mobile's Capture library. The accompanying package can be found on [pub.dev](https://pub.dev/packages/capturesdk_flutter).
 
 # Devices compatibility and CaptureSDK versions
 
-|            Devices             | <= 1.3 | 1.3 | 1.4 |
-| :----------------------------: | :----: | :-: | :-: |
-|         **M930/M940**          |   ❌   | ❌  | ✅  |
-|       **SocketCam C820**       |   ❌   | ❌  | ✅  |
-|         **D600/S550**          |   ❌   | ❌  | ✅  |
-|            **S370**            |   ❌   | ❌  | ✅  |
-|       **S720/D720/S820**       |   ❌   | ✅  | ✅  |
-| **all other barcode scanners** |   ✅   | ✅  | ✅  |
+|                    Devices                     | <= 1.2 | 1.3 |   1.4   |
+| :--------------------------------------------: | :----: | :-: | :-----: |
+|               **SocketCam C860**               |   ❌   | ❌  | ✅ [^1] |
+|               **SocketCam C820**               |   ❌   | ❌  |   ✅    |
+|               **S720/D720/S820**               |   ❌   | ✅  |   ✅    |
+| **D600, S550, and all other barcode scanners** |   ✅   | ✅  |   ✅    |
+|                    **S370**                    |   ❌   | ❌  |   ✅    |
+
+[^1]: _SocketCam C860 is currently supported on the latest version of Android only. More on SocketCam can be found [here](https://www.socketmobile.com/readers-accessories/product-families/socketcam)._
 
 ## Getting Started
 
@@ -78,6 +79,8 @@ ALSO: The package name in `AndroidManifest.xml`, it needs to be both all lowerca
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.yourpackagename">
 ```
 
+## Enable Start Capture Service on Android
+
 You might also have to add the file `network_security_config.xml` file to `android/app/src/main/res/xml` in order to avoid a `clearText` permissions error. See the code below for the file.
 
 ```
@@ -91,13 +94,21 @@ You might also have to add the file `network_security_config.xml` file to `andro
 </network-security-config>
 ```
 
-Then, in your AndroidManifest.xml, in your first `application` tag, add this property:
+Then, in their app's `AndroidManifest.xml` file, the developer will need to add the below property into the `<application>` tag.
 
 ```
 android:networkSecurityConfig="@xml/network_security_config"
 ```
 
-For more information, check out the [Android docs](https://docs.socketmobile.com/capture/java/en/latest/android/getting-started.html#enable-cleartext-traffic).
+Finally, add the below line into just before the `AndroidManifest.xml` file's closing `</manifest>` tag.
+
+```
+<queries>
+    <package android:name="com.socketmobile.companion"/>
+  </queries>
+```
+
+For more on the network security configuration for Android, please check out the cleartext section in [the Android docs](https://docs.socketmobile.com/capture/java/en/latest/android/getting-started.html#enable-cleartext-traffic).
 
 ## Installation
 
@@ -106,7 +117,7 @@ Install the flutter package using `flutter pub get capturesdk_flutter`. It will 
 ```dart
 dependencies:
   flutter:
-    capturesdk_flutter: 1.4.16
+    capturesdk_flutter: 1.4.44
 ```
 
 In the `main.dart`, you can import the capture flutter sdk by adding this line to the top of your file.

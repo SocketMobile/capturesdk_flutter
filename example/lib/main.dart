@@ -84,12 +84,26 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    _openCapture();
-    // start capture service for companion before using Socket Cam on Android
-    if (Platform.isAndroid) {
-      CapturePlugin.startCaptureService();
-    }
     super.initState();
+    if (Platform.isAndroid) {
+      // Need to start service if you do not want to manually open Socket Mobile Companion
+      // start capture service for companion before using Socket Cam on Android
+      _initializeCaptureService();
+    } else {
+      _openCapture();
+    }
+  }
+
+  Future<void> _initializeCaptureService() async {
+    try {
+      // Wait for the completion of startCaptureService
+      await CapturePlugin.startCaptureService();
+      // Once startCaptureService completes, call _openCapture
+      _openCapture();
+    } catch (error) {
+      // Handle errors here
+      _updateVals('Error initializing Capture Service', error.toString());
+    }
   }
 
   Future _openCapture() async {
@@ -103,6 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String mess = _message;
     String? method;
     String? details;
+
     try {
       int? response = await capture.openClient(appInfo, _onCaptureEvent);
       stat = 'handle: $response';
@@ -115,6 +130,13 @@ class _MyHomePageState extends State<MyHomePage> {
       mess = exception.message;
       method = exception.method;
       details = exception.details;
+      if (Platform.isAndroid) {
+        if (details != null) {
+          details = details + " Is Socket Mobile Companion app installed?";
+        } else {
+          details = "Is Socket Mobile Companion app installed?";
+        }
+      }
     }
     _updateVals(stat, mess, method, details);
   }

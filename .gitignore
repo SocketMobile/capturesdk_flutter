@@ -49,6 +49,7 @@ app.*.map.json
 tests/.DS_Store
 /.build
 /Packages
+key-file.json
 
 # iOS
 /*.xcodeproj

@@ -26,6 +26,8 @@ import android.util.Log;
 
 import android.os.Handler;
 import android.os.Looper;
+import com.capturesdk_flutter.CaptureService;
+import com.capturesdk_flutter.CaptureStartResult;
 
 public class CaptureModule implements FlutterPlugin, MethodChannel.MethodCallHandler {
 
@@ -55,6 +57,7 @@ public class CaptureModule implements FlutterPlugin, MethodChannel.MethodCallHan
         methodChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "capturesdk_flutter_module");
         methodChannel.setMethodCallHandler(this);
         // context = flutterPluginBinding.getApplicationContext();
+        context = flutterPluginBinding.getApplicationContext();
         eventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "capturesdk_flutter_module/events");
         eventChannel.setStreamHandler(new EventChannel.StreamHandler() {
             public void onListen(Object arguments, EventChannel.EventSink eventSink) {
@@ -78,6 +81,7 @@ public class CaptureModule implements FlutterPlugin, MethodChannel.MethodCallHan
                 result.success(null);
                 break;
             case "startCaptureService":
+                Log.d("StartCaptureService", "IN NATIVE MODULE");
                 startCaptureService(result);
                 break;
             default:
@@ -124,12 +128,16 @@ public class CaptureModule implements FlutterPlugin, MethodChannel.MethodCallHan
         mCaptureExtension.start();
     }
 
-    private void startCaptureService(MethodChannel.Result result) {
-        if (context != null) {
-            context.sendBroadcast(getStartIntent());
-            result.success(null);
-        } else {
-            result.error("-1000", "Broadcast", "Context is null.");
+    public void startCaptureService(MethodChannel.Result result) {
+        try {
+            CaptureStartResult serviceStarted = CaptureService.start(context);
+            if (serviceStarted.code > -1) {
+                result.success(serviceStarted.message);
+            } else {
+                result.success("Could not start capture service. Code: " + serviceStarted.code);
+            }
+        } catch (Exception e) {
+            result.error("CAPTURE_SERVICE_ERROR", "Error starting capture service", e.getMessage());
         }
     }
 
