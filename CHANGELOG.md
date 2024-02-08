@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!--new item here (do not remove)-->
 
+## [1.4.46] - 2024-02-08
+
+### Added
+
+- Updated README.md with correct version and added Changelog item.
+
 ## [1.4.44] - 2024-02-06
 
 ### Added

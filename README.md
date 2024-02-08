@@ -1,4 +1,4 @@
-# Flutter CaptureSDK 1.4.44
+# Flutter CaptureSDK 1.4.46
 
 This is the Flutter CatureSDK for Socket Mobile's Capture library. The accompanying package can be found on [pub.dev](https://pub.dev/packages/capturesdk_flutter).
 
@@ -117,7 +117,7 @@ Install the flutter package using `flutter pub get capturesdk_flutter`. It will 
 ```dart
 dependencies:
   flutter:
-    capturesdk_flutter: 1.4.44
+    capturesdk_flutter: 1.4.46
 ```
 
 In the `main.dart`, you can import the capture flutter sdk by adding this line to the top of your file.

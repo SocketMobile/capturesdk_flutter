@@ -23,7 +23,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.4.17"
+    version: "1.4.44"
   characters:
     dependency: transitive
     description:
