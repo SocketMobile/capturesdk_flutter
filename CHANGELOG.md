@@ -2,10 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.5.19] - 2024-09-24
 
-## DEPRECATION - April 17th 2024
+### Fixed
+
+- The iOS Hot Restart has been fixed from [issue on Github](https://github.com/SocketMobile/capturesdk_flutter/issues/8)
+
+### Improvements
+
+- Update iOS CaptureSDK to 1.9.59
+
+## [1.5.12] - 2024-05-12
+
+### Improvements
+
+- Masking the Personal Access Token in the url of the CaptureSDK in the documentation
+
+## [1.5.11] - 2024-04-09
+
+### Added
+
+- SocketCam C860 is available. See more details [here](https://www.socketmobile.com/readers-accessories/product-families/socketcam)
+- Update iOS CaptureSDK to 1.9.21
+- Update http package to 1.2.1 from [issue on Github](https://github.com/SocketMobile/capturesdk_flutter/issues/4)
+- Update the documentation to implement SocketCam on iOS
+
+## Not available here from April 17th 2024
 
 - SocketCam C860 is available through our [Developer Portal](https://www.socketmobile.com/developers/portal). For more information and how to access, please visit our page [about this new product](https://www.socketmobile.com/readers-accessories/product-families/socketcam).
 
