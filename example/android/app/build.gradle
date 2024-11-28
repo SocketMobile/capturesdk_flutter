@@ -25,7 +25,7 @@ apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 34
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -37,7 +37,7 @@ android {
         applicationId "com.example.example"
         minSdkVersion 22
         targetSdkVersion 33
-        compileSdkVersion 33
+        compileSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

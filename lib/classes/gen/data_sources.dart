@@ -156,8 +156,11 @@ class CaptureDataSourceID {
 	/// the barcode symbology Digimarc
 	static const int symbologyDigimarc = 49;
 
+	/// the barcode symbology Korea Post
+	static const int symbologyKoreaPost = 50;
+
 	/// the last barcode symbology ID, not an actual barcode symbology
-	static const int lastSymbologyID = 50;
+	static const int lastSymbologyID = 51;
 
 	/// the RFID Tag Type ISO 14443 A
 	static const int tagTypeISO14443TypeA = 256;
@@ -205,6 +208,9 @@ class CaptureDataSourceID {
 
 /// Status properties for data sources in capture events.
 class CaptureDataSourceStatus {
+	/// the data source status by default
+	static const int default = -1;
+
 	/// the data source status is disabled
 	static const int disable = 0;
 

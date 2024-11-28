@@ -114,15 +114,16 @@ class _SocketCamState extends State<SocketCamWidget> {
 
     try {
       var data = await widget.socketCamCapture!.getProperty(property);
-      Map<String, dynamic> x = _supportOpts[data.value]!;
-      setState(() {
-        _socketCamEnabled = data.value;
-      });
-      if (!fromCallback) {
-        setStatus('successfully retrieved SocketCamStatus: ${x['message']}');
-      }
-      if (widget.socketCamDevice != null) {
-        _setOverlayView();
+      if (_supportOpts.keys.contains(data.value)) {
+        Map<String, dynamic> x = _supportOpts[data.value]!;
+        setState(() {
+          _socketCamEnabled = data.value;
+        });
+        if (!fromCallback) {
+          setStatus('successfully retrieved SocketCamStatus: ${x['message']}');
+        }
+      } else {
+        setStatus('No SocketCamStatus found');
       }
     } on CaptureException catch (exception) {
       String code = exception.code.toString();
@@ -185,23 +186,6 @@ class _SocketCamState extends State<SocketCamWidget> {
 
     CapturePlugin.startSocketCamExtension(clientHandle,
         _startSocketCamExtensionCallback); // Use the Flutter plugin
-  }
-
-  void _setOverlayView() async {
-    CaptureProperty property = const CaptureProperty(
-      id: CapturePropertyIds.overlayViewDevice,
-      type: CapturePropertyTypes.object,
-      value: {"SocketCamContext": 0x1234},
-    );
-
-    try {
-      await widget.socketCamDevice!.setProperty(property);
-      setStatus("successfully set OverlayView!");
-    } on CaptureException catch (exception) {
-      String code = exception.code.toString();
-      String message = exception.message;
-      setStatus("failed to set OverlayView: $code : $message");
-    }
   }
 
   Future<void> _setSocketCamTrigger() async {

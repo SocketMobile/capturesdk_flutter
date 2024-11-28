@@ -64,14 +64,14 @@ final class CaptureService {
             if (serviceIntent != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.startForegroundService(serviceIntent);
-                    return new CaptureStartResult(CaptureError.ESKT_NOERROR, "successfully started with startForegroundService");
+                    return new CaptureStartResult((int)CaptureError.ESKT_NOERROR, "successfully started with startForegroundService");
                 }
             }
         } catch (Exception e) {
             Log.d("CaptureService", "Could not start with startForeground Service: " + e.getMessage());
             e.printStackTrace();
             context.sendBroadcast(getStartIntent());
-            return new CaptureStartResult(CaptureError.ESKT_NOERROR, "successfully started with sendBroadcast");
+            return new CaptureStartResult((int)CaptureError.ESKT_NOERROR, "successfully started with sendBroadcast");
         }
         return new CaptureStartResult(CaptureError.COMPANION_NOT_INSTALLED, "Error starting service: Is Socket Mobile Companion Installed?");
     }

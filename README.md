@@ -1,30 +1,6 @@
-# ********************************************************
-# THIS REPOSITORY HAS BEEN MOVED BEHIND OUR [DEVELOPERS PORTAL](https://www.socketmobile.com/dev-portal/portal)
-# BUT PLEASE WATCH 👁️‍🗨️ ALL ACTIVITY IT AS WE REPORT THE README AND CHANGELOG HERE. YOU'LL BE NOTIFIED WITH:
-# - Bug fixes
-# - OS version update
-# - Support of new products
-# ********************************************************
-
 # Flutter CaptureSDK 1.5.19
 
-The repository has been relocated within the Socket Mobile [Developer Portal](https://www.socketmobile.com/developers/portal) to enhance camera scanning capabilities with the SocketCam C860.
-
-It employs a high-performance decoder capable of swiftly reading damaged barcodes in various lighting conditions.
-
-The new SocketCam C860 is provided to developers at no cost and requires no additional coding efforts if the application includes a UI trigger button.
-
-Activation of the C860 is left to the application's end user, who can enable its use by purchasing a subscription.
-
-It's important to note that the free version of our camera-based scanner, the SocketCam C820, remains accessible.
-
-Both the C860 and C820 utilize the same APIs as our physical scanner products, ensuring a seamless transition between a camera-based scanner and a physical barcode scanner.
-
-More documentation can be found [here](https://docs.socketmobile.com/captureflutter/en/latest/ "CaptureSDK Documentation").
-
-For more information and how to access, please visit our page [about this new product](https://www.socketmobile.com/readers-accessories/product-families/socketcam).
-
-On 1st of July 2024, there won't be any support for this repository and we will focus on the Flutter CaptureSDK hosted through our [DEVELOPERS PORTAL](https://www.socketmobile.com/dev-portal/portal).
+This is the Flutter CatureSDK for Socket Mobile's Capture library.
 
 ## Devices compatibility and CaptureSDK versions
 
@@ -45,10 +21,7 @@ Install the flutter package by adding the following to your `pubspec.yaml` file.
 ```dart
 dependencies:
   ...
-  capturesdk_flutter:
-    git:
-      url: https://oauth2:<YOUR-AUTH-TOKEN-FROM-SOCKET-MOBILE-DEVELOPERS-PORTAL>@sdk.socketmobile.com/capture/flutter-capturesdk.git
-    version: ^1.5.19
+  capturesdk_flutter: ^1.5.0
   ...
 ```
 
@@ -183,7 +156,7 @@ The response in `setProperty` does not contain a `value` property. You can acces
 You will need to change three things in your app in order for it to work with iOS. First will need to update the `Podfile` in the `ios` directory of your app in order to be compatible with the version used in our SDK and the source of our iOS CaptureSDK
 
 ```ruby
-  source "https://oauth2:<YOUR-AUTH-TOKEN-FROM-SOCKET-MOBILE-DEVELOPERS-PORTAL>@sdk.socketmobile.com/capture/cocoapods-repo.git"
+  source 'https://github.com/CocoaPods/Specs.git'
 
   platform :ios, '13.0'
 
@@ -340,3 +313,16 @@ Then you can run the app through Android Studio and Xcode or through Visual Stud
 3. `cd ios`
 4. Run `pod install --repo-update`
 5. Run `flutter run` or open the project in Xcode to run on connected iOS device.
+
+### Android
+
+1. In Android Studio, go to the top of the window and click on `Build > Clean Project`. Then click the Run button.
+2. If that doesn't work, try deleting `example/android/.gradle`.
+3. In Android Studio, click on the elephant icon that is to the right of the Run and Debug buttons. This button is used for Gradle Sync and should sync up your gradle project.
+
+### iOS
+
+1. In Xcode, go to the top of the window and click on `Product > Clean Build Folder`. Then click the Run button.
+2. If that doesn't work, try deleting `example/ios/Pods` and `Podfile.lock`.
+3. In your terminal, run `pod install`. Then go to Xcode and try to run again.
+4. If those don't work, you can try using `pod deintegrate`, and then `pod install` again before re-running in Xcode.

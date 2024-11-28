@@ -12,7 +12,7 @@ part of 'capture_result.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 CaptureResult _$CaptureResultFromJson(Map<String, dynamic> json) {
   return _CaptureResult.fromJson(json);
@@ -101,11 +101,11 @@ class _$CaptureResultCopyWithImpl<$Res, $Val extends CaptureResult>
 }
 
 /// @nodoc
-abstract class _$$_CaptureResultCopyWith<$Res>
+abstract class _$$CaptureResultImplCopyWith<$Res>
     implements $CaptureResultCopyWith<$Res> {
-  factory _$$_CaptureResultCopyWith(
-          _$_CaptureResult value, $Res Function(_$_CaptureResult) then) =
-      __$$_CaptureResultCopyWithImpl<$Res>;
+  factory _$$CaptureResultImplCopyWith(
+          _$CaptureResultImpl value, $Res Function(_$CaptureResultImpl) then) =
+      __$$CaptureResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int handle, CaptureEvent? event, CaptureProperty? property});
@@ -117,11 +117,11 @@ abstract class _$$_CaptureResultCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CaptureResultCopyWithImpl<$Res>
-    extends _$CaptureResultCopyWithImpl<$Res, _$_CaptureResult>
-    implements _$$_CaptureResultCopyWith<$Res> {
-  __$$_CaptureResultCopyWithImpl(
-      _$_CaptureResult _value, $Res Function(_$_CaptureResult) _then)
+class __$$CaptureResultImplCopyWithImpl<$Res>
+    extends _$CaptureResultCopyWithImpl<$Res, _$CaptureResultImpl>
+    implements _$$CaptureResultImplCopyWith<$Res> {
+  __$$CaptureResultImplCopyWithImpl(
+      _$CaptureResultImpl _value, $Res Function(_$CaptureResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -131,7 +131,7 @@ class __$$_CaptureResultCopyWithImpl<$Res>
     Object? event = freezed,
     Object? property = freezed,
   }) {
-    return _then(_$_CaptureResult(
+    return _then(_$CaptureResultImpl(
       handle: null == handle
           ? _value.handle
           : handle // ignore: cast_nullable_to_non_nullable
@@ -150,12 +150,14 @@ class __$$_CaptureResultCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CaptureResult with DiagnosticableTreeMixin implements _CaptureResult {
-  const _$_CaptureResult(
+class _$CaptureResultImpl
+    with DiagnosticableTreeMixin
+    implements _CaptureResult {
+  const _$CaptureResultImpl(
       {required this.handle, required this.event, required this.property});
 
-  factory _$_CaptureResult.fromJson(Map<String, dynamic> json) =>
-      _$$_CaptureResultFromJson(json);
+  factory _$CaptureResultImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CaptureResultImplFromJson(json);
 
   @override
   final int handle;
@@ -180,10 +182,10 @@ class _$_CaptureResult with DiagnosticableTreeMixin implements _CaptureResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CaptureResult &&
+            other is _$CaptureResultImpl &&
             (identical(other.handle, handle) || other.handle == handle) &&
             (identical(other.event, event) || other.event == event) &&
             (identical(other.property, property) ||
@@ -197,12 +199,12 @@ class _$_CaptureResult with DiagnosticableTreeMixin implements _CaptureResult {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CaptureResultCopyWith<_$_CaptureResult> get copyWith =>
-      __$$_CaptureResultCopyWithImpl<_$_CaptureResult>(this, _$identity);
+  _$$CaptureResultImplCopyWith<_$CaptureResultImpl> get copyWith =>
+      __$$CaptureResultImplCopyWithImpl<_$CaptureResultImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CaptureResultToJson(
+    return _$$CaptureResultImplToJson(
       this,
     );
   }
@@ -212,10 +214,10 @@ abstract class _CaptureResult implements CaptureResult {
   const factory _CaptureResult(
       {required final int handle,
       required final CaptureEvent? event,
-      required final CaptureProperty? property}) = _$_CaptureResult;
+      required final CaptureProperty? property}) = _$CaptureResultImpl;
 
   factory _CaptureResult.fromJson(Map<String, dynamic> json) =
-      _$_CaptureResult.fromJson;
+      _$CaptureResultImpl.fromJson;
 
   @override
   int get handle;
@@ -225,6 +227,6 @@ abstract class _CaptureResult implements CaptureResult {
   CaptureProperty? get property;
   @override
   @JsonKey(ignore: true)
-  _$$_CaptureResultCopyWith<_$_CaptureResult> get copyWith =>
+  _$$CaptureResultImplCopyWith<_$CaptureResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

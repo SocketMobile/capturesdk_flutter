@@ -75,11 +75,11 @@ class CaptureDeviceType {
 	///value: 196611 (0x30003)
 	static const int scanner9 = 196611;
 
-	///SocketCam C820 (only used in iOS and Android)
+	///SocketCam C820
 	///value: 5 (0x00005)
 	static const int socketCamC820 = 5;
 
-	///SocketCam C860 (only used in iOS and Android)
+	///SocketCam C860
 	///value: 29 (0x0001D)
 	static const int socketCamC860 = 29;
 
@@ -167,7 +167,7 @@ class CaptureDeviceType {
 	///value: 327963 (0x5011B)
 	static const int scannerS370 = 327963;
 
-	///Model S370 - NFC ReaderWriter
+	///Model S370 - NFC Reader/Writer
 	///value: 329243 (0x5061B)
 	static const int nFCS370 = 329243;
 
@@ -184,20 +184,20 @@ class CaptureDeviceType {
 	static const int scannerM930 = 196894;
 
 	///Model M940
-	///value: 327967 (0x5011F)
-	static const int scannerM940 = 327967;
+	///value: 196895 (0x3011F)
+	static const int scannerM940 = 196895;
 
-	///Model M960
-	///value: 327968 (0x50120)
-	static const int scannerM960 = 327968;
-
-	///device type unknown by this version of Capture
+	///Bluetooth device type unknown by this version of Capture
 	///value: 196641 (0x30021)
 	static const int btUnknown = 196641;
 
 	///device manager for controlling BLE
 	///value: 17104897 (0x1050001)
 	static const int deviceManagerBle = 17104897;
+
+	///Ble device type unknown by this version of Capture
+	///value: 329761 (0x50821)
+	static const int bleUnknown = 329761;
 
 }
 
@@ -222,6 +222,11 @@ class CaptureDeviceTypeFunction {
 	/// NFC writer function for this device
 	/// value: 4 (0x00004)
 	static const int nFCWriter = 4;
+
+
+	/// Unknown function for this device
+	/// value: 8 (0x00008)
+	static const int unknown = 8;
 
 	}
 

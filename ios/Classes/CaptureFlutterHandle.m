@@ -8,109 +8,83 @@
 #import <Foundation/Foundation.h>
 #import "CaptureFlutterHandle.h"
 
+
 @implementation CaptureFlutterHandle {
-    NSDictionary* _handles;
+    
+    NSMutableDictionary *_handles;
     int _counter;
-    NSNumber* _firstHandle; // root Capture
+    NSNumber *_firstHandle; // root CaptureSDK object
+    
 }
 
--(void)checkInitialized {
-    if(_handles == nil){
-        NSException *e = [NSException
-      exceptionWithName:@"InvalidHandleException"
-                  reason:@"There no handles"
-                userInfo:nil];
-        @throw e;
-    }
-}
-
--(void)checkHandle:(NSNumber*) handle {
-    [self checkInitialized];
-    if([self isValidHandle:handle] == NO){
-        NSException *e = [NSException
-      exceptionWithName:@"InvalidHandleException"
-                  reason:@"No such handle valid"
-                userInfo:nil];
-        @throw e;
-    }
-}
-
-+(NSString*)getKeyHandle:(NSNumber*)handle {
-    return [NSString stringWithFormat:@"%d", [handle intValue]];
-}
-
--(NSNumber*)addNewObject:(NSObject*)obj{
-    NSDate* date = [NSDate date];
+-(NSNumber *)addNewObject:(NSObject *)obj {
+    NSDate *date = [NSDate date];
     
     int cal = (int)[date timeIntervalSince1970];
-    if(_handles == nil){
+    if (_handles == nil) {
         _handles = [NSMutableDictionary new];
         _counter = 0;
     }
     cal *= 1000;
     _counter += 1;
     cal += _counter;
-    NSNumber* handle = [NSNumber numberWithInt:cal];
-    [_handles setValue:obj forKey:[CaptureFlutterHandle getKeyHandle:handle]];
-    if (_counter == 1){
+    NSNumber *handle = [NSNumber numberWithInt:cal];
+    [_handles setValue:obj forKey:handle.stringValue];
+    if (_counter == 1) {
         _firstHandle = handle;
+        NSLog(@"----> Root Capture opened: %@", handle);
+    } else {
+        NSLog(@"----> Device opened: %@", handle);
     }
+
     return handle;
 }
 
--(id)getObjectFromHandleString:(NSString*)handle{
-    return [_handles valueForKey:handle];
-}
-
--(id)getObjectFromHandle:(NSNumber*)handle{
-    [self checkHandle:handle];
-    return [self getObjectFromHandleString:[CaptureFlutterHandle getKeyHandle:handle]];
-}
-
--(id)removeObjectFromHandleString:(NSString*) handle{
-    NSObject* obj = [self getObjectFromHandleString:handle];
-    NSMutableDictionary* dic = (NSMutableDictionary*)_handles;
-    [dic removeObjectForKey:handle];
-    return obj;
-}
-
--(id)removeObjectFromHandle:(NSNumber*) handle{
-    NSObject* obj = [self removeObjectFromHandleString:[CaptureFlutterHandle getKeyHandle:handle]];
-    return obj;
-}
-
--(BOOL)isValidHandle:(NSNumber*)handle{
-    if(_handles == nil){
-        return NO;
+-(NSObject *)getObjectFromHandle:(NSNumber *)handle {
+    BOOL isValid = [self isValidHandle:handle];
+    if (isValid) {
+        return [_handles valueForKey:handle.stringValue];
     }
-    if([_handles valueForKey:[CaptureFlutterHandle getKeyHandle:handle]] == nil){
-        return NO;
-    }
-    return YES;
+
+    return nil;
 }
 
--(NSNumber*)findHandleFromObject:(id)object{
-    __block NSNumber* found;
-    [self checkInitialized];
-    [_handles enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        *stop = NO;
-        if(obj == object){
-            *stop = YES;
-            found = key;
-        }
-    }];
-    return found;
+-(void)removeHandle:(NSNumber *)handle {
+    if ([_handles.allKeys containsObject:handle.stringValue]) {
+        [_handles removeObjectForKey:handle.stringValue];
+    }
+}
+
+-(BOOL)isValidHandle:(NSNumber *)handle {
+    return [_handles valueForKey:handle.stringValue] != nil;
+}
+
+-(NSNumber *)findHandleFromObject:(id)object {
+    __block NSNumber *found;
+    if (_handles != nil) {
+        [_handles enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            *stop = NO;
+            if (obj == object) {
+                *stop = YES;
+                found = key;
+            }
+        }];
+
+        return found;
+    } else {
+        return nil;
+    }
 }
 
 -(NSInteger)getCount {
     return [_handles count];
 }
 
--(NSNumber*)getFirstHandle {
+-(NSNumber *)getFirstHandle {
     return _firstHandle;
 }
 
--(NSEnumerator*) getEnumator {
+-(NSEnumerator *)getEnumator {
     return [_handles keyEnumerator];
 }
 

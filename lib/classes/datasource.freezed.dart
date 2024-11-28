@@ -12,7 +12,7 @@ part of 'datasource.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
   return _DataSource.fromJson(json);
@@ -80,22 +80,22 @@ class _$DataSourceCopyWithImpl<$Res, $Val extends DataSource>
 }
 
 /// @nodoc
-abstract class _$$_DataSourceCopyWith<$Res>
+abstract class _$$DataSourceImplCopyWith<$Res>
     implements $DataSourceCopyWith<$Res> {
-  factory _$$_DataSourceCopyWith(
-          _$_DataSource value, $Res Function(_$_DataSource) then) =
-      __$$_DataSourceCopyWithImpl<$Res>;
+  factory _$$DataSourceImplCopyWith(
+          _$DataSourceImpl value, $Res Function(_$DataSourceImpl) then) =
+      __$$DataSourceImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int id, String name, int status, int flags});
 }
 
 /// @nodoc
-class __$$_DataSourceCopyWithImpl<$Res>
-    extends _$DataSourceCopyWithImpl<$Res, _$_DataSource>
-    implements _$$_DataSourceCopyWith<$Res> {
-  __$$_DataSourceCopyWithImpl(
-      _$_DataSource _value, $Res Function(_$_DataSource) _then)
+class __$$DataSourceImplCopyWithImpl<$Res>
+    extends _$DataSourceCopyWithImpl<$Res, _$DataSourceImpl>
+    implements _$$DataSourceImplCopyWith<$Res> {
+  __$$DataSourceImplCopyWithImpl(
+      _$DataSourceImpl _value, $Res Function(_$DataSourceImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -106,7 +106,7 @@ class __$$_DataSourceCopyWithImpl<$Res>
     Object? status = null,
     Object? flags = null,
   }) {
-    return _then(_$_DataSource(
+    return _then(_$DataSourceImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -129,16 +129,16 @@ class __$$_DataSourceCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_DataSource extends _DataSource with DiagnosticableTreeMixin {
-  const _$_DataSource(
+class _$DataSourceImpl extends _DataSource with DiagnosticableTreeMixin {
+  const _$DataSourceImpl(
       {required this.id,
       required this.name,
       required this.status,
       required this.flags})
       : super._();
 
-  factory _$_DataSource.fromJson(Map<String, dynamic> json) =>
-      _$$_DataSourceFromJson(json);
+  factory _$DataSourceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DataSourceImplFromJson(json);
 
   @override
   final int id;
@@ -166,10 +166,10 @@ class _$_DataSource extends _DataSource with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DataSource &&
+            other is _$DataSourceImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.status, status) || other.status == status) &&
@@ -183,12 +183,12 @@ class _$_DataSource extends _DataSource with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DataSourceCopyWith<_$_DataSource> get copyWith =>
-      __$$_DataSourceCopyWithImpl<_$_DataSource>(this, _$identity);
+  _$$DataSourceImplCopyWith<_$DataSourceImpl> get copyWith =>
+      __$$DataSourceImplCopyWithImpl<_$DataSourceImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DataSourceToJson(
+    return _$$DataSourceImplToJson(
       this,
     );
   }
@@ -199,11 +199,11 @@ abstract class _DataSource extends DataSource {
       {required final int id,
       required final String name,
       required final int status,
-      required final int flags}) = _$_DataSource;
+      required final int flags}) = _$DataSourceImpl;
   const _DataSource._() : super._();
 
   factory _DataSource.fromJson(Map<String, dynamic> json) =
-      _$_DataSource.fromJson;
+      _$DataSourceImpl.fromJson;
 
   @override
   int get id;
@@ -215,6 +215,6 @@ abstract class _DataSource extends DataSource {
   int get flags;
   @override
   @JsonKey(ignore: true)
-  _$$_DataSourceCopyWith<_$_DataSource> get copyWith =>
+  _$$DataSourceImplCopyWith<_$DataSourceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

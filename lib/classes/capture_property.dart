@@ -17,9 +17,10 @@ class CaptureProperty with _$CaptureProperty {
     @protected required dynamic value,
   }) = _CaptureProperty;
   const CaptureProperty._();
-  factory CaptureProperty.fromJson(Map<String, Object?> json) => _$CapturePropertyFromJson(json);
+  factory CaptureProperty.fromJson(Map<String, Object?> json) =>
+      _$CapturePropertyFromJson(json);
 
-  List<int> get array => value as List<int>;
+  List<int> get array => value as Uint8List;
   int get byte => value as int;
   String get string => value as String;
   DataSource get dataSource => value as DataSource;

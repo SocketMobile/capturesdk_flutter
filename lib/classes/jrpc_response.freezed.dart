@@ -12,7 +12,7 @@ part of 'jrpc_response.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 JRpcResponse _$JRpcResponseFromJson(Map<String, dynamic> json) {
   return _JRpcResponse.fromJson(json);
@@ -99,11 +99,11 @@ class _$JRpcResponseCopyWithImpl<$Res, $Val extends JRpcResponse>
 }
 
 /// @nodoc
-abstract class _$$_JRpcResponseCopyWith<$Res>
+abstract class _$$JRpcResponseImplCopyWith<$Res>
     implements $JRpcResponseCopyWith<$Res> {
-  factory _$$_JRpcResponseCopyWith(
-          _$_JRpcResponse value, $Res Function(_$_JRpcResponse) then) =
-      __$$_JRpcResponseCopyWithImpl<$Res>;
+  factory _$$JRpcResponseImplCopyWith(
+          _$JRpcResponseImpl value, $Res Function(_$JRpcResponseImpl) then) =
+      __$$JRpcResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -117,11 +117,11 @@ abstract class _$$_JRpcResponseCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_JRpcResponseCopyWithImpl<$Res>
-    extends _$JRpcResponseCopyWithImpl<$Res, _$_JRpcResponse>
-    implements _$$_JRpcResponseCopyWith<$Res> {
-  __$$_JRpcResponseCopyWithImpl(
-      _$_JRpcResponse _value, $Res Function(_$_JRpcResponse) _then)
+class __$$JRpcResponseImplCopyWithImpl<$Res>
+    extends _$JRpcResponseCopyWithImpl<$Res, _$JRpcResponseImpl>
+    implements _$$JRpcResponseImplCopyWith<$Res> {
+  __$$JRpcResponseImplCopyWithImpl(
+      _$JRpcResponseImpl _value, $Res Function(_$JRpcResponseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -132,7 +132,7 @@ class __$$_JRpcResponseCopyWithImpl<$Res>
     Object? result = freezed,
     Object? error = freezed,
   }) {
-    return _then(_$_JRpcResponse(
+    return _then(_$JRpcResponseImpl(
       jsonrpc: null == jsonrpc
           ? _value.jsonrpc
           : jsonrpc // ignore: cast_nullable_to_non_nullable
@@ -155,16 +155,16 @@ class __$$_JRpcResponseCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_JRpcResponse with DiagnosticableTreeMixin implements _JRpcResponse {
-  const _$_JRpcResponse(
+class _$JRpcResponseImpl with DiagnosticableTreeMixin implements _JRpcResponse {
+  const _$JRpcResponseImpl(
       {required this.jsonrpc,
       @IdConverter() this.id,
       final Map<String, dynamic>? result,
       this.error})
       : _result = result;
 
-  factory _$_JRpcResponse.fromJson(Map<String, dynamic> json) =>
-      _$$_JRpcResponseFromJson(json);
+  factory _$JRpcResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JRpcResponseImplFromJson(json);
 
   @override
   final String jsonrpc;
@@ -201,10 +201,10 @@ class _$_JRpcResponse with DiagnosticableTreeMixin implements _JRpcResponse {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JRpcResponse &&
+            other is _$JRpcResponseImpl &&
             (identical(other.jsonrpc, jsonrpc) || other.jsonrpc == jsonrpc) &&
             (identical(other.id, id) || other.id == id) &&
             const DeepCollectionEquality().equals(other._result, _result) &&
@@ -219,12 +219,12 @@ class _$_JRpcResponse with DiagnosticableTreeMixin implements _JRpcResponse {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JRpcResponseCopyWith<_$_JRpcResponse> get copyWith =>
-      __$$_JRpcResponseCopyWithImpl<_$_JRpcResponse>(this, _$identity);
+  _$$JRpcResponseImplCopyWith<_$JRpcResponseImpl> get copyWith =>
+      __$$JRpcResponseImplCopyWithImpl<_$JRpcResponseImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JRpcResponseToJson(
+    return _$$JRpcResponseImplToJson(
       this,
     );
   }
@@ -235,10 +235,10 @@ abstract class _JRpcResponse implements JRpcResponse {
       {required final String jsonrpc,
       @IdConverter() final String? id,
       final Map<String, dynamic>? result,
-      final JRpcError? error}) = _$_JRpcResponse;
+      final JRpcError? error}) = _$JRpcResponseImpl;
 
   factory _JRpcResponse.fromJson(Map<String, dynamic> json) =
-      _$_JRpcResponse.fromJson;
+      _$JRpcResponseImpl.fromJson;
 
   @override
   String get jsonrpc;
@@ -251,6 +251,6 @@ abstract class _JRpcResponse implements JRpcResponse {
   JRpcError? get error;
   @override
   @JsonKey(ignore: true)
-  _$$_JRpcResponseCopyWith<_$_JRpcResponse> get copyWith =>
+  _$$JRpcResponseImplCopyWith<_$JRpcResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

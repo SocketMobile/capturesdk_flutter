@@ -12,7 +12,7 @@ part of 'params.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Params _$ParamsFromJson(Map<String, dynamic> json) {
   return _Params.fromJson(json);
@@ -86,9 +86,10 @@ class _$ParamsCopyWithImpl<$Res, $Val extends Params>
 }
 
 /// @nodoc
-abstract class _$$_ParamsCopyWith<$Res> implements $ParamsCopyWith<$Res> {
-  factory _$$_ParamsCopyWith(_$_Params value, $Res Function(_$_Params) then) =
-      __$$_ParamsCopyWithImpl<$Res>;
+abstract class _$$ParamsImplCopyWith<$Res> implements $ParamsCopyWith<$Res> {
+  factory _$$ParamsImplCopyWith(
+          _$ParamsImpl value, $Res Function(_$ParamsImpl) then) =
+      __$$ParamsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int handle, String? guid, CaptureProperty? property});
@@ -98,10 +99,11 @@ abstract class _$$_ParamsCopyWith<$Res> implements $ParamsCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_ParamsCopyWithImpl<$Res>
-    extends _$ParamsCopyWithImpl<$Res, _$_Params>
-    implements _$$_ParamsCopyWith<$Res> {
-  __$$_ParamsCopyWithImpl(_$_Params _value, $Res Function(_$_Params) _then)
+class __$$ParamsImplCopyWithImpl<$Res>
+    extends _$ParamsCopyWithImpl<$Res, _$ParamsImpl>
+    implements _$$ParamsImplCopyWith<$Res> {
+  __$$ParamsImplCopyWithImpl(
+      _$ParamsImpl _value, $Res Function(_$ParamsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -111,7 +113,7 @@ class __$$_ParamsCopyWithImpl<$Res>
     Object? guid = freezed,
     Object? property = freezed,
   }) {
-    return _then(_$_Params(
+    return _then(_$ParamsImpl(
       handle: null == handle
           ? _value.handle
           : handle // ignore: cast_nullable_to_non_nullable
@@ -130,11 +132,11 @@ class __$$_ParamsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Params with DiagnosticableTreeMixin implements _Params {
-  const _$_Params({required this.handle, this.guid, this.property});
+class _$ParamsImpl with DiagnosticableTreeMixin implements _Params {
+  const _$ParamsImpl({required this.handle, this.guid, this.property});
 
-  factory _$_Params.fromJson(Map<String, dynamic> json) =>
-      _$$_ParamsFromJson(json);
+  factory _$ParamsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ParamsImplFromJson(json);
 
   @override
   final int handle;
@@ -159,10 +161,10 @@ class _$_Params with DiagnosticableTreeMixin implements _Params {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Params &&
+            other is _$ParamsImpl &&
             (identical(other.handle, handle) || other.handle == handle) &&
             (identical(other.guid, guid) || other.guid == guid) &&
             (identical(other.property, property) ||
@@ -176,12 +178,12 @@ class _$_Params with DiagnosticableTreeMixin implements _Params {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ParamsCopyWith<_$_Params> get copyWith =>
-      __$$_ParamsCopyWithImpl<_$_Params>(this, _$identity);
+  _$$ParamsImplCopyWith<_$ParamsImpl> get copyWith =>
+      __$$ParamsImplCopyWithImpl<_$ParamsImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ParamsToJson(
+    return _$$ParamsImplToJson(
       this,
     );
   }
@@ -191,9 +193,9 @@ abstract class _Params implements Params {
   const factory _Params(
       {required final int handle,
       final String? guid,
-      final CaptureProperty? property}) = _$_Params;
+      final CaptureProperty? property}) = _$ParamsImpl;
 
-  factory _Params.fromJson(Map<String, dynamic> json) = _$_Params.fromJson;
+  factory _Params.fromJson(Map<String, dynamic> json) = _$ParamsImpl.fromJson;
 
   @override
   int get handle;
@@ -203,6 +205,6 @@ abstract class _Params implements Params {
   CaptureProperty? get property;
   @override
   @JsonKey(ignore: true)
-  _$$_ParamsCopyWith<_$_Params> get copyWith =>
+  _$$ParamsImplCopyWith<_$ParamsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

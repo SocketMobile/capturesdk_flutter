@@ -12,7 +12,7 @@ part of 'capture_event.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 CaptureEvent _$CaptureEventFromJson(Map<String, dynamic> json) {
   return _CaptureEvent.fromJson(json);
@@ -86,22 +86,22 @@ class _$CaptureEventCopyWithImpl<$Res, $Val extends CaptureEvent>
 }
 
 /// @nodoc
-abstract class _$$_CaptureEventCopyWith<$Res>
+abstract class _$$CaptureEventImplCopyWith<$Res>
     implements $CaptureEventCopyWith<$Res> {
-  factory _$$_CaptureEventCopyWith(
-          _$_CaptureEvent value, $Res Function(_$_CaptureEvent) then) =
-      __$$_CaptureEventCopyWithImpl<$Res>;
+  factory _$$CaptureEventImplCopyWith(
+          _$CaptureEventImpl value, $Res Function(_$CaptureEventImpl) then) =
+      __$$CaptureEventImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int id, int type, dynamic value, int? handle, dynamic result});
 }
 
 /// @nodoc
-class __$$_CaptureEventCopyWithImpl<$Res>
-    extends _$CaptureEventCopyWithImpl<$Res, _$_CaptureEvent>
-    implements _$$_CaptureEventCopyWith<$Res> {
-  __$$_CaptureEventCopyWithImpl(
-      _$_CaptureEvent _value, $Res Function(_$_CaptureEvent) _then)
+class __$$CaptureEventImplCopyWithImpl<$Res>
+    extends _$CaptureEventCopyWithImpl<$Res, _$CaptureEventImpl>
+    implements _$$CaptureEventImplCopyWith<$Res> {
+  __$$CaptureEventImplCopyWithImpl(
+      _$CaptureEventImpl _value, $Res Function(_$CaptureEventImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -113,7 +113,7 @@ class __$$_CaptureEventCopyWithImpl<$Res>
     Object? handle = freezed,
     Object? result = freezed,
   }) {
-    return _then(_$_CaptureEvent(
+    return _then(_$CaptureEventImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -140,8 +140,8 @@ class __$$_CaptureEventCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CaptureEvent extends _CaptureEvent with DiagnosticableTreeMixin {
-  const _$_CaptureEvent(
+class _$CaptureEventImpl extends _CaptureEvent with DiagnosticableTreeMixin {
+  const _$CaptureEventImpl(
       {required this.id,
       required this.type,
       this.value = const <String, dynamic>{},
@@ -149,8 +149,8 @@ class _$_CaptureEvent extends _CaptureEvent with DiagnosticableTreeMixin {
       required this.result})
       : super._();
 
-  factory _$_CaptureEvent.fromJson(Map<String, dynamic> json) =>
-      _$$_CaptureEventFromJson(json);
+  factory _$CaptureEventImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CaptureEventImplFromJson(json);
 
   @override
   final int id;
@@ -182,10 +182,10 @@ class _$_CaptureEvent extends _CaptureEvent with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CaptureEvent &&
+            other is _$CaptureEventImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other.value, value) &&
@@ -206,12 +206,12 @@ class _$_CaptureEvent extends _CaptureEvent with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CaptureEventCopyWith<_$_CaptureEvent> get copyWith =>
-      __$$_CaptureEventCopyWithImpl<_$_CaptureEvent>(this, _$identity);
+  _$$CaptureEventImplCopyWith<_$CaptureEventImpl> get copyWith =>
+      __$$CaptureEventImplCopyWithImpl<_$CaptureEventImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CaptureEventToJson(
+    return _$$CaptureEventImplToJson(
       this,
     );
   }
@@ -223,11 +223,11 @@ abstract class _CaptureEvent extends CaptureEvent {
       required final int type,
       final dynamic value,
       final int? handle,
-      required final dynamic result}) = _$_CaptureEvent;
+      required final dynamic result}) = _$CaptureEventImpl;
   const _CaptureEvent._() : super._();
 
   factory _CaptureEvent.fromJson(Map<String, dynamic> json) =
-      _$_CaptureEvent.fromJson;
+      _$CaptureEventImpl.fromJson;
 
   @override
   int get id;
@@ -241,6 +241,6 @@ abstract class _CaptureEvent extends CaptureEvent {
   dynamic get result;
   @override
   @JsonKey(ignore: true)
-  _$$_CaptureEventCopyWith<_$_CaptureEvent> get copyWith =>
+  _$$CaptureEventImplCopyWith<_$CaptureEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -6,8 +6,8 @@ part of 'jrpc_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_JRpcResponse _$$_JRpcResponseFromJson(Map<String, dynamic> json) =>
-    _$_JRpcResponse(
+_$JRpcResponseImpl _$$JRpcResponseImplFromJson(Map<String, dynamic> json) =>
+    _$JRpcResponseImpl(
       jsonrpc: json['jsonrpc'] as String,
       id: const IdConverter().fromJson(json['id']),
       result: json['result'] as Map<String, dynamic>?,
@@ -16,7 +16,7 @@ _$_JRpcResponse _$$_JRpcResponseFromJson(Map<String, dynamic> json) =>
           : JRpcError.fromJson(json['error'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_JRpcResponseToJson(_$_JRpcResponse instance) =>
+Map<String, dynamic> _$$JRpcResponseImplToJson(_$JRpcResponseImpl instance) =>
     <String, dynamic>{
       'jsonrpc': instance.jsonrpc,
       'id': const IdConverter().toJson(instance.id),
