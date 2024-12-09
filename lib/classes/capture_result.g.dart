@@ -6,8 +6,8 @@ part of 'capture_result.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CaptureResult _$$_CaptureResultFromJson(Map<String, dynamic> json) =>
-    _$_CaptureResult(
+_$CaptureResultImpl _$$CaptureResultImplFromJson(Map<String, dynamic> json) =>
+    _$CaptureResultImpl(
       handle: json['handle'] as int,
       event: json['event'] == null
           ? null
@@ -17,7 +17,7 @@ _$_CaptureResult _$$_CaptureResultFromJson(Map<String, dynamic> json) =>
           : CaptureProperty.fromJson(json['property'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_CaptureResultToJson(_$_CaptureResult instance) =>
+Map<String, dynamic> _$$CaptureResultImplToJson(_$CaptureResultImpl instance) =>
     <String, dynamic>{
       'handle': instance.handle,
       'event': instance.event,

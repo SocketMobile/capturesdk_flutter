@@ -12,7 +12,7 @@ part of 'capture_property.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 CaptureProperty _$CapturePropertyFromJson(Map<String, dynamic> json) {
   return _CaptureProperty.fromJson(json);
@@ -75,22 +75,22 @@ class _$CapturePropertyCopyWithImpl<$Res, $Val extends CaptureProperty>
 }
 
 /// @nodoc
-abstract class _$$_CapturePropertyCopyWith<$Res>
+abstract class _$$CapturePropertyImplCopyWith<$Res>
     implements $CapturePropertyCopyWith<$Res> {
-  factory _$$_CapturePropertyCopyWith(
-          _$_CaptureProperty value, $Res Function(_$_CaptureProperty) then) =
-      __$$_CapturePropertyCopyWithImpl<$Res>;
+  factory _$$CapturePropertyImplCopyWith(_$CapturePropertyImpl value,
+          $Res Function(_$CapturePropertyImpl) then) =
+      __$$CapturePropertyImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int id, int type, @protected dynamic value});
 }
 
 /// @nodoc
-class __$$_CapturePropertyCopyWithImpl<$Res>
-    extends _$CapturePropertyCopyWithImpl<$Res, _$_CaptureProperty>
-    implements _$$_CapturePropertyCopyWith<$Res> {
-  __$$_CapturePropertyCopyWithImpl(
-      _$_CaptureProperty _value, $Res Function(_$_CaptureProperty) _then)
+class __$$CapturePropertyImplCopyWithImpl<$Res>
+    extends _$CapturePropertyCopyWithImpl<$Res, _$CapturePropertyImpl>
+    implements _$$CapturePropertyImplCopyWith<$Res> {
+  __$$CapturePropertyImplCopyWithImpl(
+      _$CapturePropertyImpl _value, $Res Function(_$CapturePropertyImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -100,7 +100,7 @@ class __$$_CapturePropertyCopyWithImpl<$Res>
     Object? type = null,
     Object? value = freezed,
   }) {
-    return _then(_$_CaptureProperty(
+    return _then(_$CapturePropertyImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -119,13 +119,14 @@ class __$$_CapturePropertyCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CaptureProperty extends _CaptureProperty with DiagnosticableTreeMixin {
-  const _$_CaptureProperty(
+class _$CapturePropertyImpl extends _CaptureProperty
+    with DiagnosticableTreeMixin {
+  const _$CapturePropertyImpl(
       {required this.id, required this.type, @protected required this.value})
       : super._();
 
-  factory _$_CaptureProperty.fromJson(Map<String, dynamic> json) =>
-      _$$_CapturePropertyFromJson(json);
+  factory _$CapturePropertyImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CapturePropertyImplFromJson(json);
 
   @override
   final int id;
@@ -151,10 +152,10 @@ class _$_CaptureProperty extends _CaptureProperty with DiagnosticableTreeMixin {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CaptureProperty &&
+            other is _$CapturePropertyImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality().equals(other.value, value));
@@ -168,12 +169,13 @@ class _$_CaptureProperty extends _CaptureProperty with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CapturePropertyCopyWith<_$_CaptureProperty> get copyWith =>
-      __$$_CapturePropertyCopyWithImpl<_$_CaptureProperty>(this, _$identity);
+  _$$CapturePropertyImplCopyWith<_$CapturePropertyImpl> get copyWith =>
+      __$$CapturePropertyImplCopyWithImpl<_$CapturePropertyImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CapturePropertyToJson(
+    return _$$CapturePropertyImplToJson(
       this,
     );
   }
@@ -183,11 +185,11 @@ abstract class _CaptureProperty extends CaptureProperty {
   const factory _CaptureProperty(
       {required final int id,
       required final int type,
-      @protected required final dynamic value}) = _$_CaptureProperty;
+      @protected required final dynamic value}) = _$CapturePropertyImpl;
   const _CaptureProperty._() : super._();
 
   factory _CaptureProperty.fromJson(Map<String, dynamic> json) =
-      _$_CaptureProperty.fromJson;
+      _$CapturePropertyImpl.fromJson;
 
   @override
   int get id;
@@ -198,6 +200,6 @@ abstract class _CaptureProperty extends CaptureProperty {
   dynamic get value;
   @override
   @JsonKey(ignore: true)
-  _$$_CapturePropertyCopyWith<_$_CaptureProperty> get copyWith =>
+  _$$CapturePropertyImplCopyWith<_$CapturePropertyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

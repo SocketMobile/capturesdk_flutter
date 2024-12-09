@@ -46,13 +46,13 @@ class Transport {
     return transport;
   };
 
-  Future<int> openClient(
+  Future<int?> openClient(
       String host, AppInfo appInfo, Function eventNotification) async {
     throw CaptureException(
         SktErrors.ESKT_NOTINITIALIZED, 'openClient() is not implemented.');
   }
 
-  Future<int> openDevice(int clientHandle, String guid) async {
+  Future<int?> openDevice(int clientHandle, String guid) async {
     throw CaptureException(
         SktErrors.ESKT_NOTINITIALIZED, 'openDevice() is not implemented.');
   }

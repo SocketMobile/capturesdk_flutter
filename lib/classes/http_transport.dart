@@ -237,7 +237,7 @@ class HttpTransport extends Transport {
           // need to provide some sort of handle
           notification(err, 00000);
         } else {
-          logger?.log('Uh oh =>', 'No result returned');
+          logger?.log('websocket =>', 'No result returned');
         }
       },
       onDone: () {

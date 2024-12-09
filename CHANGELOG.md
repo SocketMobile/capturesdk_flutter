@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.41]
+
+### New
+
+- 🚀 Flutter CaptureSDK is back to being public 🚀
+
+### Improvements
+
+- Upgrade to `Flutter SDK v3.3.0`
+- Upgrade to `Gradle 8.5.0`. See [this flutter.dev guide](https://docs.flutter.dev/release/breaking-changes/flutter-gradle-plugin-apply) for more information
+- Upgrade to [`iOS CaptureSDK v1.9.74`](https://github.com/SocketMobile/cocoapods-capturesdk)
+
+### Fixed
+
 ## [1.5.19] - 2024-09-24
 
 ### Fixed
@@ -26,10 +40,6 @@ All notable changes to this project will be documented in this file.
 - Update iOS CaptureSDK to 1.9.21
 - Update http package to 1.2.1 from [issue on Github](https://github.com/SocketMobile/capturesdk_flutter/issues/4)
 - Update the documentation to implement SocketCam on iOS
-
-## Not available here from April 17th 2024
-
-- SocketCam C860 is available through our [Developer Portal](https://www.socketmobile.com/developers/portal). For more information and how to access, please visit our page [about this new product](https://www.socketmobile.com/readers-accessories/product-families/socketcam).
 
 ## [1.4.46] - 2024-02-08
 

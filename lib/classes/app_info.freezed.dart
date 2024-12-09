@@ -12,7 +12,7 @@ part of 'app_info.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 AppInfo _$AppInfoFromJson(Map<String, dynamic> json) {
   return _AppInfo.fromJson(json);
@@ -21,13 +21,17 @@ AppInfo _$AppInfoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AppInfo {
   @JsonKey(name: 'appId')
-  String? get appIdAndroid => throw _privateConstructorUsedError;
+  String? get appIdAndroid =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(includeToJson: false)
-  String? get appIdIos => throw _privateConstructorUsedError;
+  String? get appIdIos =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(name: 'appKey')
-  String? get appKeyAndroid => throw _privateConstructorUsedError;
+  String? get appKeyAndroid =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   @JsonKey(includeToJson: false)
-  String? get appKeyIos => throw _privateConstructorUsedError;
+  String? get appKeyIos =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
   String get developerId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -93,10 +97,10 @@ class _$AppInfoCopyWithImpl<$Res, $Val extends AppInfo>
 }
 
 /// @nodoc
-abstract class _$$_AppInfoCopyWith<$Res> implements $AppInfoCopyWith<$Res> {
-  factory _$$_AppInfoCopyWith(
-          _$_AppInfo value, $Res Function(_$_AppInfo) then) =
-      __$$_AppInfoCopyWithImpl<$Res>;
+abstract class _$$AppInfoImplCopyWith<$Res> implements $AppInfoCopyWith<$Res> {
+  factory _$$AppInfoImplCopyWith(
+          _$AppInfoImpl value, $Res Function(_$AppInfoImpl) then) =
+      __$$AppInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -108,10 +112,11 @@ abstract class _$$_AppInfoCopyWith<$Res> implements $AppInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_AppInfoCopyWithImpl<$Res>
-    extends _$AppInfoCopyWithImpl<$Res, _$_AppInfo>
-    implements _$$_AppInfoCopyWith<$Res> {
-  __$$_AppInfoCopyWithImpl(_$_AppInfo _value, $Res Function(_$_AppInfo) _then)
+class __$$AppInfoImplCopyWithImpl<$Res>
+    extends _$AppInfoCopyWithImpl<$Res, _$AppInfoImpl>
+    implements _$$AppInfoImplCopyWith<$Res> {
+  __$$AppInfoImplCopyWithImpl(
+      _$AppInfoImpl _value, $Res Function(_$AppInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -123,7 +128,7 @@ class __$$_AppInfoCopyWithImpl<$Res>
     Object? appKeyIos = freezed,
     Object? developerId = null,
   }) {
-    return _then(_$_AppInfo(
+    return _then(_$AppInfoImpl(
       appIdAndroid: freezed == appIdAndroid
           ? _value.appIdAndroid
           : appIdAndroid // ignore: cast_nullable_to_non_nullable
@@ -150,29 +155,33 @@ class __$$_AppInfoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AppInfo with DiagnosticableTreeMixin implements _AppInfo {
-  const _$_AppInfo(
+class _$AppInfoImpl with DiagnosticableTreeMixin implements _AppInfo {
+  const _$AppInfoImpl(
       {@JsonKey(name: 'appId') this.appIdAndroid,
       @JsonKey(includeToJson: false) this.appIdIos,
       @JsonKey(name: 'appKey') this.appKeyAndroid,
       @JsonKey(includeToJson: false) this.appKeyIos,
       required this.developerId});
 
-  factory _$_AppInfo.fromJson(Map<String, dynamic> json) =>
-      _$$_AppInfoFromJson(json);
+  factory _$AppInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AppInfoImplFromJson(json);
 
   @override
   @JsonKey(name: 'appId')
   final String? appIdAndroid;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(includeToJson: false)
   final String? appIdIos;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(name: 'appKey')
   final String? appKeyAndroid;
+// ignore: invalid_annotation_target
   @override
   @JsonKey(includeToJson: false)
   final String? appKeyIos;
+// ignore: invalid_annotation_target
   @override
   final String developerId;
 
@@ -194,10 +203,10 @@ class _$_AppInfo with DiagnosticableTreeMixin implements _AppInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AppInfo &&
+            other is _$AppInfoImpl &&
             (identical(other.appIdAndroid, appIdAndroid) ||
                 other.appIdAndroid == appIdAndroid) &&
             (identical(other.appIdIos, appIdIos) ||
@@ -218,12 +227,12 @@ class _$_AppInfo with DiagnosticableTreeMixin implements _AppInfo {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AppInfoCopyWith<_$_AppInfo> get copyWith =>
-      __$$_AppInfoCopyWithImpl<_$_AppInfo>(this, _$identity);
+  _$$AppInfoImplCopyWith<_$AppInfoImpl> get copyWith =>
+      __$$AppInfoImplCopyWithImpl<_$AppInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AppInfoToJson(
+    return _$$AppInfoImplToJson(
       this,
     );
   }
@@ -235,26 +244,26 @@ abstract class _AppInfo implements AppInfo {
       @JsonKey(includeToJson: false) final String? appIdIos,
       @JsonKey(name: 'appKey') final String? appKeyAndroid,
       @JsonKey(includeToJson: false) final String? appKeyIos,
-      required final String developerId}) = _$_AppInfo;
+      required final String developerId}) = _$AppInfoImpl;
 
-  factory _AppInfo.fromJson(Map<String, dynamic> json) = _$_AppInfo.fromJson;
+  factory _AppInfo.fromJson(Map<String, dynamic> json) = _$AppInfoImpl.fromJson;
 
   @override
   @JsonKey(name: 'appId')
   String? get appIdAndroid;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(includeToJson: false)
   String? get appIdIos;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(name: 'appKey')
   String? get appKeyAndroid;
-  @override
+  @override // ignore: invalid_annotation_target
   @JsonKey(includeToJson: false)
   String? get appKeyIos;
-  @override
+  @override // ignore: invalid_annotation_target
   String get developerId;
   @override
   @JsonKey(ignore: true)
-  _$$_AppInfoCopyWith<_$_AppInfo> get copyWith =>
+  _$$AppInfoImplCopyWith<_$AppInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

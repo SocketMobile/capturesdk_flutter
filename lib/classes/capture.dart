@@ -1,8 +1,9 @@
 //ignore_for_file: avoid_print
 
 import 'dart:async';
-import './capture_options.dart';
+
 import '../capturesdk.dart';
+import './capture_options.dart';
 
 String defaultHost = 'http://127.0.0.1:18481';
 
@@ -14,7 +15,7 @@ Logger defaultLogger = Logger((String message, Object? arg) {
   }
 });
 
-/// The main entrypoint for Socket Mobile Capture SDK.
+/// The main entrypoint for Socket Mobile CaptureSDK.
 /// Where connection to Capture library is initiated, maintained and through which requests are made.
 class Capture {
   Capture(
@@ -125,10 +126,8 @@ class Capture {
     } else {
       rootCapture = capture;
       transport = capture.transport;
-      transportHandle = capture.transportHandle;
       try {
-        final int? value = await transport?.openDevice(
-            rootCapture!.clientOrDeviceHandle ?? 0, guid);
+        final int? value = await transport?.openDevice(rootCapture!.clientOrDeviceHandle ?? 0, guid);
         clientOrDeviceHandle = value;
         return SktErrors.ESKT_NOERROR;
       } on CaptureException {

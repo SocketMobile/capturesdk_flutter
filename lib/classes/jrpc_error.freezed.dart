@@ -12,7 +12,7 @@ part of 'jrpc_error.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 JRpcError _$JRpcErrorFromJson(Map<String, dynamic> json) {
   return _JRpcError.fromJson(json);
@@ -67,21 +67,22 @@ class _$JRpcErrorCopyWithImpl<$Res, $Val extends JRpcError>
 }
 
 /// @nodoc
-abstract class _$$_JRpcErrorCopyWith<$Res> implements $JRpcErrorCopyWith<$Res> {
-  factory _$$_JRpcErrorCopyWith(
-          _$_JRpcError value, $Res Function(_$_JRpcError) then) =
-      __$$_JRpcErrorCopyWithImpl<$Res>;
+abstract class _$$JRpcErrorImplCopyWith<$Res>
+    implements $JRpcErrorCopyWith<$Res> {
+  factory _$$JRpcErrorImplCopyWith(
+          _$JRpcErrorImpl value, $Res Function(_$JRpcErrorImpl) then) =
+      __$$JRpcErrorImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int code, String message});
 }
 
 /// @nodoc
-class __$$_JRpcErrorCopyWithImpl<$Res>
-    extends _$JRpcErrorCopyWithImpl<$Res, _$_JRpcError>
-    implements _$$_JRpcErrorCopyWith<$Res> {
-  __$$_JRpcErrorCopyWithImpl(
-      _$_JRpcError _value, $Res Function(_$_JRpcError) _then)
+class __$$JRpcErrorImplCopyWithImpl<$Res>
+    extends _$JRpcErrorCopyWithImpl<$Res, _$JRpcErrorImpl>
+    implements _$$JRpcErrorImplCopyWith<$Res> {
+  __$$JRpcErrorImplCopyWithImpl(
+      _$JRpcErrorImpl _value, $Res Function(_$JRpcErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -90,7 +91,7 @@ class __$$_JRpcErrorCopyWithImpl<$Res>
     Object? code = null,
     Object? message = null,
   }) {
-    return _then(_$_JRpcError(
+    return _then(_$JRpcErrorImpl(
       code: null == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
@@ -105,11 +106,11 @@ class __$$_JRpcErrorCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_JRpcError with DiagnosticableTreeMixin implements _JRpcError {
-  const _$_JRpcError({required this.code, required this.message});
+class _$JRpcErrorImpl with DiagnosticableTreeMixin implements _JRpcError {
+  const _$JRpcErrorImpl({required this.code, required this.message});
 
-  factory _$_JRpcError.fromJson(Map<String, dynamic> json) =>
-      _$$_JRpcErrorFromJson(json);
+  factory _$JRpcErrorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JRpcErrorImplFromJson(json);
 
   @override
   final int code;
@@ -131,10 +132,10 @@ class _$_JRpcError with DiagnosticableTreeMixin implements _JRpcError {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JRpcError &&
+            other is _$JRpcErrorImpl &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.message, message) || other.message == message));
   }
@@ -146,12 +147,12 @@ class _$_JRpcError with DiagnosticableTreeMixin implements _JRpcError {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JRpcErrorCopyWith<_$_JRpcError> get copyWith =>
-      __$$_JRpcErrorCopyWithImpl<_$_JRpcError>(this, _$identity);
+  _$$JRpcErrorImplCopyWith<_$JRpcErrorImpl> get copyWith =>
+      __$$JRpcErrorImplCopyWithImpl<_$JRpcErrorImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JRpcErrorToJson(
+    return _$$JRpcErrorImplToJson(
       this,
     );
   }
@@ -159,10 +160,11 @@ class _$_JRpcError with DiagnosticableTreeMixin implements _JRpcError {
 
 abstract class _JRpcError implements JRpcError {
   const factory _JRpcError(
-      {required final int code, required final String message}) = _$_JRpcError;
+      {required final int code,
+      required final String message}) = _$JRpcErrorImpl;
 
   factory _JRpcError.fromJson(Map<String, dynamic> json) =
-      _$_JRpcError.fromJson;
+      _$JRpcErrorImpl.fromJson;
 
   @override
   int get code;
@@ -170,6 +172,6 @@ abstract class _JRpcError implements JRpcError {
   String get message;
   @override
   @JsonKey(ignore: true)
-  _$$_JRpcErrorCopyWith<_$_JRpcError> get copyWith =>
+  _$$JRpcErrorImplCopyWith<_$JRpcErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

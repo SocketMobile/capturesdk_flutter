@@ -3,7 +3,6 @@ package com.capturesdk_flutter; // Replace with your Flutter app's package name
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ContextWrapper;
 
 import androidx.annotation.NonNull;
 
@@ -22,7 +21,6 @@ import com.socketmobile.capture.troy.ExtensionScope;
 import java.util.HashMap;
 import java.util.Map;
 import android.util.Log;
-// import okhttp3.*;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -43,11 +41,6 @@ public class CaptureModule implements FlutterPlugin, MethodChannel.MethodCallHan
 
     private Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    public CaptureModule(Context context) {
-        super();
-        this.context = context;
-    }
-
     public String getName() {
         return "capturesdk_flutter";
     }
@@ -56,7 +49,6 @@ public class CaptureModule implements FlutterPlugin, MethodChannel.MethodCallHan
     public void onAttachedToEngine(FlutterPluginBinding flutterPluginBinding) {
         methodChannel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "capturesdk_flutter_module");
         methodChannel.setMethodCallHandler(this);
-        // context = flutterPluginBinding.getApplicationContext();
         context = flutterPluginBinding.getApplicationContext();
         eventChannel = new EventChannel(flutterPluginBinding.getBinaryMessenger(), "capturesdk_flutter_module/events");
         eventChannel.setStreamHandler(new EventChannel.StreamHandler() {

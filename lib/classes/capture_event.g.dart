@@ -6,8 +6,8 @@ part of 'capture_event.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CaptureEvent _$$_CaptureEventFromJson(Map<String, dynamic> json) =>
-    _$_CaptureEvent(
+_$CaptureEventImpl _$$CaptureEventImplFromJson(Map<String, dynamic> json) =>
+    _$CaptureEventImpl(
       id: json['id'] as int,
       type: json['type'] as int,
       value: json['value'] ?? const <String, dynamic>{},
@@ -15,7 +15,7 @@ _$_CaptureEvent _$$_CaptureEventFromJson(Map<String, dynamic> json) =>
       result: json['result'],
     );
 
-Map<String, dynamic> _$$_CaptureEventToJson(_$_CaptureEvent instance) =>
+Map<String, dynamic> _$$CaptureEventImplToJson(_$CaptureEventImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,

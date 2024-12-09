@@ -12,7 +12,7 @@ part of 'jrpc_request.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$JRpcRequest {
@@ -73,22 +73,22 @@ class _$JRpcRequestCopyWithImpl<$Res, $Val extends JRpcRequest>
 }
 
 /// @nodoc
-abstract class _$$_JRpcRequestCopyWith<$Res>
+abstract class _$$JRpcRequestImplCopyWith<$Res>
     implements $JRpcRequestCopyWith<$Res> {
-  factory _$$_JRpcRequestCopyWith(
-          _$_JRpcRequest value, $Res Function(_$_JRpcRequest) then) =
-      __$$_JRpcRequestCopyWithImpl<$Res>;
+  factory _$$JRpcRequestImplCopyWith(
+          _$JRpcRequestImpl value, $Res Function(_$JRpcRequestImpl) then) =
+      __$$JRpcRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String jsonrpc, String id, String method, Object? params});
 }
 
 /// @nodoc
-class __$$_JRpcRequestCopyWithImpl<$Res>
-    extends _$JRpcRequestCopyWithImpl<$Res, _$_JRpcRequest>
-    implements _$$_JRpcRequestCopyWith<$Res> {
-  __$$_JRpcRequestCopyWithImpl(
-      _$_JRpcRequest _value, $Res Function(_$_JRpcRequest) _then)
+class __$$JRpcRequestImplCopyWithImpl<$Res>
+    extends _$JRpcRequestCopyWithImpl<$Res, _$JRpcRequestImpl>
+    implements _$$JRpcRequestImplCopyWith<$Res> {
+  __$$JRpcRequestImplCopyWithImpl(
+      _$JRpcRequestImpl _value, $Res Function(_$JRpcRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +99,7 @@ class __$$_JRpcRequestCopyWithImpl<$Res>
     Object? method = null,
     Object? params = freezed,
   }) {
-    return _then(_$_JRpcRequest(
+    return _then(_$JRpcRequestImpl(
       jsonrpc: null == jsonrpc
           ? _value.jsonrpc
           : jsonrpc // ignore: cast_nullable_to_non_nullable
@@ -119,8 +119,8 @@ class __$$_JRpcRequestCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable(createFactory: false)
-class _$_JRpcRequest with DiagnosticableTreeMixin implements _JRpcRequest {
-  const _$_JRpcRequest(
+class _$JRpcRequestImpl with DiagnosticableTreeMixin implements _JRpcRequest {
+  const _$JRpcRequestImpl(
       {this.jsonrpc = '2.0',
       required this.id,
       required this.method,
@@ -153,10 +153,10 @@ class _$_JRpcRequest with DiagnosticableTreeMixin implements _JRpcRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JRpcRequest &&
+            other is _$JRpcRequestImpl &&
             (identical(other.jsonrpc, jsonrpc) || other.jsonrpc == jsonrpc) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.method, method) || other.method == method) &&
@@ -171,12 +171,12 @@ class _$_JRpcRequest with DiagnosticableTreeMixin implements _JRpcRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JRpcRequestCopyWith<_$_JRpcRequest> get copyWith =>
-      __$$_JRpcRequestCopyWithImpl<_$_JRpcRequest>(this, _$identity);
+  _$$JRpcRequestImplCopyWith<_$JRpcRequestImpl> get copyWith =>
+      __$$JRpcRequestImplCopyWithImpl<_$JRpcRequestImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JRpcRequestToJson(
+    return _$$JRpcRequestImplToJson(
       this,
     );
   }
@@ -187,7 +187,7 @@ abstract class _JRpcRequest implements JRpcRequest {
       {final String jsonrpc,
       required final String id,
       required final String method,
-      final Object? params}) = _$_JRpcRequest;
+      final Object? params}) = _$JRpcRequestImpl;
 
   @override
   String get jsonrpc;
@@ -199,6 +199,6 @@ abstract class _JRpcRequest implements JRpcRequest {
   Object? get params;
   @override
   @JsonKey(ignore: true)
-  _$$_JRpcRequestCopyWith<_$_JRpcRequest> get copyWith =>
+  _$$JRpcRequestImplCopyWith<_$JRpcRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

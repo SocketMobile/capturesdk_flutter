@@ -67,7 +67,7 @@ Property propertyFromCaptureProperty(CaptureProperty prop) {
         ..flags = ds.flags;
       break;
     case CapturePropertyTypes.array:
-      out.arrayValue = prop.array;
+      out.arrayValue = Uint8List.fromList(prop.array);
       break;
     case CapturePropertyTypes.string:
       out.stringValue = prop.string;

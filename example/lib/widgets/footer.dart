@@ -5,7 +5,6 @@ class FooterWidget extends StatelessWidget {
   final VoidCallback clearAllScans;
   final List<DecodedData> decodedDataList;
   final bool isOpen;
-  final VoidCallback closeCapture;
   final VoidCallback openCapture;
   final bool useSocketCam;
   final ValueChanged<bool> setUseSocketCam;
@@ -15,7 +14,6 @@ class FooterWidget extends StatelessWidget {
     required this.clearAllScans,
     required this.decodedDataList,
     required this.isOpen,
-    required this.closeCapture,
     required this.openCapture,
     required this.useSocketCam,
     required this.setUseSocketCam,
@@ -70,11 +68,6 @@ class FooterWidget extends StatelessWidget {
               ElevatedButton(
                 onPressed: clearAllScans,
                 child: const Text('Clear'),
-              ),
-              ElevatedButton(
-                onPressed: isOpen ? closeCapture : openCapture,
-                child: Text(
-                    isOpen ? 'Close Capture Client' : 'Open Capture Client'),
               ),
               ElevatedButton(
                 onPressed: toggleView,

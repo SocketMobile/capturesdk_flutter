@@ -6,7 +6,7 @@ part of 'jrpc_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Map<String, dynamic> _$$_JRpcRequestToJson(_$_JRpcRequest instance) =>
+Map<String, dynamic> _$$JRpcRequestImplToJson(_$JRpcRequestImpl instance) =>
     <String, dynamic>{
       'jsonrpc': instance.jsonrpc,
       'id': instance.id,

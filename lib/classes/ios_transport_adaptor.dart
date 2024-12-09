@@ -19,7 +19,7 @@ class IosTransportAdaptor extends Transport {
 
   /// Piggyback Capture's openClient and use parameters and interfaces unique to iOS connections.
   /// Incorporate iOSTransport connection and start listening to stream.
-  Future<int> openClient(
+  Future<int?> openClient(
       String host, AppInfo appInfo, Function eventNotification) async {
     transport ??= IosTransport();
     transportNotification = IosTransportNotification();
@@ -52,7 +52,7 @@ class IosTransportAdaptor extends Transport {
   @override
 
   /// Piggyback Capture's openDevice and use parameters and interfaces unique to iOS connections
-  Future<int> openDevice(int clientHandle, String guid) async {
+  Future<int?> openDevice(int clientHandle, String guid) async {
     final IosTransportHandle transportHandle = IosTransportHandle();
     transportHandle.value = clientHandle;
     try {

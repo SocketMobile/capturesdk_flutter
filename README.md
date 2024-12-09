@@ -1,30 +1,6 @@
-# ********************************************************
-# THIS REPOSITORY HAS BEEN MOVED BEHIND OUR [DEVELOPERS PORTAL](https://www.socketmobile.com/dev-portal/portal)
-# BUT PLEASE WATCH 👁️‍🗨️ ALL ACTIVITY IT AS WE REPORT THE README AND CHANGELOG HERE. YOU'LL BE NOTIFIED WITH:
-# - Bug fixes
-# - OS version update
-# - Support of new products
-# ********************************************************
+# Flutter CaptureSDK - Version 1.5.41
 
-# Flutter CaptureSDK 1.5.19
-
-The repository has been relocated within the Socket Mobile [Developer Portal](https://www.socketmobile.com/developers/portal) to enhance camera scanning capabilities with the SocketCam C860.
-
-It employs a high-performance decoder capable of swiftly reading damaged barcodes in various lighting conditions.
-
-The new SocketCam C860 is provided to developers at no cost and requires no additional coding efforts if the application includes a UI trigger button.
-
-Activation of the C860 is left to the application's end user, who can enable its use by purchasing a subscription.
-
-It's important to note that the free version of our camera-based scanner, the SocketCam C820, remains accessible.
-
-Both the C860 and C820 utilize the same APIs as our physical scanner products, ensuring a seamless transition between a camera-based scanner and a physical barcode scanner.
-
-More documentation can be found [here](https://docs.socketmobile.com/captureflutter/en/latest/ "CaptureSDK Documentation").
-
-For more information and how to access, please visit our page [about this new product](https://www.socketmobile.com/readers-accessories/product-families/socketcam).
-
-On 1st of July 2024, there won't be any support for this repository and we will focus on the Flutter CaptureSDK hosted through our [DEVELOPERS PORTAL](https://www.socketmobile.com/dev-portal/portal).
+This is the Flutter CatureSDK for Socket Mobile's Capture library.
 
 ## Devices compatibility and CaptureSDK versions
 
@@ -45,10 +21,7 @@ Install the flutter package by adding the following to your `pubspec.yaml` file.
 ```dart
 dependencies:
   ...
-  capturesdk_flutter:
-    git:
-      url: https://oauth2:<YOUR-AUTH-TOKEN-FROM-SOCKET-MOBILE-DEVELOPERS-PORTAL>@sdk.socketmobile.com/capture/flutter-capturesdk.git
-    version: ^1.5.19
+  capturesdk_flutter: ^1.5.41
   ...
 ```
 
@@ -59,6 +32,20 @@ import 'package:capturesdk_flutter/capturesdk.dart';
 ```
 
 For the rest of the things to add in your project, go to **[iOS](#getting-started-ios)** and **[Android](#getting-started-android)**.
+
+## Getting started iOS (first section) - Important note
+
+You will need to change three things in your app in order for it to work with iOS. First will need to update the `Podfile` in the `ios` directory of your app in order to be compatible with the version used in our SDK and the source of our iOS CaptureSDK Cocoapods private repository.
+
+```ruby
+  source 'https://github.com/CocoaPods/Specs.git'
+
+  platform :ios, '13.0' # minimum target requirement for CaptureSDK iOS
+
+  target 'MyProject' do
+    ....
+  end
+```
 
 ## Getting started
 
@@ -72,7 +59,7 @@ stat = 'handle: $response';
 mess = 'capture open success';
 ```
 
-`appInfo` is an instance of the `AppInfo` class and consists of the same parameters found in other Capture SDKs. See an example of `appInfo` below.
+`appInfo` is an instance of the `AppInfo` class and consists of the same parameters found in other CaptureSDKs. See an example of `appInfo` below.
 
 ```dart
 final appInfo = AppInfo(
@@ -85,7 +72,7 @@ final appInfo = AppInfo(
 
 To generate app info, head to the [docs](https://www.socketmobile.com/developers/portal/application-details/appkey-registration) and follow the prompts to register your app and generate your `appInfo` credentials. See the important section at the end of the README for more information specific to Flutter.
 
-Next, `_onCaptureEvent` is the callback passed to `open` that can handle the event notifications from the Capture SDK. Below are three important events to consider, which are accessible in the `CaptureEventIds` class.
+Next, `_onCaptureEvent` is the callback passed to `open` that can handle the event notifications from the CaptureSDK. Below are three important events to consider, which are accessible in the `CaptureEventIds` class.
 
 `deviceArrival` is the event that is triggered when the scanner connects to your device.
 
@@ -180,10 +167,10 @@ The response in `setProperty` does not contain a `value` property. You can acces
 
 ## Getting started iOS
 
-You will need to change three things in your app in order for it to work with iOS. First will need to update the `Podfile` in the `ios` directory of your app in order to be compatible with the version used in our SDK and the source of our iOS CaptureSDK
+You will need to change three things in your app in order for it to work with iOS. First will need to update the `Podfile` in the `ios` directory of your app in order to be compatible with the version used in our SDK and the source of our iOS CaptureSDK Cocoapods private repository.
 
 ```ruby
-  source "https://oauth2:<YOUR-AUTH-TOKEN-FROM-SOCKET-MOBILE-DEVELOPERS-PORTAL>@sdk.socketmobile.com/capture/cocoapods-repo.git"
+  source 'https://github.com/CocoaPods/Specs.git'
 
   platform :ios, '13.0'
 
@@ -208,8 +195,6 @@ Second, go to `ios/Runner/Info.plist` and at the bottom, just above `</dict>`, i
   <string>sktcompanion</string>
 </array>
 ```
-
-If you do not do this, you will encounter an error saying `This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app's Info.plist must contain an NSBluetoothAlwaysUsageDescription key with a string value explaining to the user how the app uses this data.`. This is a bluetooth security measure, and to permit bluetooth access you will need to add the above entry in your `Info.plist` file. The other item related to `NSCameraUsageDescription` is to permit camera access in order to use SocketCam C820 and C860
 
 For SocketCam C860 which is an enhanced version of SocketCam C820, you also need to add the following key to your `Info.plist`: **LSApplicationQueriesSchemes** (*Queried URL Schemes*) with a new item: **sktcompanion** (in lower case).
 
@@ -245,6 +230,35 @@ ALSO: The package name in `AndroidManifest.xml`, it needs to be both all lowerca
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.yourpackagename">
+```
+
+In the `MainActivity.java` file, register the CaptureSDK as a plugin:
+
+```java
+package com.example.example; // Replace with your app's package name
+
+import com.capturesdk_flutter.CaptureModule; // import CaptureModule Native Modules
+import io.flutter.embedding.android.FlutterActivity;
+import io.flutter.embedding.engine.FlutterEngine;
+
+public class MainActivity extends FlutterActivity {
+    @Override
+    public void configureFlutterEngine(FlutterEngine flutterEngine) {
+        flutterEngine.getPlugins().add(new CaptureModule(getApplicationContext())); // register CaptureSDK as a plugin here
+    }
+}
+```
+
+In your app's `builde.gradle` file add the 2 following options:
+
+```java
+buildTypes {
+    release {
+        minifyEnabled false       <------- to add
+        shrinkResources false     <------- to add
+        signingConfig = signingConfigs.debug
+    }
+}
 ```
 
 ## Enable Start Capture Service on Android

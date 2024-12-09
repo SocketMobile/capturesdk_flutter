@@ -9,7 +9,7 @@ public class MainActivity extends FlutterActivity {
     @Override
     public void configureFlutterEngine(FlutterEngine flutterEngine) {
         // Add CAPTUREMODULE plugin instance
-        flutterEngine.getPlugins().add(new CaptureModule(getApplicationContext()));
+        flutterEngine.getPlugins().add(new CaptureModule());
     }
 
 }

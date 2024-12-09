@@ -1,14 +1,16 @@
-group 'com.capturesdk_flutter'
+group "com.capturesdk_flutter"
+
+version = "1.0"
 
 buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://bin.socketmobile.com/repo/releases' }
+        maven { url "https://bin.socketmobile.com/repo/releases" }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath("com.android.tools.build:gradle:8.1.0")
     }
 }
 
@@ -16,36 +18,47 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://bin.socketmobile.com/repo/releases' }
+        maven { url "https://bin.socketmobile.com/repo/releases" }
     }
 }
 
-apply plugin: 'com.android.library'
+apply plugin: "com.android.library"
 
 android {
-    compileSdkVersion 33
+    if (project.android.hasProperty("namespace")) {
+        namespace = "com.capturesdk_flutter"
+    }
+
+    compileSdk = 34
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
-        minSdkVersion 22
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        minSdk = 22
     }
-    lintOptions {
-        disable 'InvalidPackage'
-    }
-    
+
     dependencies {
-        implementation 'androidx.core:core:1.0.2'
-        implementation 'androidx.annotation:annotation:1.0.0'
-        implementation "androidx.lifecycle:lifecycle-runtime:2.1.0"
-
+        implementation "androidx.core:core:1.12.0"
+        implementation "androidx.annotation:annotation:1.0.0"
+        implementation "androidx.lifecycle:lifecycle-runtime:2.7.0"
+        testImplementation("junit:junit:4.13.2")
+        testImplementation("org.mockito:mockito-core:5.0.0")
     }
 
-    namespace 'com.capturesdk_flutter'
+    testOptions {
+        unitTests.all {
+            testLogging {
+               events "passed", "skipped", "failed", "standardOut", "standardError"
+               outputs.upToDateWhen {false}
+               showStandardStreams = true
+            }
+        }
+    }
 }
 
 dependencies {
-    // implementation fileTree(dir: "libs", include: ["*.aar", "*.jar"])
-    // implementation 'com.google.zxing:core:3.5.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
-    implementation 'com.socketmobile:capture-android:1.6.15'
+    implementation "com.socketmobile:capture-socketcam:1.8.21"
 }

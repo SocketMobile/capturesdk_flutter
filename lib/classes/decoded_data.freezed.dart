@@ -12,7 +12,7 @@ part of 'decoded_data.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 DecodedData _$DecodedDataFromJson(Map<String, dynamic> json) {
   return _DecodedData.fromJson(json);
@@ -74,22 +74,22 @@ class _$DecodedDataCopyWithImpl<$Res, $Val extends DecodedData>
 }
 
 /// @nodoc
-abstract class _$$_DecodedDataCopyWith<$Res>
+abstract class _$$DecodedDataImplCopyWith<$Res>
     implements $DecodedDataCopyWith<$Res> {
-  factory _$$_DecodedDataCopyWith(
-          _$_DecodedData value, $Res Function(_$_DecodedData) then) =
-      __$$_DecodedDataCopyWithImpl<$Res>;
+  factory _$$DecodedDataImplCopyWith(
+          _$DecodedDataImpl value, $Res Function(_$DecodedDataImpl) then) =
+      __$$DecodedDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int id, String name, List<int> data});
 }
 
 /// @nodoc
-class __$$_DecodedDataCopyWithImpl<$Res>
-    extends _$DecodedDataCopyWithImpl<$Res, _$_DecodedData>
-    implements _$$_DecodedDataCopyWith<$Res> {
-  __$$_DecodedDataCopyWithImpl(
-      _$_DecodedData _value, $Res Function(_$_DecodedData) _then)
+class __$$DecodedDataImplCopyWithImpl<$Res>
+    extends _$DecodedDataCopyWithImpl<$Res, _$DecodedDataImpl>
+    implements _$$DecodedDataImplCopyWith<$Res> {
+  __$$DecodedDataImplCopyWithImpl(
+      _$DecodedDataImpl _value, $Res Function(_$DecodedDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -99,7 +99,7 @@ class __$$_DecodedDataCopyWithImpl<$Res>
     Object? name = null,
     Object? data = null,
   }) {
-    return _then(_$_DecodedData(
+    return _then(_$DecodedDataImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -118,14 +118,14 @@ class __$$_DecodedDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_DecodedData extends _DecodedData {
-  const _$_DecodedData(
+class _$DecodedDataImpl extends _DecodedData {
+  const _$DecodedDataImpl(
       {required this.id, required this.name, required final List<int> data})
       : _data = data,
         super._();
 
-  factory _$_DecodedData.fromJson(Map<String, dynamic> json) =>
-      _$$_DecodedDataFromJson(json);
+  factory _$DecodedDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DecodedDataImplFromJson(json);
 
   @override
   final int id;
@@ -145,10 +145,10 @@ class _$_DecodedData extends _DecodedData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DecodedData &&
+            other is _$DecodedDataImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality().equals(other._data, _data));
@@ -162,12 +162,12 @@ class _$_DecodedData extends _DecodedData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DecodedDataCopyWith<_$_DecodedData> get copyWith =>
-      __$$_DecodedDataCopyWithImpl<_$_DecodedData>(this, _$identity);
+  _$$DecodedDataImplCopyWith<_$DecodedDataImpl> get copyWith =>
+      __$$DecodedDataImplCopyWithImpl<_$DecodedDataImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DecodedDataToJson(
+    return _$$DecodedDataImplToJson(
       this,
     );
   }
@@ -177,11 +177,11 @@ abstract class _DecodedData extends DecodedData {
   const factory _DecodedData(
       {required final int id,
       required final String name,
-      required final List<int> data}) = _$_DecodedData;
+      required final List<int> data}) = _$DecodedDataImpl;
   const _DecodedData._() : super._();
 
   factory _DecodedData.fromJson(Map<String, dynamic> json) =
-      _$_DecodedData.fromJson;
+      _$DecodedDataImpl.fromJson;
 
   @override
   int get id;
@@ -191,6 +191,6 @@ abstract class _DecodedData extends DecodedData {
   List<int> get data;
   @override
   @JsonKey(ignore: true)
-  _$$_DecodedDataCopyWith<_$_DecodedData> get copyWith =>
+  _$$DecodedDataImplCopyWith<_$DecodedDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

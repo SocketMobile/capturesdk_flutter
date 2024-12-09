@@ -6,14 +6,16 @@ part of 'capture_property.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_CaptureProperty _$$_CapturePropertyFromJson(Map<String, dynamic> json) =>
-    _$_CaptureProperty(
+_$CapturePropertyImpl _$$CapturePropertyImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CapturePropertyImpl(
       id: json['id'] as int,
       type: json['type'] as int,
       value: json['value'],
     );
 
-Map<String, dynamic> _$$_CapturePropertyToJson(_$_CaptureProperty instance) =>
+Map<String, dynamic> _$$CapturePropertyImplToJson(
+        _$CapturePropertyImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,

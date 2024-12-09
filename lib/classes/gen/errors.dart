@@ -7,23 +7,29 @@
 /// defines the Errors used in Capture
 class SktErrors
 {
-	/// The wait timed out
-	static const int ESKT_WAITTIMEOUT = 1;
+	/// The Lasso feature is disabled
+	static const int ESKT_LASSODISABLED = 8;
 
-	/// This operation is already complete
-	static const int ESKT_ALREADYDONE = 2;
+	/// This operation is deprecated
+	static const int ESKT_DEPRECATED = 7;
 
-	/// This operation is pending
-	static const int ESKT_PENDING = 3;
-
-	/// This operation is still pending
-	static const int ESKT_STILLPENDING = 4;
+	/// No data present
+	static const int ESKT_NODATA = 6;
 
 	/// The object has been created
 	static const int ESKT_CREATED = 5;
 
-	/// No data present
-	static const int ESKT_NODATA = 6;
+	/// This operation is still pending
+	static const int ESKT_STILLPENDING = 4;
+
+	/// This operation is pending
+	static const int ESKT_PENDING = 3;
+
+	/// This operation is already complete
+	static const int ESKT_ALREADYDONE = 2;
+
+	/// The wait timed out
+	static const int ESKT_WAITTIMEOUT = 1;
 
 	/// There is no error
 	static const int ESKT_NOERROR = 0;
@@ -229,8 +235,14 @@ class SktErrors
 	/// The service does not respond
 	static const int ESKT_SERVICENOTCOMMUNICATING = -87;
 
-	/// The SocketCam overlay view is not set
-	static const int ESKT_OVERLAYVIEWNOTSET = -90;
+	/// The Lasso Id is expired
+	static const int ESKT_LASSOIDEXPIRED = -88;
+
+	/// The Lasso Id does not match
+	static const int ESKT_LASSOIDTNOTMATCHING = -89;
+
+	/// The device already has a Lasso Id
+	static const int ESKT_LASSOIDALREADYSET = -90;
 
 	/// This operation has been canceled
 	static const int ESKT_CANCEL = -91;

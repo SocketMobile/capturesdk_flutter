@@ -27,11 +27,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Capture SDK Demo',
+      title: 'Flutter CaptureSDK Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Capture SDK Demo Homepage'),
+      home: const MyHomePage(title: 'Flutter CaptureSDK Demo Homepage'),
     );
   }
 }
@@ -60,10 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Logger logger = Logger((message, arg) {
     if (message.isNotEmpty) {
       // ignore: avoid_print
-      print('CAPTURE FLUTTER: $message $arg\n\n');
+      print('CaptureSDK: $message $arg\n\n');
     } else {
       // ignore: avoid_print
-      print('CAPTURE FLUTTER: $arg\n\n');
+      print('CaptureSDK: $arg\n\n');
     }
   });
 
@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _openCapture();
     } catch (error) {
       // Handle errors here
-      _updateVals('Error initializing Capture Service', error.toString());
+      _updateVals('Error initializing CaptureSDK Service', error.toString());
     }
   }
 
@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       int? response = await capture.openClient(appInfo, _onCaptureEvent);
       stat = 'handle: $response';
-      mess = 'capture open success';
+      mess = 'CaptureSDK open success';
       setState(() {
         _isOpen = true;
       });
@@ -152,9 +152,16 @@ class _MyHomePageState extends State<MyHomePage> {
     logger.log('Device ${isManager ? 'Manager' : ''} Arrival =>',
         '${_deviceInfo.name} (${_deviceInfo.guid})');
 
+    _capture!.clientOrDeviceHandle = handle;
+
     try {
       await deviceCapture.openDevice(_deviceInfo.guid, _capture);
-      if (!isManager) {
+      if (isManager) {
+        setState(() {
+          _bleDeviceManagerCapture = deviceCapture;
+        });
+        _getFavorite(deviceCapture);
+      } else {
         if (!arr.contains(_deviceInfo)) {
           if (SocketCamTypes.contains(_deviceInfo.type)) {
             setState(() {
@@ -170,11 +177,6 @@ class _MyHomePageState extends State<MyHomePage> {
             _devices = arr;
           });
         }
-      } else {
-        setState(() {
-          _bleDeviceManagerCapture = deviceCapture;
-        });
-        _getFavorite(deviceCapture);
       }
       _updateVals('Device${isManager ? ' Manager' : ''} Opened',
           'Successfully added "${_deviceInfo.name}"');
@@ -191,14 +193,26 @@ class _MyHomePageState extends State<MyHomePage> {
         'Device ${isManager ? 'Manager' : ''} Removal =>', name + ' ($guid)');
 
     try {
-      dynamic res = await _deviceCapture!.close();
+      dynamic res;
+      if (_deviceCapture != null) {
+        res = await _deviceCapture!.close();
+      } else if (_socketcamDevice != null) {
+        res = await _socketcamDevice!.close();
+      }
       if (res == 0) {
         List<DeviceInfo> arr = _devices;
         arr.removeWhere((element) => element.guid == guid);
-        setState(() {
-          _devices = arr;
-          _deviceCapture = null;
-        });
+        if (SocketCamTypes.contains(e.deviceInfo.type)) {
+          setState(() {
+            _devices = arr;
+            _socketcamDevice = null;
+          });
+        } else {
+          setState(() {
+            _devices = arr;
+            _deviceCapture = null;
+          });
+        }
         if (_bleDeviceManagerCapture != null &&
             guid == _bleDeviceManagerCapture!.guid) {
           setState(() {
@@ -235,11 +249,8 @@ class _MyHomePageState extends State<MyHomePage> {
         _openDeviceHelper(deviceCapture, e, false, handle);
         break;
       case CaptureEventIds.deviceRemoval:
-        if (_deviceCapture != null) {
-          _closeDeviceHelper(e, handle, false);
-        }
+        _closeDeviceHelper(e, handle, false);
         break;
-
       case CaptureEventIds.decodedData:
         setStatus('Decoded Data', 'Successfully decoded data!');
         List<DecodedData> _myList = [..._decodedDataList];
@@ -259,22 +270,6 @@ class _MyHomePageState extends State<MyHomePage> {
           _closeDeviceHelper(e, handle, true);
         }
         break;
-    }
-  }
-
-  Future<void> _closeCapture() async {
-    try {
-      final res = await _capture!.close();
-      setStatus("Success in closing Capture: $res");
-      setState(() {
-        _isOpen = false;
-        _devices = [];
-        _useSocketCam = false;
-      });
-    } on CaptureException catch (exception) {
-      int code = exception.code;
-      String messge = exception.message;
-      setStatus("failed to close capture: $code: $messge");
     }
   }
 
@@ -407,7 +402,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   clearAllScans: _clearAllScans,
                   decodedDataList: _decodedDataList,
                   isOpen: _isOpen,
-                  closeCapture: _closeCapture,
                   openCapture: _openCapture,
                   useSocketCam: _useSocketCam,
                   setUseSocketCam: _setUseSocketCam)

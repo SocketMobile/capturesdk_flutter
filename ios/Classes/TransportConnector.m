@@ -7,7 +7,7 @@
 // which indicates the type of the data of the event received.
 
 // The Type checking is less important for the events coming from the CaptureSDK
-// since they are expected to be generated correctly by the Capture SDK.
+// since they are expected to be generated correctly by the CaptureSDK.
 
 #import "IosTransport.h"
 #import <CaptureSDK/CaptureSDK.h>
@@ -18,194 +18,243 @@
     BOOL connectionRestarted;
 }
 
-- (void)openClientAppInfo:(nullable IosAppInfo *)appInfo completion:(void(^)(IosTransportHandle *_Nullable, FlutterError *_Nullable))completion{
-    SKTAppInfo* sktAppInfo = [SKTAppInfo new];
+-(void)openClientAppInfo:(IosAppInfo *)appInfo completion:(void(^)(IosTransportHandle *, FlutterError *))completion {
+    SKTAppInfo *sktAppInfo = [SKTAppInfo new];
     sktAppInfo.DeveloperID = appInfo.developerId;
     sktAppInfo.AppID = appInfo.appId;
     sktAppInfo.AppKey = appInfo.appKey;
-    SKTCapture* capture = nil;
-    NSNumber* captureHandle;
-    if(self->_handles == nil){
-        self->connectionRestarted = FALSE;
+    if (self->_handles == nil) {
+        connectionRestarted = NO;
         self->_handles = [CaptureFlutterHandle new];
-        capture = [[SKTCapture alloc] initWithDelegate: self];
-        captureHandle = [self->_handles addNewObject:capture];
-    }
-    else{
-        if(connectionRestarted == FALSE){
+        self->_rootCapture = [[SKTCapture alloc] initWithDelegate:self];
+        self->_rootCaptureHandle = [self->_handles addNewObject:self->_rootCapture];
+    } else {
+        if(!connectionRestarted) { // This handles the Flutter Hot Restart
             [NSOperationQueue.mainQueue addOperationWithBlock:^{
-                NSNumber* firstHandle = [self->_handles getFirstHandle];
-                SKTCapture* capture = [self->_handles getObjectFromHandle:firstHandle];
-                [self closeDevicesButThisHandle: firstHandle withCompletion:^{
-                    [capture closeWithCompletionHandler:^(SKTResult result) {
-                        self->connectionRestarted = TRUE;
-                        [self openClientAppInfo:appInfo
-                                     completion:^(IosTransportHandle * _Nullable tspHandle, FlutterError * _Nullable flutterError) {
-                            self->connectionRestarted = FALSE;
-                            completion(tspHandle, flutterError);
-                        }];
+                [self closeDevicesButThisHandle:self->_rootCaptureHandle withCompletion:^{
+                    // Once the devices are all closed, proceed to close the Root Capture object.
+                    // This may take until 8 seconds to make sure that all devices are closed and all operations have been completed
+                    [self->_rootCapture closeWithCompletionHandler:^(SKTResult result) {
+                        self->_rootCapture = nil;
+                        self->_rootCaptureHandle = nil;
+                        if (SKTSUCCESS(result)) {
+                            NSLog(@"CaptureSDK has been closed successfully after the hot reload");
+                            self->connectionRestarted = YES;
+                            [self openClientAppInfo:appInfo
+                                         completion:^(IosTransportHandle *tspHandle, FlutterError *flutterError) {
+                                self->connectionRestarted = NO;
+                                NSLog(@"CaptureSDK has been restarted successfully after the hot reload");
+                                completion(tspHandle, flutterError);
+                            }];
+                        } else {
+                            FlutterError *error = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld", (long)result]
+                                                                      message:@"CaptureSDK - Error when closing"
+                                                                      details:nil];
+                            completion(nil, error);
+                        }
                     }];
                 }];
             }];
+
             return;
         }
     }
-    if(capture == nil){
-        captureHandle = [self->_handles getFirstHandle];
-        capture = [self->_handles getObjectFromHandle:captureHandle];
+    if (self->_rootCapture == nil) {
+        self->_rootCaptureHandle = [self->_handles getFirstHandle];
+        self->_rootCapture = (SKTCapture *)[self->_handles getObjectFromHandle:self->_rootCaptureHandle];
     }
-    [capture openWithAppInfo:sktAppInfo completionHandler:^(SKTResult result){
+    [self->_rootCapture openWithAppInfo:sktAppInfo completionHandler:^(SKTResult result) {
         IosTransportHandle* handle = nil;
         FlutterError* res = nil;
-        if(result < SKTCaptureE_NOERROR){
-            [self->_handles removeObjectFromHandle:captureHandle];
+        if (result < SKTCaptureE_NOERROR) {
+            [self->_handles removeHandle:self->_rootCaptureHandle];
             handle = nil;
-            res = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld", (long)result] message:@"Unable to open Capture" details:nil];
+            res = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld", (long)result]
+                                      message:@"Unable to open CaptureSDK"
+                                      details:nil];
         }
         else{
             handle = [IosTransportHandle new];
-            handle.value = captureHandle;
+            handle.value = self->_rootCaptureHandle;
         }
         completion(handle, res);
     }];
 }
 
-- (void)openDeviceHandle:(nullable IosTransportHandle *)handle guid:(nullable NSString *)guid completion:(void(^)(IosTransportHandle *_Nullable, FlutterError *_Nullable))completion{
-    if(_handles != nil){
-        @try{
-            SKTCapture* mainCapture = (SKTCapture*)[_handles getObjectFromHandle:[handle value]];
-            [mainCapture openDeviceWithGuid:guid completionHandler:^(SKTResult result, SKTCapture * _Nullable deviceCapture) {
-                NSNumber* captureHandle = [self->_handles addNewObject:deviceCapture];
-                FlutterError* error = nil;
-                IosTransportHandle* handle = [IosTransportHandle new];
-                handle.value = captureHandle;
-                completion(handle, error);
-            }];
-        }
-        @catch(NSException* e){
-            NSLog(@"Exception in TransportConnector: %@", e);
-            FlutterError* err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE] message:@"The handle is invalid" details:nil];
-            completion(nil, err);
-        }
-    }
-    else {
-        FlutterError* err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_NOTINITIALIZED] message:@"Capture is not initialized, did you open Capture first?" details:nil];
-        completion(nil, err);
-    }
-}
-
-- (void)closeHandle:(nullable IosTransportHandle *)handle completion:(void(^)(IosTransportResult *_Nullable, FlutterError *_Nullable))completion{
-    if(_handles != nil){
-        SKTCapture* capture = (SKTCapture*)[_handles removeObjectFromHandle:[handle value]];
-        [capture closeWithCompletionHandler:^(SKTResult result) {
-            if(result>= SKTCaptureE_NOERROR){
-                IosTransportResult* res = [IosTransportResult new];
-                res.value = [NSNumber numberWithLong: result];
-                completion(res, nil);
-            }
-            else {
-                FlutterError* err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result] message:@"Unable to close with the provided handle" details:nil];
+-(void)openDeviceHandle:(IosTransportHandle *)handle guid:(NSString *)guid completion:(void(^)(IosTransportHandle *, FlutterError *))completion {
+    if (self->_handles != nil) {
+        @try {
+            if (self->_rootCapture != nil) {
+                [self->_rootCapture openDeviceWithGuid:guid completionHandler:^(SKTResult result, SKTCapture *deviceCapture) {
+                    if (result >= SKTCaptureE_NOERROR) {
+                        NSNumber *deviceHandle = [self->_handles addNewObject:deviceCapture];
+                        IosTransportHandle *handle = [IosTransportHandle new];
+                        handle.value = deviceHandle;
+                        completion(handle, nil);
+                    } else {
+                        FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result]
+                                                                message:[NSString stringWithFormat:@"Unable to open with the provided guid: %@", guid]
+                                                                details:nil];
+                        completion(nil, err);
+                    }
+                }];
+            } else {
+                FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE]
+                                                        message:@"Unable to oepn with the provided handle"
+                                                        details:nil];
                 completion(nil, err);
             }
-        }];
-    }
-}
-
-- (void)getPropertyHandle:(nullable IosTransportHandle *)handle property:(nullable Property *)property completion:(void(^)(Property *_Nullable, FlutterError *_Nullable))completion{
-    if(_handles != nil){
-        @try{
-            SKTCapture* capture = (SKTCapture*)[_handles getObjectFromHandle:[handle value]];
-            SKTCaptureProperty* captureProperty = [TransportConnector convertToCaptureProperty: property];
-            [capture getProperty:captureProperty completionHandler:^(SKTResult result, SKTCaptureProperty * _Nullable complete) {
-                Property* responseProperty = nil;
-                FlutterError* flutterError = nil;
-                if(result >= SKTCaptureE_NOERROR){
-                    responseProperty = [TransportConnector convertToDartProperty: complete];
-                }
-                else{
-                    flutterError = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result] message:[NSString stringWithFormat:@"Unable to get the property %ld",(long)captureProperty.ID] details:nil];
-                }
-                completion(responseProperty, flutterError);
-            }];
-        }
-        @catch(NSException* e){
+        } @catch(NSException *e) {
             NSLog(@"Exception in TransportConnector: %@", e);
-            FlutterError* err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE] message:@"The handle is invalid" details:nil];
+            FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE]
+                                                    message:@"The handle is invalid"
+                                                    details:nil];
             completion(nil, err);
         }
-    }
-    else {
-        FlutterError* err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_NOTINITIALIZED] message:@"Capture is not initialized, did you open Capture first?" details:nil];
+    } else {
+        FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_NOTINITIALIZED]
+                                                message:@"CaptureSDK is not initialized, did you open CaptureSDK first?"
+                                                details:nil];
         completion(nil, err);
     }
 }
 
-- (void)setPropertyHandle:(nullable IosTransportHandle *) handle property:(nullable Property *)property completion:(void(^)(Property *_Nullable, FlutterError *_Nullable))completion{
-    if(_handles != nil){
-        @try{
-            SKTCapture* capture = (SKTCapture*)[_handles getObjectFromHandle:[handle value]];
-            SKTCaptureProperty* captureProperty = [TransportConnector convertToCaptureProperty: property];
-            [capture setProperty:captureProperty completionHandler:^(SKTResult result, SKTCaptureProperty * _Nullable complete) {
-                Property* responseProperty = nil;
-                FlutterError* flutterError = nil;
-                if(result >= SKTCaptureE_NOERROR){
-                    responseProperty = [TransportConnector convertToDartProperty: complete];
+-(void)closeHandle:(IosTransportHandle *)handle completion:(void(^)(IosTransportResult *, FlutterError *))completion {
+    if (self->_handles != nil) {
+        SKTCapture *capture = (SKTCapture *)[self->_handles getObjectFromHandle:handle.value];
+        if (capture != nil) {
+            [capture closeWithCompletionHandler:^(SKTResult result) {
+                [self->_handles removeHandle:handle.value];
+                if (result >= SKTCaptureE_NOERROR) {
+                    IosTransportResult *res = [IosTransportResult new];
+                    res.value = [NSNumber numberWithLong:result];
+                    completion(res, nil);
+                } else {
+                    FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result]
+                                                            message:@"Unable to close with the provided handle"
+                                                            details:nil];
+                    completion(nil, err);
                 }
-                else{
-                    flutterError = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result] message:[NSString stringWithFormat:@"Unable to get the property %ld",(long)captureProperty.ID] details:nil];
-                }
-                completion(responseProperty, flutterError);
             }];
-        }
-        @catch(NSException* e){
-            NSLog(@"Exception in TransportConnector: %@", e);
-            FlutterError* err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE] message:@"The handle is invalid" details:nil];
+        } else {
+            FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE]
+                                                    message:@"Unable to close with the provided handle because it is invalid"
+                                                    details:nil];
             completion(nil, err);
         }
     }
-    else {
-        FlutterError* err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_NOTINITIALIZED] message:@"Capture is not initialized, did you open Capture first?" details:nil];
+}
+
+-(void)getPropertyHandle:(IosTransportHandle *)handle property:(Property *)property completion:(void(^)(Property *, FlutterError *))completion {
+    if (self->_handles != nil) {
+        @try {
+            SKTCapture *capture = (SKTCapture *)[self->_handles getObjectFromHandle:handle.value];
+            if (capture != nil) {
+                SKTCaptureProperty *captureProperty = [TransportConnector convertToCaptureProperty:property];
+                [capture getProperty:captureProperty completionHandler:^(SKTResult result, SKTCaptureProperty *complete) {
+                    Property *responseProperty = nil;
+                    FlutterError *flutterError = nil;
+                    if (result >= SKTCaptureE_NOERROR) {
+                        responseProperty = [TransportConnector convertToDartProperty:complete];
+                    } else {
+                        flutterError = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result]
+                                                           message:[NSString stringWithFormat:@"Unable to get the property %ld",(long)captureProperty.ID]
+                                                           details:nil];
+                    }
+                    completion(responseProperty, flutterError);
+                }];
+            } else {
+                FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE]
+                                                        message:@"Unable to get the provided handle because it is invalid"
+                                                        details:nil];
+                completion(nil, err);
+            }
+        } @catch(NSException *e) {
+            NSLog(@"Exception in TransportConnector: %@", e);
+            FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE]
+                                                    message:@"The handle is invalid"
+                                                    details:nil];
+            completion(nil, err);
+        }
+    } else {
+        FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_NOTINITIALIZED]
+                                                message:@"CaptureSDK is not initialized, did you open CaptureSDK first?"
+                                                details:nil];
         completion(nil, err);
     }
 }
 
--(void)closeDevicesButThisHandle:(NSNumber*) handle
-                  withCompletion:(void(^)(void))completion{
-    NSEnumerator* enumeration = [self->_handles getEnumator];
-
-    NSString* handleKey = [CaptureFlutterHandle getKeyHandle:handle];
-    [self closeNextDeviceFromEnumerator:enumeration
-                          notThisHandle:handleKey
-                         withCompletion:completion];
+-(void)setPropertyHandle:(IosTransportHandle *) handle property:(Property *)property completion:(void(^)(Property *, FlutterError *))completion {
+    if (self->_handles != nil) {
+        @try {
+            SKTCapture *capture = (SKTCapture *)[self->_handles getObjectFromHandle:handle.value];
+            if (capture != nil) {
+                SKTCaptureProperty *captureProperty = [TransportConnector convertToCaptureProperty:property];
+                [capture setProperty:captureProperty completionHandler:^(SKTResult result, SKTCaptureProperty *complete) {
+                    Property *responseProperty = nil;
+                    FlutterError *flutterError = nil;
+                    if (result >= SKTCaptureE_NOERROR) {
+                        responseProperty = [TransportConnector convertToDartProperty: complete];
+                    } else {
+                        flutterError = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result]
+                                                           message:[NSString stringWithFormat:@"Unable to get the property %ld",(long)captureProperty.ID]
+                                                           details:nil];
+                    }
+                    completion(responseProperty, flutterError);
+                }];
+            } else {
+                FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE]
+                                                        message:@"Unable to get the provided handle because it is invalid"
+                                                        details:nil];
+                completion(nil, err);
+            }
+        } @catch(NSException *e) {
+            NSLog(@"Exception in TransportConnector: %@", e);
+            FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE]
+                                                    message:@"The handle is invalid"
+                                                    details:nil];
+            completion(nil, err);
+        }
+    } else {
+        FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_NOTINITIALIZED]
+                                                message:@"CaptureSDK is not initialized, did you open CaptureSDK first?"
+                                                details:nil];
+        completion(nil, err);
+    }
 }
 
--(void)closeNextDeviceFromEnumerator:(NSEnumerator*)enumeration
-                       notThisHandle:(NSString*)handle
-                      withCompletion:(void(^)(void))completion{
-    NSString* key = [enumeration nextObject];
-    if(key != nil){
-        if([key containsString:handle] == FALSE){
-            SKTCapture* device = (SKTCapture*)[self->_handles removeObjectFromHandleString:key];
-            [device closeWithCompletionHandler:^(SKTResult result) {
-                [self closeNextDeviceFromEnumerator:enumeration
-                                      notThisHandle:handle
-                                     withCompletion:completion];
-            }];
+-(void)closeDevicesButThisHandle:(NSNumber *)handle withCompletion:(void(^)(void))completion {
+    NSEnumerator *enumeration = [self->_handles getEnumator];
+    [self closeNextDeviceFromEnumerator:enumeration notThisHandle:handle.stringValue withCompletion:completion];
+}
+
+-(void)closeNextDeviceFromEnumerator:(NSEnumerator *)enumeration notThisHandle:(NSString *)handle withCompletion:(void(^)(void))completion {
+    NSString *key = [enumeration nextObject];
+    if (key != nil) {
+        if ([key isEqualToString:handle]) {
+            [self closeNextDeviceFromEnumerator:enumeration notThisHandle:handle withCompletion:completion];
+        } else {
+            NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+            f.numberStyle = NSNumberFormatterDecimalStyle;
+            NSNumber *keyNumber = [f numberFromString:key];
+            SKTCapture *device = (SKTCapture *)[self->_handles getObjectFromHandle:keyNumber];
+            if (device != nil) {
+                [device closeWithCompletionHandler:^(SKTResult result) {
+                    [self->_handles removeHandle:keyNumber];
+                    [self closeNextDeviceFromEnumerator:enumeration notThisHandle:handle withCompletion:completion];
+                }];
+            } else {
+                [self closeNextDeviceFromEnumerator:enumeration notThisHandle:handle withCompletion:completion];
+            }
         }
-        else{
-            [self closeNextDeviceFromEnumerator:enumeration
-                                  notThisHandle:handle
-                                 withCompletion:completion];
-        }
-    }
-    else {
+    } else {
         completion();
     }
 }
 
-+ (SKTCaptureProperty*) convertToCaptureProperty:(Property*) property {
-    SKTCaptureProperty* captureProperty = [SKTCaptureProperty new];
-    captureProperty.ID = property.propertyId.intValue;
++(SKTCaptureProperty *)convertToCaptureProperty:(Property *)property {
+    SKTCaptureProperty *captureProperty = [SKTCaptureProperty new];
+    captureProperty.ID = property.id.intValue;
     captureProperty.Type = property.type.intValue;
     switch(captureProperty.Type) {
         case SKTCapturePropertyTypeNone:
@@ -219,7 +268,10 @@
             captureProperty.ULongValue = [property.longValue longValue];
             break;
         case SKTCapturePropertyTypeArray:
-            captureProperty.ArrayValue = [NSKeyedArchiver archivedDataWithRootObject:property.arrayValue];
+        {
+            FlutterStandardTypedData *uintInt8List = (FlutterStandardTypedData *)property.arrayValue;
+            captureProperty.ArrayValue = uintInt8List.data;
+        }
             break;
         case SKTCapturePropertyTypeString:
             captureProperty.StringValue = property.stringValue;
@@ -246,67 +298,89 @@
         case SKTCapturePropertyTypeEnum:
             break;
         case SKTCapturePropertyTypeObject:
-            captureProperty.Object = [TransportConnector  InjectRootUiViewIfOverlayProperty:property.propertyId fromContext: property.objectValue];
             break;
         case SKTCapturePropertyTypeLastType:
             break;
     }
+
     return captureProperty;
 }
 
-+ (Property*) convertToDartProperty:(SKTCaptureProperty* _Nullable) property{
-    Property* dartProperty = [Property new];
-    dartProperty.propertyId = [[NSNumber alloc]initWithInt: (int)property.ID];
-    dartProperty.type = [[NSNumber alloc]initWithInt:(int)property.Type];
-    switch(property.Type){
++(Property *)convertToDartProperty:(SKTCaptureProperty *)property {
+    Property *dartProperty = [Property new];
+    dartProperty.id = [[NSNumber alloc] initWithInt:(int)property.ID];
+    dartProperty.type = [[NSNumber alloc] initWithInt:(int)property.Type];
+    switch(property.Type) {
         case SKTCapturePropertyTypeNone:
             break;
         case SKTCapturePropertyTypeNotApplicable:
             break;
         case SKTCapturePropertyTypeByte:
-            dartProperty.byteValue = [[NSNumber alloc]initWithInt:(UInt8)property.ByteValue];
+            dartProperty.byteValue = [[NSNumber alloc] initWithInt:(UInt8)property.ByteValue];
             break;
         case SKTCapturePropertyTypeUlong:
-            dartProperty.longValue = [[NSNumber alloc]initWithLong:property.ULongValue];
+            dartProperty.longValue = [[NSNumber alloc] initWithLong:property.ULongValue];
             break;
         case SKTCapturePropertyTypeArray:
-            dartProperty.arrayValue = [NSKeyedUnarchiver unarchiveObjectWithData:property.ArrayValue];
+            dartProperty.arrayValue = (FlutterStandardTypedData *)property.ArrayValue;
             break;
         case SKTCapturePropertyTypeString:
             dartProperty.stringValue = property.StringValue;
             break;
         case SKTCapturePropertyTypeVersion:
             dartProperty.versionValue = [Version new];
-            dartProperty.versionValue.major = [[NSNumber alloc]initWithLong: property.Version.Major];
-            dartProperty.versionValue.middle = [[NSNumber alloc]initWithLong: property.Version.Middle];
-            dartProperty.versionValue.minor = [[NSNumber alloc]initWithLong: property.Version.Minor];
-            dartProperty.versionValue.build = [[NSNumber alloc]initWithLong: property.Version.Build];
-            dartProperty.versionValue.year = [[NSNumber alloc]initWithLong: property.Version.Year];
-            dartProperty.versionValue.month = [[NSNumber alloc]initWithLong: property.Version.Month];
-            dartProperty.versionValue.day = [[NSNumber alloc]initWithLong: property.Version.Day];
-            dartProperty.versionValue.hour = [[NSNumber alloc]initWithLong: property.Version.Hour];
-            dartProperty.versionValue.minute = [[NSNumber alloc]initWithLong: property.Version.Minute];
+            dartProperty.versionValue.major = [[NSNumber alloc] initWithLong:property.Version.Major];
+            dartProperty.versionValue.middle = [[NSNumber alloc] initWithLong:property.Version.Middle];
+            dartProperty.versionValue.minor = [[NSNumber alloc] initWithLong:property.Version.Minor];
+            dartProperty.versionValue.build = [[NSNumber alloc] initWithLong:property.Version.Build];
+            dartProperty.versionValue.year = [[NSNumber alloc] initWithLong:property.Version.Year];
+            dartProperty.versionValue.month = [[NSNumber alloc] initWithLong:property.Version.Month];
+            dartProperty.versionValue.day = [[NSNumber alloc] initWithLong:property.Version.Day];
+            dartProperty.versionValue.hour = [[NSNumber alloc] initWithLong:property.Version.Hour];
+            dartProperty.versionValue.minute = [[NSNumber alloc] initWithLong:property.Version.Minute];
             break;
         case SKTCapturePropertyTypeDataSource:
             dartProperty.dataSourceValue = [DataSource new];
-            dartProperty.dataSourceValue.id = [[NSNumber alloc]initWithInt: (int)property.DataSource.ID];
-            dartProperty.dataSourceValue.status = [[NSNumber alloc]initWithInt: (int)property.DataSource.Status];
-            dartProperty.dataSourceValue.flags = [[NSNumber alloc]initWithInt: (int)property.DataSource.Flags];
+            dartProperty.dataSourceValue.id = [[NSNumber alloc] initWithInt:(int)property.DataSource.ID];
+            dartProperty.dataSourceValue.status = [[NSNumber alloc] initWithInt:(int)property.DataSource.Status];
+            dartProperty.dataSourceValue.flags = [[NSNumber alloc] initWithInt:(int)property.DataSource.Flags];
             dartProperty.dataSourceValue.name = property.DataSource.Name;
             break;
         case SKTCapturePropertyTypeEnum:
             break;
         case SKTCapturePropertyTypeObject:
-            dartProperty.objectValue = property.Object;
+        {
+            if (property.ID == SKTCapturePropertyIDTriggerDevice) {
+                if ([property.Object isKindOfClass:[NSDictionary class]]) {
+                    NSDictionary *socketCamDictionary = (NSDictionary *)property.Object;
+                    NSString *objectType = [socketCamDictionary objectForKey:@"SKTObjectType"];
+                    if ([objectType isEqualToString:@"SKTSocketCamViewControllerType"]) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if ([[socketCamDictionary objectForKey:@"SKTSocketCamViewController"] isKindOfClass:[UIViewController class]]) {
+                                UIViewController* socketCamViewController = (UIViewController *)[socketCamDictionary objectForKey:@"SKTSocketCamViewController"];
+                                if (socketCamViewController != nil) {
+                                    UIViewController *mainUiViewController = [TransportConnector getPresentedViewController];
+                                    socketCamViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+                                    [mainUiViewController presentViewController:socketCamViewController animated:YES completion:nil];
+                                }
+                            }
+                        });
+                    }
+                }
+            } else {
+                dartProperty.objectValue = property.Object;
+            }
+        }
             break;
         case SKTCapturePropertyTypeLastType:
             break;
     }
+
     return dartProperty;
 }
 
 // Replace YourViewController with the name of your main view controller class
-+ (UIViewController *)getPresentedViewController {
++(UIViewController *)getPresentedViewController {
     UIViewController *topViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
     while (topViewController.presentedViewController) {
         topViewController = topViewController.presentedViewController;
@@ -314,40 +388,26 @@
     return topViewController;
 }
 
-+(NSDictionary*)InjectRootUiViewIfOverlayProperty:(NSNumber*)propertyId fromContext: (NSDictionary*)socketCamContext {
-    if (propertyId.intValue == SKTCapturePropertyIDOverlayViewDevice) {
-           UIViewController *mainUiViewController = [TransportConnector getPresentedViewController];
-           NSMutableDictionary *socketCamContextModif = [NSMutableDictionary dictionaryWithDictionary:socketCamContext];
-           [socketCamContextModif setObject:mainUiViewController forKey:SKTCaptureSocketCamContext];
-
-           return socketCamContextModif;
-       }
-
-       return nil;
-
-}
-
-- (void)didReceiveEvent:(SKTCaptureEvent * _Nonnull)event forCapture:(SKTCapture * _Nonnull)capture withResult:(SKTResult)result {
-    if(_flutterEvent != nil){
-      NSNumber* handle = [_handles findHandleFromObject:capture];
-      NSString* json = [self createJsonFromHandle:handle withResult:result forEvent:event];
+-(void)didReceiveEvent:(SKTCaptureEvent *)event forCapture:(SKTCapture *)capture withResult:(SKTResult)result {
+    if (_flutterEvent != nil) {
+      NSNumber *handle = [self->_handles findHandleFromObject:capture];
+      NSString *json = [self createJsonFromHandle:handle withResult:result forEvent:event];
       (_flutterEvent)(json);
     }
 }
 
-- (FlutterError * _Nullable)onCancelWithArguments:(id _Nullable)arguments {
-    FlutterError* error = nil;
+-(FlutterError *)onCancelWithArguments:(id)arguments {
     _flutterEvent = nil;
-    return error;
+
+    return nil;
 }
 
-- (FlutterError * _Nullable)onListenWithArguments:(id _Nullable)arguments eventSink:(nonnull FlutterEventSink)events {
-    FlutterError* error = nil;
-    
+-(FlutterError *)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)events {
     _flutterEvent = events;
     
-    return error;
+    return nil;
 }
+
 /*
  * json string that will regroup all the information for
  * a capture event
@@ -365,10 +425,9 @@
  *     }
  * }
  */
--(NSString*)createJsonFromHandle:(NSNumber*)handle withResult:(SKTResult)result forEvent:(SKTCaptureEvent*) event {
-    NSMutableString* json = [NSMutableString stringWithFormat:@"{\"handle\": %d, \"result\": %ld, \"event\":{ \"id\": %ld, \"type\": %ld",handle.intValue, (long)result,(long)event.ID, (long)event.Data.Type];
-    switch(event.Data.Type){
-            
+-(NSString *)createJsonFromHandle:(NSNumber *)handle withResult:(SKTResult)result forEvent:(SKTCaptureEvent *)event {
+    NSMutableString *json = [NSMutableString stringWithFormat:@"{\"handle\": %d, \"result\": %ld, \"event\":{ \"id\": %ld, \"type\": %ld", handle.intValue, (long)result, (long)event.ID, (long)event.Data.Type];
+    switch(event.Data.Type) {
         case SKTCaptureEventDataTypeNone:
             [json appendString:@"}}"];
             break;
@@ -385,20 +444,30 @@
             [json appendFormat:@", \"value\": \"%@\" }}", event.Data.StringValue];
             break;
         case SKTCaptureEventDataTypeDecodedData:
+        {
             [json appendString:@", \"value\": {"];
             [json appendFormat:@"\"data\": %@,", [TransportConnector ConvertToStringFromData:event.Data.DecodedData.DecodedData]];
             [json appendFormat:@"\"id\": %ld,", (long)event.Data.DecodedData.DataSourceID];
             [json appendFormat:@"\"name\": \"%@\"}}}", event.Data.DecodedData.DataSourceName];
+        
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIViewController *mainUiViewController = [TransportConnector getPresentedViewController];
+                if ([mainUiViewController isKindOfClass:NSClassFromString(@"CaptureSDK.SocketCamViewController")] || [mainUiViewController isKindOfClass:NSClassFromString(@"CaptureSDK.SocketCamSwiftDecoderViewController")]) {
+                    [mainUiViewController dismissViewControllerAnimated:YES completion:^{
+                        
+                    }];
+                }
+            });
+        }
             break;
         case SKTCaptureEventDataTypeDeviceInfo:
             [json appendString:@", \"value\": {"];
             [json appendFormat:@"\"type\": %ld, ",event.Data.DeviceInfo.DeviceType];
             [json appendFormat:@"\"guid\": \"%@\", ",event.Data.DeviceInfo.Guid];
             [json appendFormat:@"\"name\": \"%@\"",event.Data.DeviceInfo.Name];
-            if(event.Data.DeviceInfo.Handle > 0){
+            if (event.Data.DeviceInfo.Handle > 0) {
                 [json appendFormat:@", \"handle\": %ld}}}",(long)event.Data.DeviceInfo.Handle];
-            }
-            else {
+            } else {
                 [json appendString:@"}}}"];
             }
             break;
@@ -406,21 +475,22 @@
             [json appendString:@"}}"];
             break;
     }
+
     return json;
 }
 
-+(NSString*) ConvertToStringFromData:(NSData*)data {
-    NSMutableString* stringData = [NSMutableString stringWithString:@"["];
++(NSString *)ConvertToStringFromData:(NSData *)data {
+    NSMutableString *stringData = [NSMutableString stringWithString:@"["];
     const char* bytes = data.bytes;
-    for(int i = 0; i < data.length; i++){
-        if(i == 0){
+    for (int i = 0; i < data.length; i++) {
+        if (i == 0) {
             [stringData appendFormat:@"%d", bytes[i]];
-        }
-        else {
+        } else {
             [stringData appendFormat:@",%d", bytes[i]];
         }
     }
     [stringData appendString:@"]"];
+
     return stringData;
 }
 
