@@ -1,4 +1,4 @@
-# Flutter CaptureSDK - Version 1.5.41
+# Flutter CaptureSDK - Version 1.5.50
 
 This is the Flutter CatureSDK for Socket Mobile's Capture library.
 
@@ -21,7 +21,7 @@ Install the flutter package by adding the following to your `pubspec.yaml` file.
 ```dart
 dependencies:
   ...
-  capturesdk_flutter: ^1.5.41
+  capturesdk_flutter: ^1.5.50
   ...
 ```
 
@@ -208,7 +208,7 @@ Third, open the project's iOS directory in xcode. Once you've done that, select 
 
 ## Getting started Android
 
-You will need to update the network configuration to enable the Android Capture client. You can find out more about network configuration [here](https://docs.socketmobile.com/capture/java/en/latest/android/getting-started.html).
+You will need to update the network configuration to enable the Android Capture client. You can find out more about network configuration [here](https://docs.socketmobile.dev/capture/java/en/latest/android/getting-started.html).
 
 In order to pass the internet permissions, you need to have the below line in your Android manifest.
 
@@ -219,7 +219,6 @@ In order to pass the internet permissions, you need to have the below line in yo
 In order to use SocketCam C820, you will need to add the below to your Android manifest.
 
 ```xml
-<activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     <meta-data android:name="com.socketmobile.capture.APP_KEY" android:value="{YOUR_APP_KEY}"/>
     <meta-data android:name="com.socketmobile.capture.DEVELOPER_ID" android:value="{YOUR_DEVELOPER_ID}"/>
 ```
@@ -290,7 +289,7 @@ Finally, add the below line into just before the `AndroidManifest.xml` file's cl
   </queries>
 ```
 
-For more on the network security configuration for Android, please check out the cleartext section in [the Android docs](https://docs.socketmobile.com/capture/java/en/latest/android/getting-started.html#enable-cleartext-traffic).
+For more on the network security configuration for Android, please check out the cleartext section in [the Android docs](https://docs.socketmobile.dev/capture/java/en/latest/android/getting-started.html#enable-cleartext-traffic).
 
 ## Important
 
@@ -317,7 +316,7 @@ In order for it to work, you will need to add five argments to `AppInfo` in the 
 4. AppKey after iOS registration
 5. Developer ID
 
-For more information about the Flutter CaptureSDK, please visit the [documentation](https://docs.socketmobile.com/captureflutter/en/latest).
+For more information about the Flutter CaptureSDK, please visit the [documentation](https://docs.socketmobile.dev/captureflutter/en/latest).
 
 For a full demonstration, check out [this video](https://vimeo.com/694611104).
 

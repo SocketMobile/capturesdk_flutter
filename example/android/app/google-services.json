@@ -1,0 +1,162 @@
+{
+  "project_info": {
+    "project_number": "1066331572218",
+    "project_id": "appcenter-socket",
+    "storage_bucket": "appcenter-socket.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066331572218:android:9149f1ac0a5ffec8adc643",
+        "android_client_info": {
+          "package_name": "com.example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IcN5SfMu4cmknFltvvjGriIRBpxxhFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066331572218:android:3c2315c47e3da283adc643",
+        "android_client_info": {
+          "package_name": "com.example.example"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IcN5SfMu4cmknFltvvjGriIRBpxxhFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066331572218:android:98061aecf7fec3a4adc643",
+        "android_client_info": {
+          "package_name": "com.example.socketmobile.android.hellocapture"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IcN5SfMu4cmknFltvvjGriIRBpxxhFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066331572218:android:8238eeaee5284659adc643",
+        "android_client_info": {
+          "package_name": "com.example.socketmobile.android.hellocaptureble"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IcN5SfMu4cmknFltvvjGriIRBpxxhFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066331572218:android:8a385f3b56b25ad8adc643",
+        "android_client_info": {
+          "package_name": "com.socketmobile.blueline"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IcN5SfMu4cmknFltvvjGriIRBpxxhFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066331572218:android:8da693e243f73a22adc643",
+        "android_client_info": {
+          "package_name": "com.socketmobile.capture.android.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IcN5SfMu4cmknFltvvjGriIRBpxxhFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066331572218:android:060c073bda5668d1adc643",
+        "android_client_info": {
+          "package_name": "com.socketmobile.nfcmaintenance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IcN5SfMu4cmknFltvvjGriIRBpxxhFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066331572218:android:86a2ae914bea3687adc643",
+        "android_client_info": {
+          "package_name": "com.socketmobile.permanentPartnership"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IcN5SfMu4cmknFltvvjGriIRBpxxhFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.50]
+
+### Improvements
+
+- Upgrade to [`iOS CaptureSDK v1.9.100`](https://github.com/SocketMobile/cocoapods-capturesdk)
+
 ## [1.5.41]
 
 ### New

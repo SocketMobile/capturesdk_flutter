@@ -1,9 +1,11 @@
 PODS:
-  - CaptureSDK (1.9.74):
+  - CaptureSDK (1.9.100):
+    - CryptoSwift (< 2.0, >= 1.6.0)
     - SwiftDecoderSDK (~> 6.0.10)
   - capturesdk_flutter (1.5.11):
-    - CaptureSDK (~> 1.9.74)
+    - CaptureSDK (~> 1.9.100)
     - Flutter
+  - CryptoSwift (1.8.4)
   - Flutter (1.0.0)
   - SwiftDecoderSDK (6.0.10)
 
@@ -14,6 +16,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - CaptureSDK
+    - CryptoSwift
     - SwiftDecoderSDK
 
 EXTERNAL SOURCES:
@@ -23,8 +26,9 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  CaptureSDK: fa7884b56678d418a98068f713f1d58a65c007e8
-  capturesdk_flutter: d3ce068778dc8cc875534986b5a01d8b2b841c3a
+  CaptureSDK: 8b6d7d52116beef7807c93d2e1273f4acb249849
+  capturesdk_flutter: eed315ea28b97dd3bfb8a404474402ed52dabdd7
+  CryptoSwift: e64e11850ede528a02a0f3e768cec8e9d92ecb90
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   SwiftDecoderSDK: 8de8071c82cc5a44a24bc70f94335c880c583cf9
 

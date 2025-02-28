@@ -7,7 +7,7 @@
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
 
-  <application android:label="example" android:icon="@mipmap/ic_launcher" android:networkSecurityConfig="@xml/network_security_config">
+  <application android:label="Flutter Sample" android:icon="@mipmap/ic_launcher" android:networkSecurityConfig="@xml/network_security_config">
     <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize" android:exported="true">
       <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
@@ -28,9 +28,7 @@
     <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
     <meta-data android:name="flutterEmbedding" android:value="2" />
-    <!-- <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" /> -->
     <meta-data android:name="com.socketmobile.capture.APP_KEY" android:value="MC4CFQDNCtjazxILEh8oyT6w/wlaVKqS1gIVAKTz2W6TB9EgmjS1buy0A+3j7nX4"/>
-    <!-- android:value="MC0CFFylGxMVoIneN2k7i3XFabVS4fSdAhUA+179S6KcgVj1YRrRSJ4zIQiGa9c="/>-->
     <meta-data android:name="com.socketmobile.capture.DEVELOPER_ID" android:value="bb57d8e1-f911-47ba-b510-693be162686a"/>
   </application>
   <queries>

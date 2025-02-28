@@ -280,6 +280,14 @@ class CapturePropertyIds {
 	/// Device: True	Get Type: None 	Set Type: Ulong
 	static const int lassoLifeSpanDevice = 196897;
 
+	/// property to set a device's Permanent Partnership connection
+	/// Device: False	Get Type: NotApplicable 	Set Type: None
+	static const int permanentPartnership = -2146434782;
+
+	/// property to get a stamp from the host for Permanent Partnership connection
+	/// Device: False	Get Type: None 	Set Type: NotApplicable
+	static const int permanentPartnershipStamp = -2147417821;
+
 }
 
 class CapturePropertyTypes { 
