@@ -389,11 +389,13 @@
 }
 
 -(void)didReceiveEvent:(SKTCaptureEvent *)event forCapture:(SKTCapture *)capture withResult:(SKTResult)result {
-    if (_flutterEvent != nil) {
-      NSNumber *handle = [self->_handles findHandleFromObject:capture];
-      NSString *json = [self createJsonFromHandle:handle withResult:result forEvent:event];
-      (_flutterEvent)(json);
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self->_flutterEvent != nil) {
+            NSNumber *handle = [self->_handles findHandleFromObject:capture];
+            NSString *json = [self createJsonFromHandle:handle withResult:result forEvent:event];
+            (self->_flutterEvent)(json);
+        }
+    });
 }
 
 -(FlutterError *)onCancelWithArguments:(id)arguments {

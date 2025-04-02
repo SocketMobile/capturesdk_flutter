@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.55]
+
+### Improvements
+
+- Upgrade to [`iOS CaptureSDK v1.9.113`](https://github.com/SocketMobile/cocoapods-capturesdk)
+- Upgrade to [`Android SocketCam v1.8.47`](https://github.com/SocketMobile/cocoapods-capturesdk)
+- We have improved the scanning experience of SocketCam C820
+
 ## [1.5.50]
 
 ### Improvements
@@ -19,8 +27,6 @@ All notable changes to this project will be documented in this file.
 - Upgrade to `Flutter SDK v3.3.0`
 - Upgrade to `Gradle 8.5.0`. See [this flutter.dev guide](https://docs.flutter.dev/release/breaking-changes/flutter-gradle-plugin-apply) for more information
 - Upgrade to [`iOS CaptureSDK v1.9.74`](https://github.com/SocketMobile/cocoapods-capturesdk)
-
-### Fixed
 
 ## [1.5.19] - 2024-09-24
 
