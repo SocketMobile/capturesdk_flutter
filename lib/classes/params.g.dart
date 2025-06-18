@@ -7,7 +7,7 @@ part of 'params.dart';
 // **************************************************************************
 
 _$ParamsImpl _$$ParamsImplFromJson(Map<String, dynamic> json) => _$ParamsImpl(
-      handle: json['handle'] as int,
+      handle: (json['handle'] as num).toInt(),
       guid: json['guid'] as String?,
       property: json['property'] == null
           ? null

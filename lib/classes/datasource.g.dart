@@ -8,10 +8,10 @@ part of 'datasource.dart';
 
 _$DataSourceImpl _$$DataSourceImplFromJson(Map<String, dynamic> json) =>
     _$DataSourceImpl(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
-      status: json['status'] as int,
-      flags: json['flags'] as int,
+      status: (json['status'] as num).toInt(),
+      flags: (json['flags'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$DataSourceImplToJson(_$DataSourceImpl instance) =>

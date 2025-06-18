@@ -12,6 +12,7 @@ class DecodedData with _$DecodedData {
     required int id,
     required String name,
     required List<int> data,
+    required String? tagId,
   }) = _DecodedData;
   const DecodedData._();
 

@@ -8,7 +8,7 @@ part of 'capture_result.dart';
 
 _$CaptureResultImpl _$$CaptureResultImplFromJson(Map<String, dynamic> json) =>
     _$CaptureResultImpl(
-      handle: json['handle'] as int,
+      handle: (json['handle'] as num).toInt(),
       event: json['event'] == null
           ? null
           : CaptureEvent.fromJson(json['event'] as Map<String, dynamic>),

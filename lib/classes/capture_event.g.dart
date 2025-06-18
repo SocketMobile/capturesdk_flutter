@@ -8,10 +8,10 @@ part of 'capture_event.dart';
 
 _$CaptureEventImpl _$$CaptureEventImplFromJson(Map<String, dynamic> json) =>
     _$CaptureEventImpl(
-      id: json['id'] as int,
-      type: json['type'] as int,
+      id: (json['id'] as num).toInt(),
+      type: (json['type'] as num).toInt(),
       value: json['value'] ?? const <String, dynamic>{},
-      handle: json['handle'] as int?,
+      handle: (json['handle'] as num?)?.toInt(),
       result: json['result'],
     );
 

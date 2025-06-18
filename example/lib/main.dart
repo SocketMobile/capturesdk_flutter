@@ -256,6 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
         List<DecodedData> _myList = [..._decodedDataList];
         Map<String, dynamic> jsonMap = e.value as Map<String, dynamic>;
         DecodedData decoded = DecodedData.fromJson(jsonMap);
+        logger.log('Decoded Data =>', decoded.toString());
         _myList.add(decoded);
         setState(() {
           _decodedDataList = _myList;

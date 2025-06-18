@@ -43,7 +43,6 @@ class CapturePropertyIds {
 	static const int monitorMode = -2145124346;
 
 	/// property to get or set the SocketCam status
-	/// (iOS only)
 	/// Device: False	Get Type: None 	Set Type: Byte
 	static const int socketCamStatus = -2147352569;
 
@@ -280,13 +279,17 @@ class CapturePropertyIds {
 	/// Device: True	Get Type: None 	Set Type: Ulong
 	static const int lassoLifeSpanDevice = 196897;
 
-	/// property to set a device's Permanent Partnership connection
-	/// Device: False	Get Type: NotApplicable 	Set Type: None
-	static const int permanentPartnership = -2146434782;
+	/// property to get or set a device's Single Partnership connection
+	/// Device: False	Get Type: None 	Set Type: Array
+	static const int singlePartnership = -2147221214;
 
-	/// property to get a stamp from the host for Permanent Partnership connection
+	/// property to get a stamp from the host for Single Partnership connection
 	/// Device: False	Get Type: None 	Set Type: NotApplicable
-	static const int permanentPartnershipStamp = -2147417821;
+	static const int singlePartnershipStamp = -2147417821;
+
+	/// property to reset a device's Single Partnership connection
+	/// Device: True	Get Type: None 	Set Type: None
+	static const int resetSinglePartnershipDevice = 292;
 
 }
 
@@ -840,6 +843,24 @@ class LassoDeviceStatus {
 	static const int disable = 0;
 	/// Enable Lasso
 	static const int enable = 1;
+
+}
+
+/// Define the Single Partnership experience
+class SinglePartnership {
+
+	/// Disable Single Partnership
+	static const int disable = 0;
+	/// Get a Single Partnership through our Web API
+	static const int webApi = 1;
+	/// Show a Single Partnership QRcode through our Web UI
+	static const int webUI = 2;
+	/// Set your own Service UUID for a Single Partnership
+	static const int uuid = 3;
+	/// Show a Single Partnership Web UI where you can input information about the device
+	static const int webUIPrompt = 4;
+	/// Set your own Device Id that will return a Single Partnership Web page with a QRcode to scan
+	static const int deviceId = 5;
 
 }
 

@@ -9,8 +9,8 @@ part of 'capture_property.dart';
 _$CapturePropertyImpl _$$CapturePropertyImplFromJson(
         Map<String, dynamic> json) =>
     _$CapturePropertyImpl(
-      id: json['id'] as int,
-      type: json['type'] as int,
+      id: (json['id'] as num).toInt(),
+      type: (json['type'] as num).toInt(),
       value: json['value'],
     );
 

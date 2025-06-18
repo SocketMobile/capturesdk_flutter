@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.60]
+
+### Improvements
+
+- Upgrade to [`iOS CaptureSDK v1.9.139`](https://github.com/SocketMobile/cocoapods-capturesdk)
+- On iOS, you can get the `tagId` data so you can get the NFC Tag ID
+
 ## [1.5.55]
 
 ### Improvements

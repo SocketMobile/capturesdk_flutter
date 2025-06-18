@@ -10,7 +10,7 @@ _$DeviceInfoImpl _$$DeviceInfoImplFromJson(Map<String, dynamic> json) =>
     _$DeviceInfoImpl(
       name: json['name'] as String,
       guid: json['guid'] as String,
-      type: json['type'] as int,
+      type: (json['type'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$DeviceInfoImplToJson(_$DeviceInfoImpl instance) =>

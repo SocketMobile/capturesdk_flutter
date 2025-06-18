@@ -449,9 +449,14 @@
         {
             [json appendString:@", \"value\": {"];
             [json appendFormat:@"\"data\": %@,", [TransportConnector ConvertToStringFromData:event.Data.DecodedData.DecodedData]];
-            [json appendFormat:@"\"id\": %ld,", (long)event.Data.DecodedData.DataSourceID];
-            [json appendFormat:@"\"name\": \"%@\"}}}", event.Data.DecodedData.DataSourceName];
-        
+            [json appendFormat:@" \"id\": %ld,", (long)event.Data.DecodedData.DataSourceID];
+
+            if (event.Data.DecodedData.TagIdData.length > 0) {
+              [json appendFormat:@" \"tagId\": \"%@\",", [TransportConnector stringFromTagIdData:event.Data.DecodedData.TagIdData]];
+            }
+
+            [json appendFormat:@" \"name\": \"%@\"}}}", event.Data.DecodedData.DataSourceName];
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIViewController *mainUiViewController = [TransportConnector getPresentedViewController];
                 if ([mainUiViewController isKindOfClass:NSClassFromString(@"CaptureSDK.SocketCamViewController")] || [mainUiViewController isKindOfClass:NSClassFromString(@"CaptureSDK.SocketCamSwiftDecoderViewController")]) {
@@ -494,6 +499,17 @@
     [stringData appendString:@"]"];
 
     return stringData;
+}
+
+
++ (NSString *)stringFromTagIdData:(NSData *)tagIdData {
+    const unsigned char *bytes = (const unsigned char *)tagIdData.bytes;
+    NSMutableString *hexString = [NSMutableString stringWithCapacity:tagIdData.length * 2];
+    for (NSUInteger i = 0; i < tagIdData.length; i++) {
+        [hexString appendFormat:@"%02X", bytes[i]];
+    }
+
+    return hexString;
 }
 
 @end

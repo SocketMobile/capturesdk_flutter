@@ -187,17 +187,53 @@ class CaptureDeviceType {
 	///value: 196895 (0x3011F)
 	static const int scannerM940 = 196895;
 
+	///Model D761
+	///value: 196896 (0x30120)
+	static const int deviceD761 = 196896;
+
+	///Model D762
+	///value: 196897 (0x30121)
+	static const int deviceD762 = 196897;
+
+	///Model D763
+	///value: 327970 (0x50122)
+	static const int deviceD763 = 327970;
+
+	///Model D764
+	///value: 196899 (0x30123)
+	static const int deviceD764 = 196899;
+
+	///Model D765
+	///value: 196900 (0x30124)
+	static const int deviceD765 = 196900;
+
+	///Model D750 - NFC Reader/Writer
+	///value: 329253 (0x50625)
+	static const int deviceD750 = 329253;
+
+	///Model M942
+	///value: 327974 (0x50126)
+	static const int deviceM942 = 327974;
+
+	///Model M963
+	///value: 327975 (0x50127)
+	static const int deviceM963 = 327975;
+
+	///Model XS663
+	///value: 327976 (0x50128)
+	static const int deviceXS663 = 327976;
+
 	///Bluetooth device type unknown by this version of Capture
-	///value: 196641 (0x30021)
-	static const int btUnknown = 196641;
+	///value: 196649 (0x30029)
+	static const int btUnknown = 196649;
 
 	///device manager for controlling BLE
 	///value: 17104897 (0x1050001)
 	static const int deviceManagerBle = 17104897;
 
 	///Ble device type unknown by this version of Capture
-	///value: 329761 (0x50821)
-	static const int bleUnknown = 329761;
+	///value: 329769 (0x50829)
+	static const int bleUnknown = 329769;
 
 }
 

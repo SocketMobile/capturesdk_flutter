@@ -23,6 +23,7 @@ mixin _$DecodedData {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   List<int> get data => throw _privateConstructorUsedError;
+  String? get tagId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +37,7 @@ abstract class $DecodedDataCopyWith<$Res> {
           DecodedData value, $Res Function(DecodedData) then) =
       _$DecodedDataCopyWithImpl<$Res, DecodedData>;
   @useResult
-  $Res call({int id, String name, List<int> data});
+  $Res call({int id, String name, List<int> data, String? tagId});
 }
 
 /// @nodoc
@@ -55,6 +56,7 @@ class _$DecodedDataCopyWithImpl<$Res, $Val extends DecodedData>
     Object? id = null,
     Object? name = null,
     Object? data = null,
+    Object? tagId = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -69,6 +71,10 @@ class _$DecodedDataCopyWithImpl<$Res, $Val extends DecodedData>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<int>,
+      tagId: freezed == tagId
+          ? _value.tagId
+          : tagId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -81,7 +87,7 @@ abstract class _$$DecodedDataImplCopyWith<$Res>
       __$$DecodedDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String name, List<int> data});
+  $Res call({int id, String name, List<int> data, String? tagId});
 }
 
 /// @nodoc
@@ -98,6 +104,7 @@ class __$$DecodedDataImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? data = null,
+    Object? tagId = freezed,
   }) {
     return _then(_$DecodedDataImpl(
       id: null == id
@@ -112,6 +119,10 @@ class __$$DecodedDataImplCopyWithImpl<$Res>
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
               as List<int>,
+      tagId: freezed == tagId
+          ? _value.tagId
+          : tagId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -120,7 +131,10 @@ class __$$DecodedDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DecodedDataImpl extends _DecodedData {
   const _$DecodedDataImpl(
-      {required this.id, required this.name, required final List<int> data})
+      {required this.id,
+      required this.name,
+      required final List<int> data,
+      required this.tagId})
       : _data = data,
         super._();
 
@@ -140,8 +154,11 @@ class _$DecodedDataImpl extends _DecodedData {
   }
 
   @override
+  final String? tagId;
+
+  @override
   String toString() {
-    return 'DecodedData(id: $id, name: $name, data: $data)';
+    return 'DecodedData(id: $id, name: $name, data: $data, tagId: $tagId)';
   }
 
   @override
@@ -151,13 +168,14 @@ class _$DecodedDataImpl extends _DecodedData {
             other is _$DecodedDataImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.tagId, tagId) || other.tagId == tagId));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, name, const DeepCollectionEquality().hash(_data));
+      runtimeType, id, name, const DeepCollectionEquality().hash(_data), tagId);
 
   @JsonKey(ignore: true)
   @override
@@ -177,7 +195,8 @@ abstract class _DecodedData extends DecodedData {
   const factory _DecodedData(
       {required final int id,
       required final String name,
-      required final List<int> data}) = _$DecodedDataImpl;
+      required final List<int> data,
+      required final String? tagId}) = _$DecodedDataImpl;
   const _DecodedData._() : super._();
 
   factory _DecodedData.fromJson(Map<String, dynamic> json) =
@@ -189,6 +208,8 @@ abstract class _DecodedData extends DecodedData {
   String get name;
   @override
   List<int> get data;
+  @override
+  String? get tagId;
   @override
   @JsonKey(ignore: true)
   _$$DecodedDataImplCopyWith<_$DecodedDataImpl> get copyWith =>
