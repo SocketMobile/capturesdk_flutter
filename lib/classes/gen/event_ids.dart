@@ -65,9 +65,13 @@ class CaptureEventIds {
 	/// Type: kNone
 	static const int discoveryEnd = 14;
 
+	/// Event when a CaptureSDK log trace is generated.
+	/// Type: kString
+	static const int logTrace = 21;
+
 	/// The Last Event should always be the last ID in the list of possible events.
 	/// Type: kNone
-	static const int lastID = 21;
+	static const int lastID = 22;
 
 }
 
@@ -95,10 +99,13 @@ class CaptureEventTypes {
 	/// The event has a device info structure as value (read only).
 	static const int deviceInfo = 6;
 
+	/// The event has an object structure (array, map, dictionary) as value (read only).
+	static const int object = 7;
+
 	/// The event type should not be equal or higher that kLastID otherwise
 	/// it means the SDK is not in sync with the actual version of Socket
 	/// Mobile Companion running on the host.
-	static const int lastID = 7;
+	static const int lastID = 8;
 
 }
 

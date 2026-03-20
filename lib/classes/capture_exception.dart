@@ -7,4 +7,7 @@ class CaptureException implements Exception {
   String message = 'no error';
   String? method;
   String? details;
+
+  @override
+  String toString() => 'CaptureException($code: $message${details != null ? ', $details' : ''})';
 }

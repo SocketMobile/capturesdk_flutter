@@ -159,8 +159,11 @@ class CaptureDataSourceID {
 	/// the barcode symbology Korea Post
 	static const int symbologyKoreaPost = 50;
 
+	/// the barcode symbology Micro QR Code
+	static const int symbologyMicroQRCode = 51;
+
 	/// the last barcode symbology ID, not an actual barcode symbology
-	static const int lastSymbologyID = 51;
+	static const int lastSymbologyID = 52;
 
 	/// the RFID Tag Type ISO 14443 A
 	static const int tagTypeISO14443TypeA = 256;

@@ -14,6 +14,22 @@ CaptureException convertFromPlatformException(
   return CaptureException(code, message, method, type);
 }
 
+int? _toInt(dynamic v) {
+  if (v == null) {
+    return null;
+  }
+  if (v is int) {
+    return v;
+  }
+  if (v is num) {
+    return v.toInt();
+  }
+  if (v is String) {
+    return int.tryParse(v);
+  }
+  return null;
+}
+
 /// Helper for determining which property should be assigned to the value (used in response) property.
 CaptureProperty capturePropertyFromProperty(Property prop) {
   final int id = prop.id ?? (throw StateError('Property ID cannot be null'));
@@ -22,7 +38,15 @@ CaptureProperty capturePropertyFromProperty(Property prop) {
   dynamic value = <dynamic, dynamic>{};
   switch (type) {
     case CapturePropertyTypes.dataSource:
-      value = prop.dataSourceValue;
+      final DataSourceIos? ds = prop.dataSourceValue;
+      if (ds != null) {
+        value = DataSource(
+          id: ds.id ?? -1,
+          name: ds.name ?? '',
+          status: ds.status ?? -1,
+          flags: ds.flags ?? 0,
+        );
+      }
       break;
     case CapturePropertyTypes.array:
       value = prop.arrayValue;
@@ -31,10 +55,10 @@ CaptureProperty capturePropertyFromProperty(Property prop) {
       value = prop.stringValue;
       break;
     case CapturePropertyTypes.byte:
-      value = prop.byteValue;
+      value = _toInt(prop.byteValue) ?? prop.byteValue;
       break;
     case CapturePropertyTypes.ulong:
-      value = prop.longValue;
+      value = _toInt(prop.longValue) ?? prop.longValue;
       break;
     case CapturePropertyTypes.object:
       value = prop.objectValue;
@@ -42,9 +66,9 @@ CaptureProperty capturePropertyFromProperty(Property prop) {
     case CapturePropertyTypes.version:
       value = prop.versionValue;
       break;
-    // case CapturePropertyTypes.Enum:
-    //   value = prop.enumValue;
-    //   break;
+    case CapturePropertyTypes.Enum:
+      value = _toInt(prop.longValue) ?? prop.longValue;
+      break;
   }
 
   return CaptureProperty(id: id, type: type, value: value);
@@ -84,9 +108,9 @@ Property propertyFromCaptureProperty(CaptureProperty prop) {
     case CapturePropertyTypes.version:
       out.versionValue = prop.version;
       break;
-    // case CapturePropertyTypes.Enum:
-    //   out.enumValue = prop.Enum;
-    //   break;
+    case CapturePropertyTypes.Enum:
+      out.longValue = prop.ulong;
+      break;
   }
   return out;
 }

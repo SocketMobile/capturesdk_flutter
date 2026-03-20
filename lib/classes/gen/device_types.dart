@@ -207,9 +207,9 @@ class CaptureDeviceType {
 	///value: 196900 (0x30124)
 	static const int deviceD765 = 196900;
 
-	///Model D750 - NFC Reader/Writer
+	///Model D751 - NFC Reader/Writer
 	///value: 329253 (0x50625)
-	static const int deviceD750 = 329253;
+	static const int deviceD751 = 329253;
 
 	///Model M942
 	///value: 327974 (0x50126)
@@ -223,17 +223,25 @@ class CaptureDeviceType {
 	///value: 327976 (0x50128)
 	static const int deviceXS663 = 327976;
 
+	///Model S721
+	///value: 327977 (0x50129)
+	static const int deviceS721 = 327977;
+
+	///Model S741
+	///value: 327978 (0x5012A)
+	static const int deviceS741 = 327978;
+
 	///Bluetooth device type unknown by this version of Capture
-	///value: 196649 (0x30029)
-	static const int btUnknown = 196649;
+	///value: 196651 (0x3002B)
+	static const int btUnknown = 196651;
 
 	///device manager for controlling BLE
 	///value: 17104897 (0x1050001)
 	static const int deviceManagerBle = 17104897;
 
 	///Ble device type unknown by this version of Capture
-	///value: 329769 (0x50829)
-	static const int bleUnknown = 329769;
+	///value: 329771 (0x5082B)
+	static const int bleUnknown = 329771;
 
 }
 

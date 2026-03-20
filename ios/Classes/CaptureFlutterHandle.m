@@ -10,25 +10,20 @@
 
 
 @implementation CaptureFlutterHandle {
-    
+
     NSMutableDictionary *_handles;
-    int _counter;
+    NSInteger _counter;
     NSNumber *_firstHandle; // root CaptureSDK object
-    
+
 }
 
 -(NSNumber *)addNewObject:(NSObject *)obj {
-    NSDate *date = [NSDate date];
-    
-    int cal = (int)[date timeIntervalSince1970];
     if (_handles == nil) {
         _handles = [NSMutableDictionary new];
         _counter = 0;
     }
-    cal *= 1000;
     _counter += 1;
-    cal += _counter;
-    NSNumber *handle = [NSNumber numberWithInt:cal];
+    NSNumber *handle = [NSNumber numberWithInteger:_counter];
     [_handles setValue:obj forKey:handle.stringValue];
     if (_counter == 1) {
         _firstHandle = handle;
@@ -36,7 +31,6 @@
     } else {
         NSLog(@"----> Device opened: %@", handle);
     }
-
     return handle;
 }
 
@@ -66,7 +60,7 @@
             *stop = NO;
             if (obj == object) {
                 *stop = YES;
-                found = key;
+                found = @([key integerValue]);
             }
         }];
 

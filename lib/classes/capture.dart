@@ -83,6 +83,12 @@ class Capture {
             const Duration(milliseconds: retryMilliseconds));
       }
     }
+    if (clientOrDeviceHandle == null) {
+      throw CaptureException(
+        SktErrors.ESKT_INVALIDHANDLE,
+        'openClient returned a null handle — transport failed silently',
+      );
+    }
     return clientOrDeviceHandle;
   }
 

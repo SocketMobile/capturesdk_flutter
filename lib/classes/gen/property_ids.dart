@@ -291,6 +291,26 @@ class CapturePropertyIds {
 	/// Device: True	Get Type: None 	Set Type: None
 	static const int resetSinglePartnershipDevice = 292;
 
+	/// property to connect to a discovered BLE device with a Device Manager
+	/// Device: True	Get Type: NotApplicable 	Set Type: String
+	static const int connectDiscoveredDevice = 1376771;
+
+	/// property to disconnect from a discovered BLE device with a Device Manager
+	/// Device: True	Get Type: NotApplicable 	Set Type: String
+	static const int disconnectDiscoveredDevice = 1376768;
+
+	/// property to add a Bluetooth device (Classic or Low Energy)
+	/// Device: False	Get Type: NotApplicable 	Set Type: Byte
+	static const int addDevice = -2146303981;
+
+	/// property to remove a Bluetooth device (Classic or Low Energy)
+	/// Device: False	Get Type: NotApplicable 	Set Type: String
+	static const int removeDevice = -2146107372;
+
+	/// property to power cycle a Bluetooth LE device when on a power source (e.g. charging). Otherwise it will just power off the device
+	/// Device: True	Get Type: NotApplicable 	Set Type: None
+	static const int resetDevice = 1048832;
+
 }
 
 class CapturePropertyTypes { 
@@ -755,31 +775,44 @@ class ConnectBeepConfig {
 /// The stand configuration defines the operational mode of the device when used with a stand.
 class StandConfig {
 
+	/// Bluetooth Classic:
 	/// Disabled the stand config property and sets the scanner as it is intended
+	/// Bluetooth LE:
+	/// Scanner does not switch to presentation mode
 	static const int disabled = 0;
-	/// Mobile mode Works like today existing firmware Engine is always in 
-	///  trigger mode Engine hibernate enabled
+	/// Bluetooth Classic:
+	/// Mobile mode Works like today existing firmware Engine is always in trigger mode Engine hibernate enabled
+	/// Bluetooth LE:
+	/// Identical to disabled mode
 	static const int mobileMode = 1;
-	/// Stand mode Engine always in presentation mode Engine hibernate 
-	/// disabled Scanner turns on immediately Power timers disabled Connection 
-	/// retries forever
+	/// Bluetooth Classic:
+	/// Stand mode Engine always in presentation mode Engine hibernate
+	/// disabled Scanner turns on immediately Power timers disabled Connection retries forever
+	/// Bluetooth LE:
+	/// The device switches to presentation mode, always, in or out of the stand,
 	static const int standMode = 2;
-	/// Detect mode On stand engine in presentation mode On stand engine 
-	/// hibernate disabled On stand charging led state not show On stand 
-	/// scanner turns on immediately On stand power timers disabled On stand 
-	/// connection retries forever Off stand engine in level mode Off stand 
-	/// battery led state reported Off stand engine hibernate enabled Off stand 
-	/// power off timers running Off stand connection retries halt after max 
-	/// count
+	/// Bluetooth Classic:
+	/// Detect mode On stand engine in presentation mode On stand engine
+	/// hibernate disabled On stand charging led state not show On stand
+	/// scanner turns on immediately On stand power timers disabled On stand
+	/// connection retries forever Off stand engine in level mode Off stand
+	/// battery led state reported Off stand engine hibernate enabled Off stand
+	/// power off timers running Off stand connection retries halt after max count
+	/// Bluetooth LE:
+	/// The device switches in or out of presentation mode when it's in or out respectively from the stand
 	static const int detectMode = 3;
-	/// Auto mode On stand engine in presentation mode On stand engine hibernate 
-	/// disabled On stand charging led state not show On stand scanner turns on 
-	/// immediately On stand power timers disabled On stand connection retries 
-	/// forever Off stand does nothing, engine remains in presentation mode Off 
-	/// stand trigger press causes engine to enter level mode Engine in level 
-	/// mode battery led state reported Engine in level mode hibernate enabled 
-	/// Engine in level mode power off timers running Engine in level mode 
+	/// Bluetooth Classic:
+	/// Auto mode On stand engine in presentation mode On stand engine hibernate
+	/// disabled On stand charging led state not show On stand scanner turns on
+	/// immediately On stand power timers disabled On stand connection retries
+	/// forever Off stand does nothing, engine remains in presentation mode Off
+	/// stand trigger press causes engine to enter level mode Engine in level
+	/// mode battery led state reported Engine in level mode hibernate enabled
+	/// Engine in level mode power off timers running Engine in level mode
 	/// connection retries halt after max count
+	/// Bluetooth LE:
+	/// Same as DetectMode, but if you use the trigger button while it's out of the stand it switches to a normal trigger operation until it returns to the stand in which it switches to presentation mode.
+	/// If it is removed from the stand it stays in presentation mode until the trigger is pressed at least once.
 	static const int autoMode = 4;
 
 }
@@ -861,6 +894,26 @@ class SinglePartnership {
 	static const int webUIPrompt = 4;
 	/// Set your own Device Id that will return a Single Partnership Web page with a QRcode to scan
 	static const int deviceId = 5;
+
+}
+
+/// The Bluetooth technology used to make a discovery of devices in the vicinity
+class BluetoothDiscoveryMode {
+
+	/// Discovery for Bluetooth LE devices such as S550, S370, S320, S721.
+	static const int bluetoothLowEnergy = 1;
+	/// Discovery for Bluetooth Classic devices.
+	static const int bluetoothClassic = 2;
+
+}
+
+/// Mask for the Decode Local Action selection property. It applies the decode local action selection on the given device(s) set with the mask
+class DecodeLocalActionSelectionMask {
+
+	/// Mask applied on the Good local decode action result
+	static const int good = 1;
+	/// Mask applied on the Bad local decode action result
+	static const int bad = 2;
 
 }
 

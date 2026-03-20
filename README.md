@@ -1,18 +1,28 @@
-# Flutter CaptureSDK - Version 1.5.60
+# Flutter CaptureSDK - Version 2.0.10
 
 This is the Flutter CatureSDK for Socket Mobile's Capture library.
 
+From 20th of March 2026 - Noticeable change from version 2.0
+
+There are 2 choices to connect and use our Bluetooth LE readers:
+
+- Install our Socket Mobile Companion app which takes care of the discovery and the selection of the reader to connect to.
+
+- Write some code to fit the Bluetooth discovery flow to your application's design by creating an UI that starts and shows discovered devices and select them to be paired to your application.
+
+[See our Getting Started section in our documentation](https://docs.socketmobile.dev/captureflutter/en/latest.html).
+
 ## Devices compatibility and CaptureSDK versions
 
-|                    Devices                     | <= 1.2 | 1.3 |   1.4   |   1.5   |
-| :--------------------------------------------: | :----: | :-: | :-----: | :-----: |
-|               **SocketCam C860**               |   ❌   | ❌   |   ✅    |   ✅    |
-|               **SocketCam C820**               |   ❌   | ❌   |   ✅    |   ✅    |
-|               **S720/D720/S820**               |   ❌   | ✅   |   ✅    |   ✅    |
-| **D600, S550, and all other barcode scanners** |   ✅   | ✅   |   ✅    |   ✅    |
-|                    **S370**                    |   ❌   | ❌   |   ✅    |   ✅    |
-|        **DW930/XS930 and DW940/XS940**         |   ❌   | ❌   |   ❌    |   ✅    |
-|                    **S320**                    |   ❌   | ❌   |   ❌    |   ✅    |
+|                    Devices                     | < 2.0 | 2.0 |
+| :--------------------------------------------: | :---: | :-: |
+|               **SocketCam C860**               |  ✅   | ✅  |
+|               **SocketCam C820**               |  ✅   | ✅  |
+|               **S720/D720/S820**               |  ✅   | ✅  |
+| **D600, S550, and all other barcode scanners** |  ✅   | ✅  |
+|                    **S370**                    |  ✅   | ✅  |
+|                    **S320**                    |  ✅   | ✅  |
+|  **S721 (new Bluetooth LE barcode scanner)**   |  ❌   | ✅  |
 
 ## Installation
 
@@ -21,7 +31,7 @@ Install the flutter package by adding the following to your `pubspec.yaml` file.
 ```dart
 dependencies:
   ...
-  capturesdk_flutter: ^1.5.60
+  capturesdk_flutter: ^2.0.10
   ...
 ```
 
@@ -40,7 +50,7 @@ You will need to change three things in your app in order for it to work with iO
 ```ruby
   source 'https://github.com/CocoaPods/Specs.git'
 
-  platform :ios, '13.0' # minimum target requirement for CaptureSDK iOS
+  platform :ios, '15.0' # minimum target requirement for CaptureSDK iOS
 
   target 'MyProject' do
     ....
@@ -172,7 +182,7 @@ You will need to change three things in your app in order for it to work with iO
 ```ruby
   source 'https://github.com/CocoaPods/Specs.git'
 
-  platform :ios, '13.0'
+  platform :ios, '15.0'
 
   target 'MyProject' do
     ....
@@ -208,7 +218,7 @@ Third, open the project's iOS directory in xcode. Once you've done that, select 
 
 ## Getting started Android
 
-You will need to update the network configuration to enable the Android Capture client. You can find out more about network configuration [here](https://docs.socketmobile.dev/capture/java/en/latest/android/getting-started.html).
+You will need to update the network configuration to enable the Android Capture client. You can find out more [about network configuration](https://docs.socketmobile.dev/capture/java/en/latest/android/getting-started.html).
 
 In order to pass the internet permissions, you need to have the below line in your Android manifest.
 
@@ -316,25 +326,50 @@ In order for it to work, you will need to add five argments to `AppInfo` in the 
 4. AppKey after iOS registration
 5. Developer ID
 
+## SocketCam
+
+SocketCam turns the device's built-in camera into a barcode scanner. The SDK supports two display modes:
+
+### Full-screen mode (default)
+
+The simplest integration. Call `setTrigger(Trigger.start)` on the SocketCam device and the SDK handles the camera UI:
+
+- **iOS**: call `SocketCamView.presentFullScreen()` after the trigger to present the native view controller.
+- **Android**: the SDK opens its own full-screen camera Activity automatically — no extra code needed.
+
+```dart
+await device.setTrigger(Trigger.start);
+if (Platform.isIOS) {
+  await SocketCamView.presentFullScreen();
+}
+```
+
+### Custom view mode
+
+Embeds the camera preview inside your own Flutter layout via the `SocketCamView` widget.
+
+- **iOS**: works out of the box — mount `SocketCamView(device: device)` anywhere in your widget tree.
+- **Android**: requires changes to the native `CaptureModule.java` (see below).
+
+### Switching between modes on Android
+
+On Android, the camera mode is determined at build time by the `CaptureExtension` configuration. `CaptureExtension` is a **singleton** — the first `build()` call locks in the configuration for the process lifetime. You cannot switch between full-screen and custom view at runtime.
+
+**To migrate from full-screen to custom view on Android:**
+
+1. In `android/.../CaptureModule.java`, uncomment the `CustomViewListener` code in `buildAndStartExtension()` and the related fields and methods (search for "Custom view mode" comments).
+2. In your Dart code, mount a `SocketCamView` widget (minimum 400×400 pixels) and call `setTrigger(Trigger.start)` on the device.
+
+**To migrate from custom view back to full-screen on Android:**
+
+1. In `CaptureModule.java`, comment out the `CustomViewListener` code in `buildAndStartExtension()` and the related fields/methods.
+2. In your Dart code, remove the `SocketCamView` widget. Just call `setTrigger(Trigger.start)` — the SDK will open its camera Activity.
+
+> **Note:** On iOS, both modes coexist and can be switched at runtime without any native code changes.
+
 For more information about the Flutter CaptureSDK, please visit the [documentation](https://docs.socketmobile.dev/captureflutter/en/latest).
 
 For a full demonstration, check out [this video](https://vimeo.com/694611104).
-
-## Environment Information
-
-Run `flutter doctor -v` to see your environment tools. Here's what you need:
-
-Visual Studio Code with Flutter extension
-
-Flutter SDK v3.0.0 and Dart v3.0.0 minimum
-
-DevTools v2.31.1 with Chrome as optional
-
-Xcode 15
-
-Android Studio
-
-To make sure everything is installed, you can also run `flutter upgrade`. This will upgrade the Flutter SDK and the tools for Android and iOS if needed.
 
 ## Build & Run Instructions
 
@@ -345,11 +380,11 @@ Then you can run the app through Android Studio and Xcode or through Visual Stud
 
 ### Android
 
-3. `cd android`
-4. Run `flutter run` or open the project in Android Studio to run on connected iOS device.
+1. `cd android`
+2. Run `flutter run` or open the project in Android Studio to run on connected iOS device.
 
 ### iOS
 
-3. `cd ios`
-4. Run `pod install --repo-update`
-5. Run `flutter run` or open the project in Xcode to run on connected iOS device.
+1. `cd ios`
+2. Run `pod install --repo-update`
+3. Run `flutter run` or open the project in Xcode to run on connected iOS device.

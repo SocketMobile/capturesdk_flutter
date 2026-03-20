@@ -1,6 +1,33 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## Version 2.0.10
+
+### New
+
+  * We have introduced SocketCam custom view on Android and iOS (read the docs)
+
+  * We have added a CaptureHelper so you don’t to write the boilerplate code to use our main features
+
+  * We have added the support of our brand new Bluetooth Low Energy scanner S721
+
+  * Update [Android CaptureSDK to 2.0.17](https://github.com/SocketMobile/android-capturesdk/releases/tag/v2.0.17)
+
+  * Update [iOS CaptureSDK to 2.0.67](https://github.com/SocketMobile/cocoapods-capturesdk/releases/tag/2.0.67)
+
+  * We have updated our Flutter CaptureSDK to 2.0
+
+
+
+### Improvements
+
+  * N/A
+
+
+### Bug fixes
+
+  * N/A
+
+
 
 ## [1.5.60]
 

@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_this
 
 import 'dart:io';
-import 'dart:math';
 
 import '../capturesdk.dart';
 
@@ -9,31 +8,13 @@ import '../capturesdk.dart';
 class Transport {
   List<Params> handles = <Params>[];
   int? transportHandle;
-
-  int loop = 0;
+  static int _handleCounter = 0;
 
   int generateHandle() {
-    int newHandle = 0;
-    final Random rng = Random();
-    newHandle = rng.nextInt(100);
-    loop++;
-
-    if (handles.isEmpty) {
-      final Params hndle = Params(handle: newHandle);
-      this.handles.add(hndle);
-      return newHandle;
-    } else if (this.handles.every((Params h) => h.handle != newHandle)) {
-      final Params hndle = Params(handle: newHandle);
-      this.handles.add(hndle);
-      return newHandle;
-    } else {
-      if (loop < 10) {
-        return generateHandle();
-      } else {
-        loop = 0;
-        return 0;
-      }
-    }
+    _handleCounter += 1;
+    final Params hndle = Params(handle: _handleCounter);
+    handles.add(hndle);
+    return _handleCounter;
   }
 
   Transport Function(Logger logger) getTransport = (Logger logger) {

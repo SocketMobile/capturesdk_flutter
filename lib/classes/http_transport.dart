@@ -21,6 +21,7 @@ class HttpTransport extends Transport {
   WebSocketChannel? websocket;
   void Function(dynamic, int)? onEventNotification;
   int rpcId = 1;
+  int? _clientHandle;
 
   @override
 
@@ -190,34 +191,24 @@ class HttpTransport extends Transport {
     logger?.log('${request.method} <=', json.encode(response.toString()));
 
     if (request.method == 'openclient') {
-      /// we want to start the web service here if we can
-      openWebSocket((dynamic event) {
-        /// send a waitForEvent
-        final CaptureResult? result = response.captureResult;
-        if (result == null) {
-          throw Exception('Unexpected response');
-        }
-        final Map<String, dynamic> waitForEvent = JRpcRequest(
-                id: '1',
-                method: 'waitforcaptureevent',
-                params: Params(handle: result.handle))
-            .toJson();
-        final String waitForEventString = json.encode(waitForEvent);
-        //use sink.add to send data to server
-        websocket!.sink.add(waitForEventString);
-        return;
-      });
+      final CaptureResult? openResult = response.captureResult;
+      if (openResult == null) {
+        throw Exception('Unexpected response');
+      }
+      _clientHandle = openResult.handle;
+      openWebSocket();
     }
     return response;
   }
 
-  /// Function used to implement instance of WebSocketChannel to create a stream for capture library to use and stay connected to.
-  /// Helps to maintain network for capture notifications.
-  /// Since this is over HTTP we use websocket. For iOS there is no need to establish websockets since we connect to the iOS service.
-  void openWebSocket(void Function(dynamic event) callback) {
+  /// Opens a websocket for receiving Capture events.
+  ///
+  /// After each received event, re-sends `waitforcaptureevent` so the server
+  /// delivers the next one (long-polling protocol).
+  void openWebSocket() {
     websocket = WebSocketChannel.connect(Uri.parse(hostWebsocket));
     logger?.log('websocket =>', 'open attempt');
-    callback(websocket);
+    _sendWaitForEvent();
     websocket!.stream.listen(
       (dynamic message) {
         logger?.log('receiving something through the websocket:', message);
@@ -234,7 +225,6 @@ class HttpTransport extends Transport {
           final CaptureException err = CaptureException(
               jsonRes['error']['code'] as int,
               jsonRes['error']['message'] as String);
-          // need to provide some sort of handle
           notification(err, 00000);
         } else {
           logger?.log('websocket =>', 'No result returned');
@@ -244,18 +234,33 @@ class HttpTransport extends Transport {
         logger?.log('websocket =>', 'websocket closed!');
       },
       onError: (dynamic error) {
-        if (error.hashCode == 1006) {
-          final CaptureException err =
-              CaptureException(error.hashCode, 'Websocket cannot communicate');
-          notification(err);
+        final CaptureException err;
+        if (error is WebSocketChannelException) {
+          err = CaptureException(
+            SktErrors.ESKT_SERVICENOTCOMMUNICATING,
+            'WebSocket channel error: ${error.message}',
+          );
         } else {
-          final CaptureException err = CaptureException(
-              SktErrors.ESKT_SERVICENOTCOMMUNICATING,
-              'Service is unable to communicate');
-          notification(err);
+          err = CaptureException(
+            SktErrors.ESKT_SERVICENOTCOMMUNICATING,
+            'Service is unable to communicate',
+          );
         }
+        notification(err);
       },
     );
+  }
+
+  void _sendWaitForEvent() {
+    if (websocket == null || _clientHandle == null) {
+      return;
+    }
+    final Map<String, dynamic> waitForEvent = JRpcRequest(
+      id: '1',
+      method: 'waitforcaptureevent',
+      params: Params(handle: _clientHandle!),
+    ).toJson();
+    websocket!.sink.add(json.encode(waitForEvent));
   }
 
   /// Helper for generating new id for new json rpc instance.
@@ -273,11 +278,7 @@ class HttpTransport extends Transport {
     final void Function(dynamic, int)? func = onEventNotification;
     if (func != null) {
       final int hand = handle ?? event.handle as int;
-      if (event.runtimeType != CaptureException) {
-        func(event, hand);
-      } else {
-        func(event, hand);
-      }
+      func(event, hand);
     } else {
       throw CaptureException(SktErrors.ESKT_EVENTNOTCREATED,
           'please provide function for this.onEventNotification.');

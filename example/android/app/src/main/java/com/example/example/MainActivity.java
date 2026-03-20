@@ -1,15 +1,6 @@
-package com.example.example; // Replace with your app's package name
+package com.example.example;
 
-import com.capturesdk_flutter.CaptureModule; // import CaptureModule Native Modules
-import io.flutter.embedding.android.FlutterActivity;
-import io.flutter.embedding.engine.FlutterEngine;
+import io.flutter.embedding.android.FlutterFragmentActivity;
 
-public class MainActivity extends FlutterActivity {
-
-    @Override
-    public void configureFlutterEngine(FlutterEngine flutterEngine) {
-        // Add CAPTUREMODULE plugin instance
-        flutterEngine.getPlugins().add(new CaptureModule());
-    }
-
+public class MainActivity extends FlutterFragmentActivity {
 }

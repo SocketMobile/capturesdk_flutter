@@ -145,24 +145,87 @@
     }
 }
 
+-(void)getProperty:(SKTCaptureProperty *)captureProperty fromCapture:(SKTCapture *)capture maxRetries:(int)maxRetries completion:(void(^)(Property *, FlutterError *))completion {
+    __weak SKTCapture *weakCapture = capture;
+    [capture getProperty:captureProperty completionHandler:^(SKTResult result, SKTCaptureProperty *complete) {
+        if (result >= SKTCaptureE_NOERROR && complete.ID != captureProperty.ID && maxRetries > 0) {
+            NSLog(@"[getProperty] ID mismatch: requested %ld, got %ld — retrying (%d left)",
+                  (long)captureProperty.ID, (long)complete.ID, maxRetries - 1);
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(100 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+                SKTCapture *strongCapture = weakCapture;
+                if (strongCapture) {
+                    [self getProperty:captureProperty fromCapture:strongCapture maxRetries:maxRetries - 1 completion:completion];
+                }
+            });
+            return;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            Property *responseProperty = nil;
+            FlutterError *flutterError = nil;
+            if (result >= SKTCaptureE_NOERROR) {
+                responseProperty = [TransportConnector convertToDartProperty:complete];
+            } else {
+                flutterError = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result]
+                                                   message:[NSString stringWithFormat:@"Unable to get the property %ld",(long)captureProperty.ID]
+                                                   details:nil];
+            }
+            completion(responseProperty, flutterError);
+        });
+    }];
+}
+
+-(void)extractSocketCamViewControllerFromProperty:(SKTCaptureProperty *)property {
+    if (property.ID == SKTCapturePropertyIDTriggerDevice && property.Type == SKTCapturePropertyTypeObject) {
+        if ([property.Object isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *dict = (NSDictionary *)property.Object;
+            NSString *objectType = [dict objectForKey:@"SKTObjectType"];
+            if ([objectType isEqualToString:@"SKTSocketCamViewControllerType"]) {
+                id vc = [dict objectForKey:@"SKTSocketCamViewController"];
+                if ([vc isKindOfClass:[UIViewController class]]) {
+                    self.socketCamViewController = vc;
+                }
+            }
+        }
+    }
+}
+
+-(void)setProperty:(SKTCaptureProperty *)captureProperty onCapture:(SKTCapture *)capture maxRetries:(int)maxRetries completion:(void(^)(Property *, FlutterError *))completion {
+    __weak SKTCapture *weakCapture = capture;
+    [capture setProperty:captureProperty completionHandler:^(SKTResult result, SKTCaptureProperty *complete) {
+        if (result >= SKTCaptureE_NOERROR && complete.ID != captureProperty.ID && maxRetries > 0) {
+            NSLog(@"[setProperty] ID mismatch: requested %ld, got %ld — retrying (%d left)",
+                  (long)captureProperty.ID, (long)complete.ID, maxRetries - 1);
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(100 * NSEC_PER_MSEC)), dispatch_get_main_queue(), ^{
+                SKTCapture *strongCapture = weakCapture;
+                if (strongCapture) {
+                    [self setProperty:captureProperty onCapture:strongCapture maxRetries:maxRetries - 1 completion:completion];
+                }
+            });
+            return;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            Property *responseProperty = nil;
+            FlutterError *flutterError = nil;
+            if (result >= SKTCaptureE_NOERROR) {
+                [self extractSocketCamViewControllerFromProperty:complete];
+                responseProperty = [TransportConnector convertToDartProperty:complete];
+            } else {
+                flutterError = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result]
+                                                   message:[NSString stringWithFormat:@"Unable to set the property %ld",(long)captureProperty.ID]
+                                                   details:nil];
+            }
+            completion(responseProperty, flutterError);
+        });
+    }];
+}
+
 -(void)getPropertyHandle:(IosTransportHandle *)handle property:(Property *)property completion:(void(^)(Property *, FlutterError *))completion {
     if (self->_handles != nil) {
         @try {
             SKTCapture *capture = (SKTCapture *)[self->_handles getObjectFromHandle:handle.value];
             if (capture != nil) {
                 SKTCaptureProperty *captureProperty = [TransportConnector convertToCaptureProperty:property];
-                [capture getProperty:captureProperty completionHandler:^(SKTResult result, SKTCaptureProperty *complete) {
-                    Property *responseProperty = nil;
-                    FlutterError *flutterError = nil;
-                    if (result >= SKTCaptureE_NOERROR) {
-                        responseProperty = [TransportConnector convertToDartProperty:complete];
-                    } else {
-                        flutterError = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result]
-                                                           message:[NSString stringWithFormat:@"Unable to get the property %ld",(long)captureProperty.ID]
-                                                           details:nil];
-                    }
-                    completion(responseProperty, flutterError);
-                }];
+                [self getProperty:captureProperty fromCapture:capture maxRetries:3 completion:completion];
             } else {
                 FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE]
                                                         message:@"Unable to get the provided handle because it is invalid"
@@ -190,18 +253,7 @@
             SKTCapture *capture = (SKTCapture *)[self->_handles getObjectFromHandle:handle.value];
             if (capture != nil) {
                 SKTCaptureProperty *captureProperty = [TransportConnector convertToCaptureProperty:property];
-                [capture setProperty:captureProperty completionHandler:^(SKTResult result, SKTCaptureProperty *complete) {
-                    Property *responseProperty = nil;
-                    FlutterError *flutterError = nil;
-                    if (result >= SKTCaptureE_NOERROR) {
-                        responseProperty = [TransportConnector convertToDartProperty: complete];
-                    } else {
-                        flutterError = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)result]
-                                                           message:[NSString stringWithFormat:@"Unable to get the property %ld",(long)captureProperty.ID]
-                                                           details:nil];
-                    }
-                    completion(responseProperty, flutterError);
-                }];
+                [self setProperty:captureProperty onCapture:capture maxRetries:3 completion:completion];
             } else {
                 FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE]
                                                         message:@"Unable to get the provided handle because it is invalid"
@@ -225,31 +277,48 @@
 
 -(void)closeDevicesButThisHandle:(NSNumber *)handle withCompletion:(void(^)(void))completion {
     NSEnumerator *enumeration = [self->_handles getEnumator];
-    [self closeNextDeviceFromEnumerator:enumeration notThisHandle:handle.stringValue withCompletion:completion];
-}
-
--(void)closeNextDeviceFromEnumerator:(NSEnumerator *)enumeration notThisHandle:(NSString *)handle withCompletion:(void(^)(void))completion {
-    NSString *key = [enumeration nextObject];
-    if (key != nil) {
-        if ([key isEqualToString:handle]) {
-            [self closeNextDeviceFromEnumerator:enumeration notThisHandle:handle withCompletion:completion];
-        } else {
-            NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-            f.numberStyle = NSNumberFormatterDecimalStyle;
-            NSNumber *keyNumber = [f numberFromString:key];
-            SKTCapture *device = (SKTCapture *)[self->_handles getObjectFromHandle:keyNumber];
-            if (device != nil) {
-                [device closeWithCompletionHandler:^(SKTResult result) {
-                    [self->_handles removeHandle:keyNumber];
-                    [self closeNextDeviceFromEnumerator:enumeration notThisHandle:handle withCompletion:completion];
-                }];
-            } else {
-                [self closeNextDeviceFromEnumerator:enumeration notThisHandle:handle withCompletion:completion];
-            }
+    NSMutableArray *keysToClose = [NSMutableArray array];
+    NSString *key;
+    while ((key = [enumeration nextObject]) != nil) {
+        if (![key isEqualToString:handle.stringValue]) {
+            [keysToClose addObject:key];
         }
-    } else {
-        completion();
     }
+
+    if (keysToClose.count == 0) {
+        completion();
+        return;
+    }
+
+    if (self->_closingHandles == nil) {
+        self->_closingHandles = [NSMutableSet new];
+    }
+
+    dispatch_group_t group = dispatch_group_create();
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+
+    for (NSString *deviceKey in keysToClose) {
+        if ([self->_closingHandles containsObject:deviceKey]) {
+            continue;
+        }
+        NSNumber *keyNumber = [f numberFromString:deviceKey];
+        SKTCapture *device = (SKTCapture *)[self->_handles getObjectFromHandle:keyNumber];
+        if (device == nil) {
+            continue;
+        }
+        [self->_closingHandles addObject:deviceKey];
+        dispatch_group_enter(group);
+        [device closeWithCompletionHandler:^(SKTResult result) {
+            [self->_handles removeHandle:keyNumber];
+            [self->_closingHandles removeObject:deviceKey];
+            dispatch_group_leave(group);
+        }];
+    }
+
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        completion();
+    });
 }
 
 +(SKTCaptureProperty *)convertToCaptureProperty:(Property *)property {
@@ -296,6 +365,7 @@
             captureProperty.DataSource.Flags = [property.dataSourceValue.flags intValue];
             break;
         case SKTCapturePropertyTypeEnum:
+            captureProperty.ULongValue = [property.longValue longValue];
             break;
         case SKTCapturePropertyTypeObject:
             break;
@@ -347,30 +417,9 @@
             dartProperty.dataSourceValue.name = property.DataSource.Name;
             break;
         case SKTCapturePropertyTypeEnum:
+            dartProperty.longValue = [[NSNumber alloc] initWithLong:property.ULongValue];
             break;
         case SKTCapturePropertyTypeObject:
-        {
-            if (property.ID == SKTCapturePropertyIDTriggerDevice) {
-                if ([property.Object isKindOfClass:[NSDictionary class]]) {
-                    NSDictionary *socketCamDictionary = (NSDictionary *)property.Object;
-                    NSString *objectType = [socketCamDictionary objectForKey:@"SKTObjectType"];
-                    if ([objectType isEqualToString:@"SKTSocketCamViewControllerType"]) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if ([[socketCamDictionary objectForKey:@"SKTSocketCamViewController"] isKindOfClass:[UIViewController class]]) {
-                                UIViewController* socketCamViewController = (UIViewController *)[socketCamDictionary objectForKey:@"SKTSocketCamViewController"];
-                                if (socketCamViewController != nil) {
-                                    UIViewController *mainUiViewController = [TransportConnector getPresentedViewController];
-                                    socketCamViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
-                                    [mainUiViewController presentViewController:socketCamViewController animated:YES completion:nil];
-                                }
-                            }
-                        });
-                    }
-                }
-            } else {
-                dartProperty.objectValue = property.Object;
-            }
-        }
             break;
         case SKTCapturePropertyTypeLastType:
             break;
@@ -379,9 +428,17 @@
     return dartProperty;
 }
 
-// Replace YourViewController with the name of your main view controller class
 +(UIViewController *)getPresentedViewController {
-    UIViewController *topViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UIWindowScene *windowScene = nil;
+    for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
+        if (scene.activationState == UISceneActivationStateForegroundActive &&
+            [scene isKindOfClass:[UIWindowScene class]]) {
+            windowScene = (UIWindowScene *)scene;
+            break;
+        }
+    }
+    UIWindow *keyWindow = windowScene.windows.firstObject;
+    UIViewController *topViewController = keyWindow.rootViewController;
     while (topViewController.presentedViewController) {
         topViewController = topViewController.presentedViewController;
     }
@@ -428,77 +485,102 @@
  * }
  */
 -(NSString *)createJsonFromHandle:(NSNumber *)handle withResult:(SKTResult)result forEvent:(SKTCaptureEvent *)event {
-    NSMutableString *json = [NSMutableString stringWithFormat:@"{\"handle\": %d, \"result\": %ld, \"event\":{ \"id\": %ld, \"type\": %ld", handle.intValue, (long)result, (long)event.ID, (long)event.Data.Type];
+    NSMutableDictionary *root = [NSMutableDictionary dictionary];
+    root[@"handle"] = handle;
+    root[@"result"] = @(result);
+
+    NSMutableDictionary *eventDict = [NSMutableDictionary dictionary];
+    eventDict[@"id"] = @(event.ID);
+    eventDict[@"type"] = @(event.Data.Type);
+
     switch(event.Data.Type) {
         case SKTCaptureEventDataTypeNone:
-            [json appendString:@"}}"];
             break;
         case SKTCaptureEventDataTypeByte:
-            [json appendFormat:@", \"value\": %d }}", event.Data.ByteValue];
+            eventDict[@"value"] = @(event.Data.ByteValue);
             break;
         case SKTCaptureEventDataTypeUlong:
-            [json appendFormat:@", \"value\": %lu }}", event.Data.ULongValue];
+            eventDict[@"value"] = @(event.Data.ULongValue);
             break;
         case SKTCaptureEventDataTypeArray:
-            [json appendFormat:@", \"value\": %@ }}", [TransportConnector ConvertToStringFromData:event.Data.ArrayValue]];
+        {
+            NSData *data = event.Data.ArrayValue;
+            NSMutableArray *arr = [NSMutableArray arrayWithCapacity:data.length];
+            const uint8_t *bytes = data.bytes;
+            for (NSUInteger i = 0; i < data.length; i++) {
+                [arr addObject:@(bytes[i])];
+            }
+            eventDict[@"value"] = arr;
             break;
+        }
         case SKTCaptureEventDataTypeString:
-            [json appendFormat:@", \"value\": \"%@\" }}", event.Data.StringValue];
+            eventDict[@"value"] = event.Data.StringValue;
             break;
         case SKTCaptureEventDataTypeDecodedData:
         {
-            [json appendString:@", \"value\": {"];
-            [json appendFormat:@"\"data\": %@,", [TransportConnector ConvertToStringFromData:event.Data.DecodedData.DecodedData]];
-            [json appendFormat:@" \"id\": %ld,", (long)event.Data.DecodedData.DataSourceID];
+            NSMutableDictionary *valueDict = [NSMutableDictionary dictionary];
+
+            NSData *decodedData = event.Data.DecodedData.DecodedData;
+            NSMutableArray *dataArr = [NSMutableArray arrayWithCapacity:decodedData.length];
+            const uint8_t *decodedBytes = decodedData.bytes;
+            for (NSUInteger i = 0; i < decodedData.length; i++) {
+                [dataArr addObject:@(decodedBytes[i])];
+            }
+            valueDict[@"data"] = dataArr;
+            valueDict[@"id"] = @(event.Data.DecodedData.DataSourceID);
 
             if (event.Data.DecodedData.TagIdData.length > 0) {
-              [json appendFormat:@" \"tagId\": \"%@\",", [TransportConnector stringFromTagIdData:event.Data.DecodedData.TagIdData]];
+                valueDict[@"tagId"] = [TransportConnector stringFromTagIdData:event.Data.DecodedData.TagIdData];
             }
 
-            [json appendFormat:@" \"name\": \"%@\"}}}", event.Data.DecodedData.DataSourceName];
+            valueDict[@"name"] = event.Data.DecodedData.DataSourceName;
+            eventDict[@"value"] = valueDict;
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIViewController *mainUiViewController = [TransportConnector getPresentedViewController];
                 if ([mainUiViewController isKindOfClass:NSClassFromString(@"CaptureSDK.SocketCamViewController")] || [mainUiViewController isKindOfClass:NSClassFromString(@"CaptureSDK.SocketCamSwiftDecoderViewController")]) {
-                    [mainUiViewController dismissViewControllerAnimated:YES completion:^{
-                        
-                    }];
+                    [mainUiViewController dismissViewControllerAnimated:YES completion:nil];
                 }
             });
-        }
             break;
+        }
         case SKTCaptureEventDataTypeDeviceInfo:
-            [json appendString:@", \"value\": {"];
-            [json appendFormat:@"\"type\": %ld, ",event.Data.DeviceInfo.DeviceType];
-            [json appendFormat:@"\"guid\": \"%@\", ",event.Data.DeviceInfo.Guid];
-            [json appendFormat:@"\"name\": \"%@\"",event.Data.DeviceInfo.Name];
-            if (event.Data.DeviceInfo.Handle > 0) {
-                [json appendFormat:@", \"handle\": %ld}}}",(long)event.Data.DeviceInfo.Handle];
-            } else {
-                [json appendString:@"}}}"];
+        {
+            NSMutableDictionary *valueDict = [NSMutableDictionary dictionary];
+            valueDict[@"type"] = @(event.Data.DeviceInfo.DeviceType);
+            valueDict[@"guid"] = event.Data.DeviceInfo.Guid;
+            valueDict[@"name"] = event.Data.DeviceInfo.Name;
+            if (event.Data.DeviceInfo.Handle != NULL) {
+                valueDict[@"handle"] = @((intptr_t)event.Data.DeviceInfo.Handle);
+            }
+            eventDict[@"value"] = valueDict;
+            break;
+        }
+        case SKTCaptureEventDataTypeObject:
+        {
+            SKTCaptureDiscoveredDeviceInfo *info = event.Data.DiscoveredDeviceInfo;
+            if (info != nil) {
+                NSMutableDictionary *valueDict = [NSMutableDictionary dictionary];
+                valueDict[@"name"] = info.Name ?: @"";
+                valueDict[@"identifierUuid"] = info.IdentifierUuid ?: @"";
+                valueDict[@"serviceUuid"] = info.ServiceUuid ?: @"";
+                eventDict[@"value"] = valueDict;
             }
             break;
+        }
         case SKTCaptureEventDataTypeLastID:
-            [json appendString:@"}}"];
             break;
     }
 
-    return json;
-}
+    root[@"event"] = eventDict;
 
-+(NSString *)ConvertToStringFromData:(NSData *)data {
-    NSMutableString *stringData = [NSMutableString stringWithString:@"["];
-    const char* bytes = data.bytes;
-    for (int i = 0; i < data.length; i++) {
-        if (i == 0) {
-            [stringData appendFormat:@"%d", bytes[i]];
-        } else {
-            [stringData appendFormat:@",%d", bytes[i]];
-        }
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:root options:0 error:&error];
+    if (error) {
+        NSLog(@"JSON serialization error: %@", error);
+        return @"{}";
     }
-    [stringData appendString:@"]"];
-
-    return stringData;
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
 

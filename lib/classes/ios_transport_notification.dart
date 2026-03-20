@@ -13,12 +13,25 @@ class IosTransportNotification {
   StreamSubscription<dynamic>? subscription;
   void startListeningForCaptureEvents(
       Function(int result, int handle, CaptureEvent captureEvent) callback) {
+    subscription?.cancel();
     final Stream<dynamic> stream = _channel.receiveBroadcastStream();
     subscription = stream.listen((dynamic message) {
       final String json = message as String;
-      final CaptureResult result =
-          CaptureResult.fromJson(jsonDecode(json) as Map<String, Object?>);
-      callback(0, result.handle, result.event!);
+      final Map<String, dynamic> decoded =
+          jsonDecode(json) as Map<String, dynamic>;
+      final CaptureResult captureResult =
+          CaptureResult.fromJson(decoded);
+      final int nativeResult =
+          (decoded['result'] as num?)?.toInt() ?? 0;
+      final CaptureEvent event = captureResult.event!;
+      final CaptureEvent eventWithResult = CaptureEvent(
+        id: event.id,
+        type: event.type,
+        value: event.value,
+        handle: event.handle,
+        result: nativeResult,
+      );
+      callback(nativeResult, captureResult.handle, eventWithResult);
     });
   }
 
