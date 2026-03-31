@@ -1,5 +1,28 @@
 # Changelog
 
+## Version 2.0.16
+
+### New
+
+  * N/A
+
+
+### Improvements
+
+  * We have added how to use data sources in our documentation
+
+  * We have updated [Flutter SDK to 3.38.10](https://docs.flutter.dev/release/release-notes/release-notes-3.38.0)
+
+  * We have updated [iOS CaptureSDK to 2.0.73](https://github.com/SocketMobile/swift-package-capturesdk/releases/tag/2.0.73)
+
+
+
+### Bug fixes
+
+  * We have fixed the [SocketCam rotation issue on iOS](https://github.com/SocketMobile/capturesdk_flutter/issues/18)
+
+
+
 ## Version 2.0.10
 
 ### New
@@ -16,18 +39,13 @@
 
   * We have updated our Flutter CaptureSDK to 2.0
 
-
-
 ### Improvements
 
   * N/A
 
-
 ### Bug fixes
 
   * N/A
-
-
 
 ## [1.5.60]
 

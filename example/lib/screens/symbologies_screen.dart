@@ -81,14 +81,7 @@ class _SymbologiesScreenState extends State<SymbologiesScreen> {
   Future<void> _queryRange(int start, int end, List<DataSource> results) async {
     for (int id = start; id < end; id++) {
       try {
-        final DataSource result = await widget.device.getDataSource(
-          DataSource(
-            id: id,
-            name: '',
-            status: CaptureDataSourceStatus.defaultStatus,
-            flags: CaptureDataSourceFlags.status,
-          ),
-        );
+        final DataSource result = await widget.device.getDataSource(id);
         developer.log('DataSource id=$id -> name="${result.name}", status=${result.status}, flags=${result.flags}');
         if (result.status != CaptureDataSourceStatus.notSupported) {
           results.add(result);
@@ -109,14 +102,7 @@ class _SymbologiesScreenState extends State<SymbologiesScreen> {
         ? CaptureDataSourceStatus.disable
         : CaptureDataSourceStatus.enable;
     try {
-      await widget.device.setDataSource(
-        DataSource(
-          id: ds.id,
-          name: ds.name,
-          status: newStatus,
-          flags: CaptureDataSourceFlags.status,
-        ),
-      );
+      await widget.device.setDataSource(ds.id, status: newStatus);
       setState(() {
         _dataSources = _dataSources.map((DataSource d) {
           if (d.id == ds.id) {

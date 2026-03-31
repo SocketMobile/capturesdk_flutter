@@ -113,7 +113,7 @@ class Capture {
       } on CaptureException {
         rethrow;
       } catch (e) {
-        throw CaptureException(-32602, 'Something went wrong.', e.toString());
+        throw CaptureException(SktErrors.ESKT_UNABLEDEINITIALIZE, 'Unable to close CaptureSDK.', e.toString());
       }
     } else {
       throw CaptureException(

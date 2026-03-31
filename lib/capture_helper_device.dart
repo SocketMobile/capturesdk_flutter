@@ -1,5 +1,3 @@
-import 'dart:developer' as developer;
-
 import 'capturesdk.dart';
 
 /// Wraps a connected device's [Capture] instance with typed property methods.
@@ -138,18 +136,24 @@ class CaptureHelperDevice {
   }
 
   /// Gets the current state of a data source (symbology or NFC tag type).
-  Future<DataSource> getDataSource(DataSource dataSource) async {
+  ///
+  /// [id] is the data source identifier (see [CaptureDataSourceID]).
+  Future<DataSource> getDataSource(int id) async {
+    final DataSource query = DataSource(
+      id: id,
+      name: '',
+      status: CaptureDataSourceStatus.defaultStatus,
+      flags: CaptureDataSourceFlags.status,
+    );
     final dynamic raw = await _get(
       CapturePropertyIds.dataSourceDevice,
       CapturePropertyTypes.dataSource,
-      dataSource,
+      query,
     );
-    developer.log('getDataSource(id=${dataSource.id}): raw type=${raw.runtimeType}, raw=$raw');
     if (raw is DataSource) {
       return raw;
     }
     if (raw is Map) {
-      developer.log('getDataSource(id=${dataSource.id}): Map keys=${raw.keys.toList()}');
       return DataSource(
         id: raw['id'] as int? ?? -1,
         name: raw['name'] as String? ?? '',
@@ -161,7 +165,18 @@ class CaptureHelperDevice {
   }
 
   /// Enables or disables a data source (symbology or NFC tag type).
-  Future<int> setDataSource(DataSource dataSource) {
+  ///
+  /// [id] is the data source identifier (see [CaptureDataSourceID]).
+  /// [status] is the desired state (see [CaptureDataSourceStatus]).
+  Future<int> setDataSource(int id, {
+    required int status,
+  }) {
+    final DataSource dataSource = DataSource(
+      id: id,
+      name: '',
+      status: status,
+      flags: CaptureDataSourceFlags.status,
+    );
     return _set(CapturePropertyIds.dataSourceDevice, CapturePropertyTypes.dataSource, dataSource);
   }
 

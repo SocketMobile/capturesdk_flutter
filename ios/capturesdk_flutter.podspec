@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                = 'capturesdk_flutter'
-  s.version             = '2.0.10'
+  s.version             = '2.0.16'
   s.summary             = 'Flutter CaptureSDK for Socket Mobile Inc.'
   s.description         = 'The official Flutter CaptureSDK by Socket Mobile. It supports all current Socket Mobile’s barcode and NFC Reader scanning solutions.'
   s.homepage            = 'https://docs.socketmobile.dev/captureflutter/en/latest'
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.public_header_files = 'Classes/**/*.h'
   s.platforms           = { :ios => "15.0" }
   s.dependency 'Flutter'
-  s.dependency 'CaptureSDK', '~>2.0.67'
+  s.dependency 'CaptureSDK', '~>2.0.73'
   s.static_framework    = true
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }

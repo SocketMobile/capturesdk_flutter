@@ -1,8 +1,8 @@
 PODS:
-  - CaptureSDK (2.0.67):
+  - CaptureSDK (2.0.73):
     - SwiftDecoderSDK (~> 6.5.0)
-  - capturesdk_flutter (1.5.11):
-    - CaptureSDK (~> 2.0.67)
+  - capturesdk_flutter (2.0.0):
+    - CaptureSDK (~> 2.0.73)
     - Flutter
   - Flutter (1.0.0)
   - SwiftDecoderSDK (6.5.0)
@@ -23,9 +23,9 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  CaptureSDK: 2bdf6fdc1b515f2bcc3b50122a3f0bb0054c16cc
-  capturesdk_flutter: 8a7d542ca252173640e2ef050d6693732db7fc20
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  CaptureSDK: dd006a5698cad3e8781008d6e42244c8a1b724e6
+  capturesdk_flutter: ee7137a40af48205abd70815f2318bd282ffdea2
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   SwiftDecoderSDK: 22e9a6ebdc69213b73bde1c4e2d4a72a07e125e3
 
 PODFILE CHECKSUM: 3cbbd362ef69c5486a9d21897b1172a3d5cb1c6d

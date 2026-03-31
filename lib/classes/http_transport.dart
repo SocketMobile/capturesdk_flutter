@@ -71,7 +71,7 @@ class HttpTransport extends Transport {
     } on CaptureException {
       rethrow;
     } catch (ex) {
-      throw CaptureException(-32602, 'Something went wrong.', ex.toString());
+      throw CaptureException(SktErrors.ESKT_UNABLEOPENDEVICE, 'Unble to open CaptureSDK device.', ex.toString());
     }
   }
 
@@ -119,7 +119,7 @@ class HttpTransport extends Transport {
     } on CaptureException {
       rethrow;
     } catch (e) {
-      throw CaptureException(-32602, 'Something went wrong.', e.toString());
+      throw CaptureException(SktErrors.ESKT_NOTHINGTOLISTEN, 'Unable to send setProperty.', e.toString());
     }
   }
 
@@ -149,7 +149,7 @@ class HttpTransport extends Transport {
     } on CaptureException {
       rethrow;
     } catch (e) {
-      throw CaptureException(-32602, 'Something went wrong.', e.toString());
+      throw CaptureException(SktErrors.ESKT_NOTHINGTOLISTEN, 'Unable to send setProperty.', e.toString());
     }
   }
 

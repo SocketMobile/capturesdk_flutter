@@ -1,4 +1,4 @@
-# Flutter CaptureSDK - Version 2.0.10
+# Flutter CaptureSDK - Version 2.0.16
 
 This is the Flutter CatureSDK for Socket Mobile's Capture library.
 
@@ -31,7 +31,7 @@ Install the flutter package by adding the following to your `pubspec.yaml` file.
 ```dart
 dependencies:
   ...
-  capturesdk_flutter: ^2.0.10
+  capturesdk_flutter: ^2.0.16
   ...
 ```
 

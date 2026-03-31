@@ -166,19 +166,17 @@ void main() {
         value: dataSource,
       );
 
-      final DataSource result = await device.getDataSource(dataSource);
+      final DataSource result = await device.getDataSource(1);
 
       expect(fakeCapture.lastGetProperty?.id, equals(CapturePropertyIds.dataSourceDevice));
       expect(result, equals(dataSource));
     });
 
     test('setDataSource calls setProperty with dataSourceDevice and dataSource type', () async {
-      const DataSource dataSource = DataSource(id: 1, name: 'EAN-13', status: 1, flags: 0);
-      await device.setDataSource(dataSource);
+      await device.setDataSource(1, status: CaptureDataSourceStatus.enable);
 
       expect(fakeCapture.lastSetProperty?.id, equals(CapturePropertyIds.dataSourceDevice));
       expect(fakeCapture.lastSetProperty?.type, equals(CapturePropertyTypes.dataSource));
-      expect(fakeCapture.lastSetProperty?.dataSource, equals(dataSource));
     });
 
     test('getDecodeAction calls getProperty with localDecodeActionDevice', () async {

@@ -584,7 +584,7 @@
 }
 
 
-+ (NSString *)stringFromTagIdData:(NSData *)tagIdData {
++(NSString *)stringFromTagIdData:(NSData *)tagIdData {
     const unsigned char *bytes = (const unsigned char *)tagIdData.bytes;
     NSMutableString *hexString = [NSMutableString stringWithCapacity:tagIdData.length * 2];
     for (NSUInteger i = 0; i < tagIdData.length; i++) {

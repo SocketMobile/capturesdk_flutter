@@ -13,6 +13,6 @@
 
 @property (nonatomic, strong, nullable) UIViewController *socketCamViewController;
 
-+ (UIViewController * _Nullable)getPresentedViewController;
++(UIViewController * _Nullable)getPresentedViewController;
 
 @end
