@@ -21,9 +21,9 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
   return (result == [NSNull null]) ? nil : result;
 }
 
-@interface DataSource ()
-+ (DataSource *)fromList:(NSArray *)list;
-+ (nullable DataSource *)nullableFromList:(NSArray *)list;
+@interface DataSourceIos ()
++ (DataSourceIos *)fromList:(NSArray *)list;
++ (nullable DataSourceIos *)nullableFromList:(NSArray *)list;
 - (NSArray *)toList;
 @end
 
@@ -57,28 +57,28 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
 - (NSArray *)toList;
 @end
 
-@implementation DataSource
+@implementation DataSourceIos
 + (instancetype)makeWithId:(nullable NSNumber *)id
     name:(nullable NSString *)name
     status:(nullable NSNumber *)status
     flags:(nullable NSNumber *)flags {
-  DataSource* pigeonResult = [[DataSource alloc] init];
+  DataSourceIos* pigeonResult = [[DataSourceIos alloc] init];
   pigeonResult.id = id;
   pigeonResult.name = name;
   pigeonResult.status = status;
   pigeonResult.flags = flags;
   return pigeonResult;
 }
-+ (DataSource *)fromList:(NSArray *)list {
-  DataSource *pigeonResult = [[DataSource alloc] init];
++ (DataSourceIos *)fromList:(NSArray *)list {
+  DataSourceIos *pigeonResult = [[DataSourceIos alloc] init];
   pigeonResult.id = GetNullableObjectAtIndex(list, 0);
   pigeonResult.name = GetNullableObjectAtIndex(list, 1);
   pigeonResult.status = GetNullableObjectAtIndex(list, 2);
   pigeonResult.flags = GetNullableObjectAtIndex(list, 3);
   return pigeonResult;
 }
-+ (nullable DataSource *)nullableFromList:(NSArray *)list {
-  return (list) ? [DataSource fromList:list] : nil;
++ (nullable DataSourceIos *)nullableFromList:(NSArray *)list {
+  return (list) ? [DataSourceIos fromList:list] : nil;
 }
 - (NSArray *)toList {
   return @[
@@ -150,7 +150,7 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
     longValue:(nullable NSNumber *)longValue
     arrayValue:(nullable FlutterStandardTypedData *)arrayValue
     byteValue:(nullable NSNumber *)byteValue
-    dataSourceValue:(nullable DataSource *)dataSourceValue
+    dataSourceValue:(nullable DataSourceIos *)dataSourceValue
     versionValue:(nullable Version *)versionValue
     objectValue:(id )objectValue {
   Property* pigeonResult = [[Property alloc] init];
@@ -173,7 +173,7 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
   pigeonResult.longValue = GetNullableObjectAtIndex(list, 3);
   pigeonResult.arrayValue = GetNullableObjectAtIndex(list, 4);
   pigeonResult.byteValue = GetNullableObjectAtIndex(list, 5);
-  pigeonResult.dataSourceValue = [DataSource nullableFromList:(GetNullableObjectAtIndex(list, 6))];
+  pigeonResult.dataSourceValue = [DataSourceIos nullableFromList:(GetNullableObjectAtIndex(list, 6))];
   pigeonResult.versionValue = [Version nullableFromList:(GetNullableObjectAtIndex(list, 7))];
   pigeonResult.objectValue = GetNullableObjectAtIndex(list, 8);
   return pigeonResult;
@@ -273,7 +273,7 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
 - (nullable id)readValueOfType:(UInt8)type {
   switch (type) {
     case 128: 
-      return [DataSource fromList:[self readValue]];
+      return [DataSourceIos fromList:[self readValue]];
     case 129: 
       return [IosAppInfo fromList:[self readValue]];
     case 130: 
@@ -294,7 +294,7 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
 @end
 @implementation IosTransportCodecWriter
 - (void)writeValue:(id)value {
-  if ([value isKindOfClass:[DataSource class]]) {
+  if ([value isKindOfClass:[DataSourceIos class]]) {
     [self writeByte:128];
     [self writeValue:[value toList]];
   } else if ([value isKindOfClass:[IosAppInfo class]]) {

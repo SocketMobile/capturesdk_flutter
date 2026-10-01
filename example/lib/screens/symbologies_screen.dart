@@ -12,26 +12,6 @@ class SymbologiesScreen extends StatefulWidget {
   State<SymbologiesScreen> createState() => _SymbologiesScreenState();
 }
 
-bool _isBarcodeReader(int deviceType) {
-  if (SocketCamTypes.contains(deviceType)) {
-    developer.log('isBarcodeReader: true (SocketCam type 0x${deviceType.toRadixString(16)})');
-    return true;
-  }
-  final int function = (deviceType >> 8) & 0xFF;
-  final bool result = function == CaptureDeviceTypeFunction.legacy ||
-      (function & CaptureDeviceTypeFunction.scanner) != 0;
-  developer.log('isBarcodeReader: $result (type=0x${deviceType.toRadixString(16)}, function=0x${function.toRadixString(16)})');
-  return result;
-}
-
-bool _isNfcReader(int deviceType) {
-  final int function = (deviceType >> 8) & 0xFF;
-  final bool result = (function & CaptureDeviceTypeFunction.nFCReader) != 0 ||
-      (function & CaptureDeviceTypeFunction.nFCWriter) != 0;
-  developer.log('isNfcReader: $result (type=0x${deviceType.toRadixString(16)}, function=0x${function.toRadixString(16)})');
-  return result;
-}
-
 class _SymbologiesScreenState extends State<SymbologiesScreen> {
   List<DataSource> _dataSources = <DataSource>[];
   bool _loading = false;
@@ -55,11 +35,11 @@ class _SymbologiesScreenState extends State<SymbologiesScreen> {
     developer.log('=== Loading DataSources for device "${widget.device.name}" ===');
     developer.log('Device type: ${widget.device.type} (0x${widget.device.type.toRadixString(16)})');
 
-    if (_isBarcodeReader(widget.device.type)) {
+    if (widget.device.isBarcodeScanner) {
       developer.log('Querying barcode symbologies: 0..${CaptureDataSourceID.lastSymbologyID}');
       await _queryRange(0, CaptureDataSourceID.lastSymbologyID, results);
     }
-    if (_isNfcReader(widget.device.type)) {
+    if (widget.device.isNfcReader) {
       developer.log('Querying NFC tag types: ${CaptureDataSourceID.tagTypeISO14443TypeA}..${CaptureDataSourceID.tagTypeLastTagType + 1}');
       await _queryRange(
         CaptureDataSourceID.tagTypeISO14443TypeA,

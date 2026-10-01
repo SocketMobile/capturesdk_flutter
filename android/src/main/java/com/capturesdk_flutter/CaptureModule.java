@@ -186,9 +186,12 @@ public class CaptureModule implements FlutterPlugin, MethodChannel.MethodCallHan
         eventData.put("message", ev.message);
         eventData.put("status", ev.status);
 
-        if (eventSink != null) {
-            eventSink.success(eventData);
-        }
+        // EventSink must be called on the main thread; SDK callbacks arrive on background threads.
+        mainHandler.post(() -> {
+            if (eventSink != null) {
+                eventSink.success(eventData);
+            }
+        });
     }
 
     // --- Extension lifecycle ---
@@ -249,15 +252,6 @@ public class CaptureModule implements FlutterPlugin, MethodChannel.MethodCallHan
         triggerEvent(ev);
     }
 
-    private void createExtensionEventAndTriggerOnMainThread(final String message, final int status) {
-        mainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                createExtensionEventAndTrigger(message, status);
-            }
-        });
-    }
-
     // --- Listeners ---
 
     private CaptureExtension.Listener mListener = new CaptureExtension.Listener() {
@@ -266,13 +260,13 @@ public class CaptureModule implements FlutterPlugin, MethodChannel.MethodCallHan
             switch (connectionState.intValue()) {
                 case ConnectionState.READY:
                     Log.d("SocketCam", "SocketCam is ready");
-                    createExtensionEventAndTriggerOnMainThread("READY", 2);
+                    createExtensionEventAndTrigger("READY", 2);
                     break;
                 case ConnectionState.DISCONNECTED:
-                    createExtensionEventAndTriggerOnMainThread("DISCONNECTED", 0);
+                    createExtensionEventAndTrigger("DISCONNECTED", 0);
                     break;
                 case ConnectionState.CONNECTING:
-                    createExtensionEventAndTriggerOnMainThread("CONNECTING", 1);
+                    createExtensionEventAndTrigger("CONNECTING", 1);
                 default:
                     break;
             }
@@ -299,7 +293,7 @@ public class CaptureModule implements FlutterPlugin, MethodChannel.MethodCallHan
     //         Log.d("SocketCam", "CustomView onViewReady, handle: " + handle);
     //         customViewHandle = handle;
     //         mainHandler.post(() -> showSocketCamFragment());
-    //         createExtensionEventAndTriggerOnMainThread("READY", 2);
+    //         createExtensionEventAndTrigger("READY", 2);
     //     }
     // };
 

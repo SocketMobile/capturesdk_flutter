@@ -27,7 +27,7 @@
     [_handles setValue:obj forKey:handle.stringValue];
     if (_counter == 1) {
         _firstHandle = handle;
-        NSLog(@"----> Root Capture opened: %@", handle);
+        NSLog(@"----> Root Capture opened");
     } else {
         NSLog(@"----> Device opened: %@", handle);
     }

@@ -1,4 +1,4 @@
-group "com.capturesdk_flutter"
+group = "com.capturesdk_flutter"
 
 version = "1.0"
 
@@ -6,11 +6,11 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://bin.socketmobile.com/repo/releases" }
+        maven { url = "https://bin.socketmobile.com/repo/releases" }
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.0")
+        classpath("com.android.tools.build:gradle:9.1.0")
     }
 }
 
@@ -18,26 +18,24 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://bin.socketmobile.com/repo/releases" }
+        maven { url = "https://bin.socketmobile.com/repo/releases" }
     }
 }
 
 apply plugin: "com.android.library"
 
 android {
-    if (project.android.hasProperty("namespace")) {
-        namespace = "com.capturesdk_flutter"
-    }
+    namespace = "com.capturesdk_flutter"
 
-    compileSdk = 34
+    compileSdk = 36
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     defaultConfig {
-        minSdkVersion = flutter.minSdkVersion
+        minSdk = flutter.minSdkVersion
     }
 
     dependencies {
@@ -60,5 +58,5 @@ android {
 }
 
 dependencies {
-    implementation "com.socketmobile:capture-socketcam:2.0.17"
+    implementation "com.socketmobile:capture-socketcam:2.1.2"
 }

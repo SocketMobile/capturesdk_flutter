@@ -55,15 +55,37 @@ class _HomeScreenState extends State<HomeScreen> {
             _devices = _helper.getDevices();
           });
         },
-        onDecodedData: (DecodedData data, CaptureHelperDevice device) {
+        onDecodedData: (DecodedData data, CaptureHelperDevice device) async {
+          debugPrint(
+            'Decoded data from ${device.name} (handle ${device.handle}): '
+            'dataSourceId=${data.id} name=${data.name} length=${data.data.length} '
+            'data=${data.dataAsString()}',
+          );
           setState(() => _scans = <DecodedData>[..._scans, data]);
           _decodedDataNotifier.value++;
+
+          // Validate the decoded data: here we accept only non-empty QR codes
+          // final bool isValidQrCode = data.data.isNotEmpty
+          //     && data.id == CaptureDataSourceID.symbologyQRCode;
+
+          // final int confirmation = isValidQrCode
+          //     ? (DataConfirmationBeep.good
+          //           | DataConfirmationLed.green
+          //           | DataConfirmationRumble.good)
+          //     : (DataConfirmationBeep.bad
+          //           | DataConfirmationLed.red
+          //           | DataConfirmationRumble.bad);
+
+          // try {
+          //   await device.setDataConfirmation(confirmation);
+          // } catch (err) {
+          //   print('error while sending the data confirmation: $err');
+          // }
         },
         onError: (CaptureException e) {
           setState(() => _statusMessage = 'Error: ${e.code} ${e.message}');
         },
-        onBatteryLevel: (int level, CaptureHelperDevice device) {
-          final int percent = (level >> 8) & 0xFF;
+        onBatteryLevel: (int percent, CaptureHelperDevice device) {
           setState(() => _statusMessage = '${device.name} battery: $percent%');
         },
         onPowerState: (int state, CaptureHelperDevice device) {

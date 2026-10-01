@@ -8,7 +8,7 @@ This example application demonstrates how to integrate the [Socket Mobile Captur
 - For physical scanners: a Socket Mobile scanner (S720, D720, S820, S721, etc.)
 - For SocketCam: no extra hardware — uses the device's built-in camera
 
-> See the [main README](../README.md) for platform-specific setup (Podfile, Info.plist, AndroidManifest, network config).
+> See the [main README](../README.md) for platform-specific setup (Info.plist, AndroidManifest, network config).
 
 ## Quick Start
 
@@ -252,10 +252,13 @@ flutter pub get
 
 ### iOS
 
+The example uses Swift Package Manager and the UIScene lifecycle from now on. CocoaPods is end of life soon. Use the Flutter version pinned in [`.fvmrc`](../.fvmrc):
+
 ```bash
-cd ios && pod install --repo-update && cd ..
-flutter run
+fvm flutter run
 ```
+
+To migrate your own app from CocoaPods, follow [Flutter's Swift Package Manager guide](https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers).
 
 ### Android
 

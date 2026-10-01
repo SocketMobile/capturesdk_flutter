@@ -145,6 +145,62 @@ void main() {
     });
   });
 
+  // ─── Data confirmation ─────────────────────────────────────────────────────
+
+  group('Data confirmation', () {
+    test(
+        'setDataConfirmationMode(modeApp) calls root _set with dataConfirmationMode and byte',
+        () async {
+      final FakeCapture fake = FakeCapture();
+      final CaptureHelper helper = CaptureHelper(captureFactory: () => fake);
+      await helper.open(appInfo);
+
+      await helper.setDataConfirmationMode(DataConfirmationMode.modeApp);
+
+      expect(fake.lastSetProperty, isNotNull);
+      expect(fake.lastSetProperty!.id,
+          equals(CapturePropertyIds.dataConfirmationMode));
+      expect(fake.lastSetProperty!.type, equals(CapturePropertyTypes.byte));
+      expect(fake.lastSetProperty!.object, equals(DataConfirmationMode.modeApp));
+    });
+
+    test(
+        'setDataConfirmationAction(value) calls root _set with dataConfirmationAction and ulong',
+        () async {
+      final FakeCapture fake = FakeCapture();
+      final CaptureHelper helper = CaptureHelper(captureFactory: () => fake);
+      await helper.open(appInfo);
+
+      await helper.setDataConfirmationAction(0x15);
+
+      expect(fake.lastSetProperty, isNotNull);
+      expect(fake.lastSetProperty!.id,
+          equals(CapturePropertyIds.dataConfirmationAction));
+      expect(fake.lastSetProperty!.type, equals(CapturePropertyTypes.ulong));
+      expect(fake.lastSetProperty!.object, equals(0x15));
+    });
+
+    test('composeDataConfirmationAction packs rumble/beep/led as 2-bit fields',
+        () {
+      expect(
+        CaptureHelper.composeDataConfirmationAction(
+          led: DataConfirmationLed.green,
+          beep: DataConfirmationBeep.good,
+          rumble: DataConfirmationRumble.good,
+        ),
+        equals(0x15),
+      );
+      expect(
+        CaptureHelper.composeDataConfirmationAction(
+          led: DataConfirmationLed.red,
+          beep: DataConfirmationBeep.bad,
+          rumble: DataConfirmationRumble.none,
+        ),
+        equals(0x0A),
+      );
+    });
+  });
+
   // ─── BLE discovery ───────────────────────────────────────────────────────
 
   group('BLE discovery', () {
@@ -436,6 +492,53 @@ void main() {
           id: CaptureEventIds.batteryLevel,
           type: CaptureEventTypes.ulong,
           value: 75,
+          result: SktErrors.ESKT_NOERROR,
+        ),
+        deviceHandle,
+      );
+      await Future<void>.delayed(Duration.zero);
+
+      expect(receivedLevel, equals(75));
+      expect(receivedDevice, isNotNull);
+      expect(receivedDevice!.guid, equals('device-guid-1'));
+    });
+
+    test('batteryLevel event fires onBatteryLevel with packed iOS value decoded to percentage', () async {
+      final FakeCapture fake = FakeCapture();
+      int? receivedLevel;
+      CaptureHelperDevice? receivedDevice;
+
+      final CaptureHelper helper = CaptureHelper(captureFactory: () => fake);
+      await helper.open(
+        appInfo,
+        onBatteryLevel: (int level, CaptureHelperDevice d) {
+          receivedLevel = level;
+          receivedDevice = d;
+        },
+      );
+
+      fake.injectEvent(
+        const CaptureEvent(
+          id: CaptureEventIds.deviceArrival,
+          type: CaptureEventTypes.deviceInfo,
+          value: <String, dynamic>{
+            'name': 'SocketScan S700',
+            'guid': 'device-guid-1',
+            'type': 1,
+          },
+          result: SktErrors.ESKT_NOERROR,
+        ),
+        0,
+      );
+      await Future<void>.delayed(Duration.zero);
+
+      final int deviceHandle = helper.getDevices().first.handle;
+
+      fake.injectEvent(
+        const CaptureEvent(
+          id: CaptureEventIds.batteryLevel,
+          type: CaptureEventTypes.ulong,
+          value: 0x644B00,
           result: SktErrors.ESKT_NOERROR,
         ),
         deviceHandle,

@@ -1,4 +1,4 @@
-#import "CaptureFlutterPlugin.h"
+#import "./include/capturesdk_flutter/CaptureFlutterPlugin.h"
 #import "IosTransport.h"
 #import "CaptureFlutterHandle.h"
 #import "TransportConnector.h"

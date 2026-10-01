@@ -238,6 +238,42 @@ class CaptureHelper {
     );
   }
 
+  // ─── Data confirmation ──────────────────────────────────────────────────────
+
+  /// Sets the data confirmation mode (see [DataConfirmationMode]).
+  ///
+  /// Write-only property (Get Type: None) — there is no getter counterpart.
+  Future<int> setDataConfirmationMode(int mode) {
+    return _set(
+      CapturePropertyIds.dataConfirmationMode,
+      CapturePropertyTypes.byte,
+      mode,
+    );
+  }
+
+  /// Sets the data confirmation action — the LED/beep/rumble feedback the
+  /// scanner produces, applied when [DataConfirmationMode.modeCapture] is set.
+  ///
+  /// Encode the [action] with [composeDataConfirmationAction].
+  Future<int> setDataConfirmationAction(int action) {
+    return _set(
+      CapturePropertyIds.dataConfirmationAction,
+      CapturePropertyTypes.ulong,
+      action,
+    );
+  }
+
+  /// Composes the data confirmation action value from its
+  /// [DataConfirmationLed], [DataConfirmationBeep] and [DataConfirmationRumble]
+  /// components, packed as 2-bit fields like the SDK's
+  /// `SKTDATACONFIRMATION(reserved, rumble, beep, led)` macro.
+  static int composeDataConfirmationAction({
+    required int led,
+    required int beep,
+    required int rumble,
+  }) =>
+      (rumble << 4) | (beep << 2) | led;
+
   // ─── BLE discovery/connection ───────────────────────────────────────────────
 
   /// Starts a Bluetooth device discovery scan for the given [mode].
@@ -402,7 +438,10 @@ class CaptureHelper {
       case CaptureEventIds.batteryLevel:
         final CaptureHelperDevice? batteryDevice = _devices[handle];
         if (batteryDevice != null) {
-          _onBatteryLevel?.call(event.value as int, batteryDevice);
+          _onBatteryLevel?.call(
+            CaptureHelperDevice.batteryLevelPercent(event.value as int),
+            batteryDevice,
+          );
         }
 
       case CaptureEventIds.power:

@@ -2,6 +2,7 @@ import 'package:capturesdk_flutter/capturesdk.dart';
 import 'package:flutter/material.dart';
 
 import 'battery_screen.dart';
+import 'data_confirmation_screen.dart';
 import 'firmware_screen.dart';
 import 'friendly_name_screen.dart';
 import 'power_timers_screen.dart';
@@ -53,6 +54,15 @@ class FeaturesScreen extends StatelessWidget {
           context,
           MaterialPageRoute<void>(
             builder: (_) => SymbologiesScreen(device: device),
+          ),
+        ),
+      ),
+      _FeatureTile(
+        title: 'Data Confirmation',
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (_) => DataConfirmationScreen(device: device, helper: helper),
           ),
         ),
       ),

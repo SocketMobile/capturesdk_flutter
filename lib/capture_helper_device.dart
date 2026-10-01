@@ -38,6 +38,42 @@ class CaptureHelperDevice {
   /// Prefer using the typed methods on this class.
   Capture get devCapture => _devCapture;
 
+  // D600 and S550 predate the function bits in the device type.
+  static const List<int> _legacyNfcReaderTypes = <int>[
+    CaptureDeviceType.scannerD600,
+    CaptureDeviceType.scannerS550,
+  ];
+
+  int get _functions => (type >> 8) & 0xFF;
+
+  int get _interface => (type >> 16) & 0xFF;
+
+  /// Whether this device reads barcodes (SocketCam included).
+  ///
+  /// A device unknown to this version of CaptureSDK is considered a barcode
+  /// scanner. A combo device such as the S370 arrives as two devices: one
+  /// barcode scanner and one NFC reader.
+  bool get isBarcodeScanner {
+    if (_functions == CaptureDeviceTypeFunction.legacy) {
+      return SocketCamTypes.contains(type) ||
+          _interface == CaptureDeviceTypeInterface.bluetooth;
+    }
+    return (_functions &
+            (CaptureDeviceTypeFunction.scanner | CaptureDeviceTypeFunction.unknown)) !=
+        0;
+  }
+
+  /// Whether this device reads NFC tags.
+  ///
+  /// A combo device such as the S370 arrives as two devices: one barcode
+  /// scanner and one NFC reader.
+  bool get isNfcReader {
+    if (_functions == CaptureDeviceTypeFunction.legacy) {
+      return _legacyNfcReaderTypes.contains(type);
+    }
+    return (_functions & CaptureDeviceTypeFunction.nFCReader) != 0;
+  }
+
   // ─── Private helpers ───────────────────────────────────────────────────────
 
   Future<dynamic> _get(
@@ -106,16 +142,21 @@ class CaptureHelperDevice {
 
   // ─── HDEV-03: Status ─────────────────────────────────────────────────────
 
-  /// Gets the current battery level as a percentage (0–100).
+  /// Converts a raw battery level, as reported by the SDK, to a percentage (0–100).
   ///
-  /// iOS returns a packed value (percentage in upper byte), while Android
-  /// returns the percentage directly. This method normalizes both.
-  Future<int> getBatteryLevel() async {
-    final int raw = (await _get(CapturePropertyIds.batteryLevelDevice)) as int;
+  /// iOS reports a packed value (percentage in the second byte), while Android
+  /// reports the percentage directly. This method normalizes both.
+  static int batteryLevelPercent(int raw) {
     if (raw > 0xFF) {
       return (raw >> 8) & 0xFF;
     }
     return raw;
+  }
+
+  /// Gets the current battery level as a percentage (0–100).
+  Future<int> getBatteryLevel() async {
+    final int raw = (await _get(CapturePropertyIds.batteryLevelDevice)) as int;
+    return batteryLevelPercent(raw);
   }
 
   /// Gets the current power state (see [PowerState]).

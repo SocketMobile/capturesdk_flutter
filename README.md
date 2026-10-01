@@ -1,4 +1,4 @@
-# Flutter CaptureSDK - Version 2.0.16
+# Flutter CaptureSDK - Version 2.1.8
 
 This is the Flutter CatureSDK for Socket Mobile's Capture library.
 
@@ -14,15 +14,22 @@ There are 2 choices to connect and use our Bluetooth LE readers:
 
 ## Devices compatibility and CaptureSDK versions
 
-|                    Devices                     | < 2.0 | 2.0 |
-| :--------------------------------------------: | :---: | :-: |
-|               **SocketCam C860**               |  ✅   | ✅  |
-|               **SocketCam C820**               |  ✅   | ✅  |
-|               **S720/D720/S820**               |  ✅   | ✅  |
-| **D600, S550, and all other barcode scanners** |  ✅   | ✅  |
-|                    **S370**                    |  ✅   | ✅  |
-|                    **S320**                    |  ✅   | ✅  |
-|  **S721 (new Bluetooth LE barcode scanner)**   |  ❌   | ✅  |
+|                    Devices                     | < 2.0 | 2.0 | 2.1 |
+| :--------------------------------------------: | :---: | :-: | :-: |
+|               **SocketCam C860**               |  ✅   | ✅  | ✅  |
+|               **SocketCam C820**               |  ✅   | ✅  | ✅  |
+|               **S720/D720/S820**               |  ✅   | ✅  | ✅  |
+| **D600, S550, and all other barcode scanners** |  ✅   | ✅  | ✅  |
+|                    **S370**                    |  ✅   | ✅  | ✅  |
+|                    **S320**                    |  ✅   | ✅  | ✅  |
+|  **S721 (new Bluetooth LE barcode scanner)**   |  ❌   | ✅  | ✅  |
+|  **Magic Dock and SM Link**                    |  ❌   | ❌  | ✅  |
+
+## What's new in version 2.1
+
+### Magic Dock and SM Link
+
+Those USB-C devices allows you to connect our Bluetooth Low Energy scanners directly to a device without any additional line of code other than implementing the current Flutter CaptureSDK. It handles the connection and you can use our scanners out of the box.
 
 ## Installation
 
@@ -31,7 +38,7 @@ Install the flutter package by adding the following to your `pubspec.yaml` file.
 ```dart
 dependencies:
   ...
-  capturesdk_flutter: ^2.0.16
+  capturesdk_flutter: ^2.1.8
   ...
 ```
 
@@ -45,17 +52,14 @@ For the rest of the things to add in your project, go to **[iOS](#getting-starte
 
 ## Getting started iOS (first section) - Important note
 
-You will need to change three things in your app in order for it to work with iOS. First will need to update the `Podfile` in the `ios` directory of your app in order to be compatible with the version used in our SDK and the source of our iOS CaptureSDK Cocoapods private repository.
-
-```ruby
-  source 'https://github.com/CocoaPods/Specs.git'
-
-  platform :ios, '15.0' # minimum target requirement for CaptureSDK iOS
-
-  target 'MyProject' do
-    ....
-  end
-```
+> **CocoaPods is soon to be deprecated.** Flutter is replacing CocoaPods with Swift Package Manager (SPM), and this plugin supports SPM (Flutter 3.44+, on by default from 3.47). To migrate your app:
+>
+> 1. `cd ios && pod deintegrate`
+> 2. Delete `Podfile`, `Podfile.lock` and `Pods/`
+> 3. Remove the `Pods-Runner` `#include` lines from `ios/Flutter/Debug.xcconfig` and `ios/Flutter/Release.xcconfig` and other configurations you may have
+> 4. Run `flutter run`: Flutter adds the SPM integration to your Xcode project
+>
+> More details in [Flutter's SPM guide](https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers).
 
 ## Getting started
 
@@ -133,63 +137,9 @@ The data the user will need to anticipate will be a `CaptureEvent` which might c
 
 It's important to create another `Capture` instance when you have successfully connected the scanner to your device (see `var newCapture = Capture(logger);`). This capture instance is tied to your device and will allow the root capture instance to remain open, regardless of what happens with your device. The new instance allows you to create a capture connection to the device to handle various actions specific to the connected device, such as `getProperty` and `setProperty`.
 
-`getProperty` enables you to retrieve specific values for the connected device, such as `friendlyNameDevice` which is the property corresponding to the scanners given name (as opposed to id/guid). Create a property instance with the provided values corresponding to the property id and type, as well an empty object. You can retrieve the friendly name of a device with the following request.
-
-```dart
-Future<void> _handleGetNameProperty() async {
-    CaptureProperty property = CaptureProperty(
-        CapturePropertyIds.friendlyNameDevice,
-        CapturePropertyTypes.none,
-        {});
-
-    try {
-      CaptureProperty propertyResponse =
-          await _deviceCapture!.getProperty(property);
-     print('Successfully Retrieved "name" property for device: ${propertyResponse.value}';);
-      //can incorporate UI logic to update device in device list
-    } on CaptureException catch (e) {
-     print(e.code);
-    }
-  }
-```
-
-`setProperty` allows you to update the value of a specific property. The `CaptureProperty` instance you provide is similar to the one in `getProperty` but instead of an empty object for the value, you will send the value you want assigned to the property. You will also send the data type for the property as well instead of `CapturePropertyTypes().none`. In the case of `friendlyNameDevice`, you would send a string value with the type `CapturePropertyTypes().string`. See below.
-
-```dart
-Future<void> _handleSetNameProperty() async {
-    CaptureProperty property = CaptureProperty(
-        CapturePropertyIds.friendlyNameDevice,
-        CapturePropertyTypes.string,
-        _newName);
-
-    try {
-      CaptureProperty propertyResponse =
-          await _deviceCapture!.setProperty(property);
-     print('Successfully set "name" property to "$_newName".');
-      //can incorporate UI logic to update device in device list
-    } on CaptureException catch (e) {
-     print(e.code);
-    }
-  }
-```
-
-The response in `setProperty` does not contain a `value` property. You can access the updated value by calling the `getProperty` request after a successful `setProperty` call or you can use the locally stored value that you're using for assignment.
-
 ## Getting started iOS
 
-You will need to change three things in your app in order for it to work with iOS. First will need to update the `Podfile` in the `ios` directory of your app in order to be compatible with the version used in our SDK and the source of our iOS CaptureSDK Cocoapods private repository.
-
-```ruby
-  source 'https://github.com/CocoaPods/Specs.git'
-
-  platform :ios, '15.0'
-
-  target 'MyProject' do
-    ....
-  end
-```
-
-Second, go to `ios/Runner/Info.plist` and at the bottom, just above `</dict>`, include the below code.
+Your app's iOS deployment target must be 15.0 or later. Go to `ios/Runner/Info.plist` and at the bottom, just above `</dict>`, include the below code.
 
 ```plist
 <key>NSBluetoothAlwaysUsageDescription</key>
@@ -211,10 +161,6 @@ For SocketCam C860 which is an enhanced version of SocketCam C820, you also need
 In order to use it you have to install [Socket Mobile Companion](https://apps.apple.com/app/socket-mobile-companion/id1175638950) on your device.
 
 You can find more details about SocketCam C860 [on our website](https://www.socketmobile.com/readers-accessories/data-readers/camera-based-socketcam).
-
-Third, open the project's iOS directory in xcode. Once you've done that, select the Runner and navigate to the build settings. In the search bar, type in 'module' and then look for the portion that says "Allow Non-modular includes in Framework Modules". Once that property is location, select "Yes". See the image below for what it should look like.
-
-![Build Settings](https://raw.githubusercontent.com/SocketMobile/capturesdk_flutter/main/runnerimg.png)
 
 ## Getting started Android
 
@@ -303,11 +249,11 @@ For more on the network security configuration for Android, please check out the
 
 ## Important
 
-To register your app for Flutter, you can select the Flutter language first, and then you can pick one of two platform options; Android and iOS. Below is an example of credentials generated during iOS registration.
+To register your app for Flutter, you can select the Flutter language first, and then you can pick both platform options; Android and iOS. Thanks to our brand new [Developer Portal](https://socketmobile.dev), it will then generate the app keys credentials for both Android and iOS apps. By default the Bundle ID / package name is the same, which is a good practice to follow.
 
-![iOS app registration](https://raw.githubusercontent.com/SocketMobile/capturesdk_flutter/main/readme.png)
+![iOS app registration](https://raw.githubusercontent.com/SocketMobile/capturesdk_flutter/main/new-dev-portal-flutter-native-apps-choice.png)
 
-If you want to add support for both platforms you will need to generate an app key for one platform first and then the other separately. Once these two keys are generated, all you need to do is inlcude the iOS and Android appKey and appId, respectively, to the same `AppInfo` instance.
+All you need to do is inlcude the iOS and Android appKey and appId, respectively, to the same `AppInfo` instance in your Flutter source code.
 
 ```dart
 final appInfo = AppInfo(
@@ -385,6 +331,35 @@ Then you can run the app through Android Studio and Xcode or through Visual Stud
 
 ### iOS
 
-1. `cd ios`
-2. Run `pod install --repo-update`
-3. Run `flutter run` or open the project in Xcode to run on connected iOS device.
+The example uses SPM (not CocoaPods anymore). Run `flutter run`, or open `ios/Runner.xcworkspace` in Xcode, to run on a connected iOS device.
+
+## Bluetooth Classic picker on iOS (UIScene)
+
+With the UIScene lifecycle (Apple makes it mandatory after iOS 26), the system picker shown by `addBluetoothDevice(mode: BluetoothDiscoveryMode.bluetoothClassic)` stays invisible: `EAAccessoryManager` only creates its window when the app delegate has one. Once your app is [migrated to UIScene](https://docs.flutter.dev/release/breaking-changes/uiscenedelegate), add a scene delegate that gives the app delegate the scene's window.
+
+`ios/Runner/SceneDelegate.swift` (add it to the Runner target in Xcode):
+
+```swift
+import UIKit
+import Flutter
+
+class SceneDelegate: FlutterSceneDelegate {
+  override func scene(
+    _ scene: UIScene,
+    willConnectTo session: UISceneSession,
+    options connectionOptions: UIScene.ConnectionOptions
+  ) {
+    super.scene(scene, willConnectTo: session, options: connectionOptions)
+    (UIApplication.shared.delegate as? FlutterAppDelegate)?.window = window
+  }
+}
+```
+
+`ios/Runner/Info.plist`, in `UIApplicationSceneManifest`, point the scene to it:
+
+```plist
+<key>UISceneDelegateClassName</key>
+<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+```
+
+On iOS versions before 26.5, the plugin also moves the picker window into the active scene for you. See the [example app](example/ios/Runner/SceneDelegate.swift).

@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 2.0.16
+## Version 2.1.8
 
 ### New
 
@@ -9,17 +9,19 @@
 
 ### Improvements
 
-  * We have added how to use data sources in our documentation
+  * We have improved the helper for the battery level (notification and actual get)
 
-  * We have updated [Flutter SDK to 3.38.10](https://docs.flutter.dev/release/release-notes/release-notes-3.38.0)
+  * We have updated [Android SDK to 2.1.2](https://github.com/SocketMobile/android-capturesdk/releases/tag/v2.1.2) that supports Magic Dock and SM Link
 
-  * We have updated [iOS CaptureSDK to 2.0.73](https://github.com/SocketMobile/swift-package-capturesdk/releases/tag/2.0.73)
+  * We have updated [iOS CaptureSDK to 2.1.22](https://github.com/SocketMobile/swift-package-capturesdk/releases/tag/2.1.22) that supports Magic Dock and SM Link
+
+  * We have made the [migration from Cocoapods to Swift Package Manager as per Flutter SDK requirements](https://github.com/SocketMobile/capturesdk_flutter/issues/20)
 
 
 
 ### Bug fixes
 
-  * We have fixed the [SocketCam rotation issue on iOS](https://github.com/SocketMobile/capturesdk_flutter/issues/18)
+  * We have fixed Android events disturbing the main thread
 
 
 

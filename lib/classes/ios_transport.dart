@@ -129,7 +129,7 @@ class Property {
 
   int? longValue;
 
-  List<Object?>? arrayValue;
+  Uint8List? arrayValue;
 
   int? byteValue;
 
@@ -160,7 +160,7 @@ class Property {
       type: result[1] as int?,
       stringValue: result[2] as String?,
       longValue: result[3] as int?,
-      arrayValue: result[4] as List<Object?>?,
+      arrayValue: result[4] as Uint8List?,
       byteValue: result[5] as int?,
       dataSourceValue: result[6] != null
           ? DataSourceIos.decode(result[6]! as List<Object?>)

@@ -104,6 +104,69 @@ void main() {
     });
   });
 
+  // ─── Device kind ──────────────────────────────────────────────────────────
+
+  group('Device kind', () {
+    CaptureHelperDevice deviceOfType(int type) => CaptureHelperDevice(
+          name: 'device',
+          guid: 'guid',
+          type: type,
+          handle: 1,
+          capture: fakeCapture,
+        );
+
+    const Map<String, int> barcodeScanners = <String, int>{
+      'S700 (legacy Bluetooth)': CaptureDeviceType.scannerS700,
+      'D750 (legacy Bluetooth)': CaptureDeviceType.scannerD750,
+      'S740 (legacy Bluetooth)': CaptureDeviceType.scannerS740,
+      'SocketCam C820': CaptureDeviceType.socketCamC820,
+      'SocketCam C860': CaptureDeviceType.socketCamC860,
+      'S370 barcode (BLE)': CaptureDeviceType.scannerS370,
+      'S320 (BLE)': CaptureDeviceType.scannerS320,
+      'S721 (BLE)': CaptureDeviceType.deviceS721,
+      'S741 (BLE)': CaptureDeviceType.deviceS741,
+      'M930': CaptureDeviceType.scannerM930,
+      'D761': CaptureDeviceType.deviceD761,
+      'Bluetooth unknown': CaptureDeviceType.btUnknown,
+      'BLE unknown': CaptureDeviceType.bleUnknown,
+    };
+
+    const Map<String, int> nfcReaders = <String, int>{
+      'D600 (legacy BLE)': CaptureDeviceType.scannerD600,
+      'S550 (legacy BLE)': CaptureDeviceType.scannerS550,
+      'S370 NFC (BLE)': CaptureDeviceType.nFCS370,
+      'D751 (BLE)': CaptureDeviceType.deviceD751,
+    };
+
+    const Map<String, int> neither = <String, int>{
+      'NFC tag': CaptureDeviceType.nFCTag,
+    };
+
+    barcodeScanners.forEach((String label, int type) {
+      test('$label is a barcode scanner only', () {
+        final CaptureHelperDevice d = deviceOfType(type);
+        expect(d.isBarcodeScanner, isTrue);
+        expect(d.isNfcReader, isFalse);
+      });
+    });
+
+    nfcReaders.forEach((String label, int type) {
+      test('$label is an NFC reader only', () {
+        final CaptureHelperDevice d = deviceOfType(type);
+        expect(d.isNfcReader, isTrue);
+        expect(d.isBarcodeScanner, isFalse);
+      });
+    });
+
+    neither.forEach((String label, int type) {
+      test('$label is neither barcode scanner nor NFC reader', () {
+        final CaptureHelperDevice d = deviceOfType(type);
+        expect(d.isBarcodeScanner, isFalse);
+        expect(d.isNfcReader, isFalse);
+      });
+    });
+  });
+
   // ─── HDEV-03: Status ─────────────────────────────────────────────────────
 
   group('HDEV-03: Status', () {
@@ -118,6 +181,26 @@ void main() {
 
       expect(fakeCapture.lastGetProperty?.id, equals(CapturePropertyIds.batteryLevelDevice));
       expect(result, equals(80));
+    });
+
+    test('getBatteryLevel decodes packed iOS value to percentage', () async {
+      fakeCapture.getResult = const CaptureProperty(
+        id: CapturePropertyIds.batteryLevelDevice,
+        type: CapturePropertyTypes.ulong,
+        value: 0x644B00,
+      );
+
+      final int result = await device.getBatteryLevel();
+
+      expect(result, equals(75));
+    });
+
+    test('batteryLevelPercent handles packed and direct values', () {
+      expect(CaptureHelperDevice.batteryLevelPercent(0x644B00), equals(75));
+      expect(CaptureHelperDevice.batteryLevelPercent(0x640000), equals(0));
+      expect(CaptureHelperDevice.batteryLevelPercent(0x646400), equals(100));
+      expect(CaptureHelperDevice.batteryLevelPercent(75), equals(75));
+      expect(CaptureHelperDevice.batteryLevelPercent(0), equals(0));
     });
 
     test('getPowerState calls getProperty with powerStateDevice', () async {

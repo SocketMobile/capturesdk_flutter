@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class DataSource;
+@class DataSourceIos;
 @class Version;
 @class Property;
 @class IosAppInfo;
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class IosTransportResult;
 
 /// Datasource interface to map to datasource class to iOS via pigeon.
-@interface DataSource : NSObject
+@interface DataSourceIos : NSObject
 + (instancetype)makeWithId:(nullable NSNumber *)id
     name:(nullable NSString *)name
     status:(nullable NSNumber *)status
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
     longValue:(nullable NSNumber *)longValue
     arrayValue:(nullable FlutterStandardTypedData *)arrayValue
     byteValue:(nullable NSNumber *)byteValue
-    dataSourceValue:(nullable DataSource *)dataSourceValue
+    dataSourceValue:(nullable DataSourceIos *)dataSourceValue
     versionValue:(nullable Version *)versionValue
     objectValue:(id )objectValue;
 @property(nonatomic, strong, nullable) NSNumber * id;
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong, nullable) NSNumber * longValue;
 @property(nonatomic, strong, nullable) FlutterStandardTypedData * arrayValue;
 @property(nonatomic, strong, nullable) NSNumber * byteValue;
-@property(nonatomic, strong, nullable) DataSource * dataSourceValue;
+@property(nonatomic, strong, nullable) DataSourceIos * dataSourceValue;
 @property(nonatomic, strong, nullable) Version * versionValue;
 @property(nonatomic, strong) id  objectValue;
 @end

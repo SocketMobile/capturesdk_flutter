@@ -6,8 +6,16 @@ class DecodedDataHeader extends StatelessWidget {
 
   final List<DecodedData> scans;
 
+  static const double _dataFontSize = 18;
+  static const double _dataLineHeight = 1.2;
+  static const int _maxVisibleLines = 10;
+
   @override
   Widget build(BuildContext context) {
+    final double maxDataHeight = MediaQuery.textScalerOf(context).scale(_dataFontSize) *
+        _dataLineHeight *
+        _maxVisibleLines;
+
     return Container(
       color: const Color(0xFF1C1C1E),
       padding: const EdgeInsets.all(16),
@@ -30,9 +38,18 @@ class DecodedDataHeader extends StatelessWidget {
               style: TextStyle(color: Colors.grey),
             )
           else ...<Widget>[
-            Text(
-              scans.last.dataAsString(),
-              style: const TextStyle(color: Colors.white, fontSize: 18),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: maxDataHeight),
+              child: SingleChildScrollView(
+                child: Text(
+                  scans.last.dataAsString(),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: _dataFontSize,
+                    height: _dataLineHeight,
+                  ),
+                ),
+              ),
             ),
             Text(
               scans.last.name,

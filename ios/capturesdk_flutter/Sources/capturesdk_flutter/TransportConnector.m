@@ -16,6 +16,11 @@
 
 @implementation TransportConnector{
     BOOL connectionRestarted;
+    id _pickerWindowObserver;
+}
+
+-(void)dealloc {
+    [self removePickerWindowObserver];
 }
 
 -(void)openClientAppInfo:(IosAppInfo *)appInfo completion:(void(^)(IosTransportHandle *, FlutterError *))completion {
@@ -147,7 +152,13 @@
 
 -(void)getProperty:(SKTCaptureProperty *)captureProperty fromCapture:(SKTCapture *)capture maxRetries:(int)maxRetries completion:(void(^)(Property *, FlutterError *))completion {
     __weak SKTCapture *weakCapture = capture;
+#if DEBUG
+    NSLog(@"[CaptureProperty] get id=%ld type=%ld capture=%p", (long)captureProperty.ID, (long)captureProperty.Type, capture);
+#endif
     [capture getProperty:captureProperty completionHandler:^(SKTResult result, SKTCaptureProperty *complete) {
+#if DEBUG
+        NSLog(@"[CaptureProperty] get id=%ld completed result=%ld completeId=%ld", (long)captureProperty.ID, (long)result, (long)complete.ID);
+#endif
         if (result >= SKTCaptureE_NOERROR && complete.ID != captureProperty.ID && maxRetries > 0) {
             NSLog(@"[getProperty] ID mismatch: requested %ld, got %ld — retrying (%d left)",
                   (long)captureProperty.ID, (long)complete.ID, maxRetries - 1);
@@ -191,7 +202,13 @@
 
 -(void)setProperty:(SKTCaptureProperty *)captureProperty onCapture:(SKTCapture *)capture maxRetries:(int)maxRetries completion:(void(^)(Property *, FlutterError *))completion {
     __weak SKTCapture *weakCapture = capture;
+#if DEBUG
+    NSLog(@"[CaptureProperty] set id=%ld type=%ld capture=%p", (long)captureProperty.ID, (long)captureProperty.Type, capture);
+#endif
     [capture setProperty:captureProperty completionHandler:^(SKTResult result, SKTCaptureProperty *complete) {
+#if DEBUG
+        NSLog(@"[CaptureProperty] set id=%ld completed result=%ld completeId=%ld", (long)captureProperty.ID, (long)result, (long)complete.ID);
+#endif
         if (result >= SKTCaptureE_NOERROR && complete.ID != captureProperty.ID && maxRetries > 0) {
             NSLog(@"[setProperty] ID mismatch: requested %ld, got %ld — retrying (%d left)",
                   (long)captureProperty.ID, (long)complete.ID, maxRetries - 1);
@@ -253,6 +270,17 @@
             SKTCapture *capture = (SKTCapture *)[self->_handles getObjectFromHandle:handle.value];
             if (capture != nil) {
                 SKTCaptureProperty *captureProperty = [TransportConnector convertToCaptureProperty:property];
+                if (captureProperty.ID == SKTCapturePropertyIDAddDevice &&
+                    captureProperty.ByteValue == SKTCaptureBluetoothDiscoveryModeBluetoothClassic) {
+                    [self attachPickerWindowToActiveSceneIfNeeded];
+                    void (^setCompletion)(Property *, FlutterError *) = completion;
+                    completion = ^(Property *responseProperty, FlutterError *flutterError) {
+                        if (flutterError != nil) {
+                            [self removePickerWindowObserver];
+                        }
+                        setCompletion(responseProperty, flutterError);
+                    };
+                }
                 [self setProperty:captureProperty onCapture:capture maxRetries:3 completion:completion];
             } else {
                 FlutterError *err = [FlutterError errorWithCode:[NSString stringWithFormat:@"%ld",(long)SKTCaptureE_INVALIDHANDLE]
@@ -410,7 +438,7 @@
             dartProperty.versionValue.minute = [[NSNumber alloc] initWithLong:property.Version.Minute];
             break;
         case SKTCapturePropertyTypeDataSource:
-            dartProperty.dataSourceValue = [DataSource new];
+            dartProperty.dataSourceValue = [DataSourceIos new];
             dartProperty.dataSourceValue.id = [[NSNumber alloc] initWithInt:(int)property.DataSource.ID];
             dartProperty.dataSourceValue.status = [[NSNumber alloc] initWithInt:(int)property.DataSource.Status];
             dartProperty.dataSourceValue.flags = [[NSNumber alloc] initWithInt:(int)property.DataSource.Flags];
@@ -428,15 +456,64 @@
     return dartProperty;
 }
 
-+(UIViewController *)getPresentedViewController {
-    UIWindowScene *windowScene = nil;
+// Before iOS 26.5 the accessory picker is hosted in a window created with initWithFrame:, which has no
+// scene and never appears in a UIScene app; iOS 26.5 creates it in the foreground active scene.
+// The observer is one-shot: it attaches the first scene-less window that becomes visible after a
+// Bluetooth Classic discovery starts, and is removed if the discovery fails to start
+-(void)attachPickerWindowToActiveSceneIfNeeded {
+    if (@available(iOS 26.5, *)) {
+        return;
+    }
+    [self removePickerWindowObserver];
+    __weak TransportConnector *weakSelf = self;
+    _pickerWindowObserver = [NSNotificationCenter.defaultCenter addObserverForName:UIWindowDidBecomeVisibleNotification
+                                                                            object:nil
+                                                                             queue:NSOperationQueue.mainQueue
+                                                                        usingBlock:^(NSNotification *notification) {
+        UIWindow *window = notification.object;
+        if (window.windowScene != nil) {
+            return;
+        }
+        [weakSelf removePickerWindowObserver];
+        NSLog(@"CaptureSDK - attaching accessory picker window to the foreground scene");
+        window.windowScene = [TransportConnector foregroundWindowScene];
+    }];
+}
+
+-(void)removePickerWindowObserver {
+    if (_pickerWindowObserver != nil) {
+        [NSNotificationCenter.defaultCenter removeObserver:_pickerWindowObserver];
+        _pickerWindowObserver = nil;
+    }
+}
+
++(UIWindowScene *)foregroundActiveWindowScene {
     for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
         if (scene.activationState == UISceneActivationStateForegroundActive &&
             [scene isKindOfClass:[UIWindowScene class]]) {
-            windowScene = (UIWindowScene *)scene;
-            break;
+            return (UIWindowScene *)scene;
         }
     }
+    return nil;
+}
+
+// Falls back to a foreground inactive scene, as the scene can be transitioning when the picker appears
++(UIWindowScene *)foregroundWindowScene {
+    UIWindowScene *activeScene = [TransportConnector foregroundActiveWindowScene];
+    if (activeScene != nil) {
+        return activeScene;
+    }
+    for (UIScene *scene in [UIApplication sharedApplication].connectedScenes) {
+        if (scene.activationState == UISceneActivationStateForegroundInactive &&
+            [scene isKindOfClass:[UIWindowScene class]]) {
+            return (UIWindowScene *)scene;
+        }
+    }
+    return nil;
+}
+
++(UIViewController *)getPresentedViewController {
+    UIWindowScene *windowScene = [TransportConnector foregroundActiveWindowScene];
     UIWindow *keyWindow = windowScene.windows.firstObject;
     UIViewController *topViewController = keyWindow.rootViewController;
     while (topViewController.presentedViewController) {
@@ -446,9 +523,28 @@
 }
 
 -(void)didReceiveEvent:(SKTCaptureEvent *)event forCapture:(SKTCapture *)capture withResult:(SKTResult)result {
+    if (event.ID == SKTCaptureEventIDError) {
+        NSLog(@"CaptureSDK - Error event received with result %ld", (long)result);
+    }
+#if DEBUG
+    if (event.Data.Type == SKTCaptureEventDataTypeDecodedData) {
+        NSLog(@"[CaptureEvent] id=%ld type=%ld result=%ld capture=%p dataSourceId=%ld length=%lu",
+              (long)event.ID, (long)event.Data.Type, (long)result, capture,
+              (long)event.Data.DecodedData.DataSourceID, (unsigned long)event.Data.DecodedData.DecodedData.length);
+    } else if (event.Data.Type == SKTCaptureEventDataTypeUlong) {
+        NSLog(@"[CaptureEvent] id=%ld type=%ld result=%ld capture=%p value=%lu",
+              (long)event.ID, (long)event.Data.Type, (long)result, capture, (unsigned long)event.Data.ULongValue);
+    } else {
+        NSLog(@"[CaptureEvent] id=%ld type=%ld result=%ld capture=%p",
+              (long)event.ID, (long)event.Data.Type, (long)result, capture);
+    }
+#endif
     dispatch_async(dispatch_get_main_queue(), ^{
         if (self->_flutterEvent != nil) {
             NSNumber *handle = [self->_handles findHandleFromObject:capture];
+#if DEBUG
+            NSLog(@"[CaptureEvent] forwarding id=%ld to Flutter with handle=%@", (long)event.ID, handle);
+#endif
             NSString *json = [self createJsonFromHandle:handle withResult:result forEvent:event];
             (self->_flutterEvent)(json);
         }
